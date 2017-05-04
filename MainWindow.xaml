@@ -5,8 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:POC_VoiceRecognition"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="POC - Voice Recognition" Height="350" Width="525" Closed="Window_Closed" Loaded="Window_Loaded"
+        ResizeMode="NoResize">
     <Grid>
-        
+        <Rectangle Name="filterBy" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="117,58,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+        <Rectangle Name="orderBy" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="280,58,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+        <Rectangle Name="city" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="47" Margin="94,206,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+        <Rectangle Name="customer" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="47" Margin="199,206,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+        <Rectangle Name="country" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="47" Margin="304,206,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+
+        <Label Content="Filter By" HorizontalAlignment="Left" Margin="142,92,0,0" VerticalAlignment="Top"/>
+        <Label Content="Order By" HorizontalAlignment="Left" Margin="303,92,0,0" VerticalAlignment="Top"/>
+        <Label Content="Customer" HorizontalAlignment="Left" Margin="222,215,0,0" VerticalAlignment="Top"/>
+        <Label Content="Country" HorizontalAlignment="Left" Margin="328,215,0,0" VerticalAlignment="Top"/>
+        <Label Content="City" HorizontalAlignment="Left" Margin="130,215,0,0" VerticalAlignment="Top"/>
+
+        <Label Name="lblResult" HorizontalAlignment="Left" Margin="10,285,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

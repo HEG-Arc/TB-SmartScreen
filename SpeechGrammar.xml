@@ -1,0 +1,38 @@
+<grammar version="1.0" xml:lang="en-US" root="rootRule" tag-format="semantics/1.0-literals" xmlns="http://www.w3.org/2001/06/grammar">
+  <rule id="rootRule">
+    <one-of>
+      <item>
+        <tag>FILTER_BY</tag>
+        <one-of>
+          <item> filter by </item>
+          <item> filter </item>
+        </one-of>
+      </item>
+      <item>
+        <tag>ORDER_BY</tag>
+        <one-of>
+          <item> order by </item>
+          <item> order </item>
+        </one-of>
+      </item>
+      <item>
+        <tag>CUSTOMER</tag>
+        <one-of>
+          <item> customer </item>
+        </one-of>
+      </item>
+      <item>
+        <tag>COUNTRY</tag>
+        <one-of>
+          <item> country </item>
+        </one-of>
+      </item>
+      <item>
+        <tag>CITY</tag>
+        <one-of>
+          <item> city </item>
+        </one-of>
+      </item>
+    </one-of>
+  </rule>
+</grammar>
