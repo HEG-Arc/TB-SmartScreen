@@ -5,8 +5,9 @@ using Microsoft.Kinect;
 using System.Drawing;
 using System.IO;
 using ZXing;
+using ZXing.Kinect;
 
-namespace ColorFrameTest
+namespace POC_BarcodeIdentification
 {
     /// <summary>
     /// MainWindow.xaml - Interaction Logic
@@ -17,7 +18,7 @@ namespace ColorFrameTest
         ColorFrameReader cfReader;
         byte[] cfDataConverted;
         WriteableBitmap cfBitmap;
-        IBarcodeReader reader;
+        ZXing.Kinect.BarcodeReader reader;
 
         public MainWindow()
         {
@@ -37,7 +38,7 @@ namespace ColorFrameTest
             FrameDescription fd = sensor.ColorFrameSource.FrameDescription;
             cfDataConverted = new byte[fd.LengthInPixels * 4];
             cfBitmap = new WriteableBitmap(fd.Width, fd.Height, 96, 96, PixelFormats.Pbgra32, null);            
-            reader = new BarcodeReader();
+            reader = new ZXing.Kinect.BarcodeReader();
 
             image.Source = cfBitmap;
             sensor.Open();
@@ -60,10 +61,16 @@ namespace ColorFrameTest
                     Int32Rect rect = new Int32Rect(0, 0, (int)cfBitmap.Width, (int)cfBitmap.Height);
                     int stride = (int)cfBitmap.Width * 4;
                     cfBitmap.WritePixels(rect, cfDataConverted, stride, 0);
+
+                    var result = reader.Decode(cfFrame);
+                    if (result != null)
+                    {
+                        MessageBox.Show("Barcode is :" + result.Text);
+                    }
                 }
             }
         }
-
+        
         /// <summary>
         /// Scan button's Click event handler
         /// </summary>
@@ -78,17 +85,17 @@ namespace ColorFrameTest
                 Bitmap bmp = this.BitmapImage2Bitmap(bmpImg);
 
                 this.Capture.Source = bmpImg;
-                ScanBitmap(bmp);
+                //ScanBitmap(bmp);
             }
         }
 
         /// <summary>
-        /// Decode a Bitmap image and show the resulting barcode if found
+        /// Decode a ColorFrame and show the resulting barcode if found
         /// </summary>
-        /// <param name="bitmap"></param>
-        private void ScanBitmap(Bitmap bitmap)
+        /// <param name="colorFrame"></param>
+        private void DecodeFrame(ColorFrame colorFrame)
         {
-            var result = reader.Decode(bitmap);
+            var result = reader.Decode(colorFrame);
             if (result != null)
             {
                 MessageBox.Show("Barcode is :" + result.Text);
@@ -133,6 +140,6 @@ namespace ColorFrameTest
 
                 return new Bitmap(bitmap);
             }
-        }
+        }        
     }
 }
