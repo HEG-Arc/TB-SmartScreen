@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:POC_UserAwareness"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="POC - Barcode Identification" Width="768" Height="447"
+        ResizeMode="NoResize">
+    <StackPanel>
+        <Image Name="image" Width="768" Height="447" HorizontalAlignment="center" VerticalAlignment="Top"/>
+    </StackPanel>
 </Window>
