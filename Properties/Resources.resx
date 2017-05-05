@@ -127,9 +127,9 @@
     <value>Scanning...</value>
   </data>
   <data name="StartScan" xml:space="preserve">
-    <value>Start Scan</value>
+    <value>Start Scanning</value>
   </data>
   <data name="StopScan" xml:space="preserve">
-    <value>Stop Scan</value>
+    <value>Stop Scanning</value>
   </data>
 </root>

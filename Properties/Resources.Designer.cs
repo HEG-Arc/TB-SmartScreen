@@ -88,7 +88,7 @@ namespace POC_BarcodeIdentification.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Start Scan.
+        ///   Recherche une chaîne localisée semblable à Start Scanning.
         /// </summary>
         internal static string StartScan {
             get {
@@ -97,7 +97,7 @@ namespace POC_BarcodeIdentification.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Stop Scan.
+        ///   Recherche une chaîne localisée semblable à Stop Scanning.
         /// </summary>
         internal static string StopScan {
             get {
