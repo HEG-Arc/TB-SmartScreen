@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:POC_BarcodeIdentification"
         mc:Ignorable="d"
-        Title="POC - Barcode Identification" Height="700" Width="650">
-    <Grid RenderTransformOrigin="0.872,0.496">
-        <Image Name="image" Width="512" Height="298" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Button Name="btnScan" Content="Scan" Height="60" Width="131" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,0.2,-0.2" Click="btnScan_Click"/>
-        <Image Name="Capture" Width="512" Height="298" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,308,0,0"/>
-    </Grid>
+        Title="POC - Barcode Identification" Height="534.351" Width="512"
+        ResizeMode="NoResize">
+    <StackPanel>
+        <Image Name="image" Width="512" Height="298" HorizontalAlignment="center" VerticalAlignment="Top"/>
+        <Label Name="lblScan" Content="Scanning..."  FontSize="32" HorizontalAlignment="Center" FontWeight="Bold"/>
+        <Label Name="lblResult" Content="Barcode is : 1234567788"  FontSize="25" HorizontalAlignment="Center"/>
+        <Button Name="btnScan" Content="Scan" Height="60" Width="512" Margin="0,50,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="btnScan_Click"/>
+    </StackPanel>
 </Window>

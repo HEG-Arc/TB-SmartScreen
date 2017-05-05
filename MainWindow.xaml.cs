@@ -2,9 +2,6 @@
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Kinect;
-using System.Drawing;
-using System.IO;
-using ZXing;
 using ZXing.Kinect;
 
 namespace POC_BarcodeIdentification
@@ -14,17 +11,33 @@ namespace POC_BarcodeIdentification
     /// </summary>
     public partial class MainWindow : Window
     {
-        KinectSensor sensor;
-        ColorFrameReader cfReader;
-        byte[] cfDataConverted;
-        WriteableBitmap cfBitmap;
-        ZXing.Kinect.BarcodeReader reader;
+        private const int NB_FRAMES_BEFORE_DECODE = 30;
+        private const int PIXELS_PER_BYTE = 4;
+
+        private KinectSensor sensor;
+        private ColorFrameReader cfReader;
+        private byte[] cfDataConverted;
+        private WriteableBitmap cfBitmap;
+        private BarcodeReader reader;
+        private int cptFrame = 0;
+        private bool scanning = false;
 
         public MainWindow()
         {
             InitializeComponent();
+            initUI();  
             this.Loaded += MainWindow_Loaded;
         }        
+
+        /// <summary>
+        /// User Interface Initialisation
+        /// </summary>
+        private void initUI()
+        {
+            this.lblScan.Content = Properties.Resources.NotScanning;
+            this.lblResult.Content = "";
+            this.btnScan.Content = Properties.Resources.StartScan;
+        }
 
         /// <summary>
         /// Components initialisation
@@ -36,9 +49,9 @@ namespace POC_BarcodeIdentification
             sensor = KinectSensor.GetDefault();
             cfReader = sensor.ColorFrameSource.OpenReader();
             FrameDescription fd = sensor.ColorFrameSource.FrameDescription;
-            cfDataConverted = new byte[fd.LengthInPixels * 4];
+            cfDataConverted = new byte[fd.LengthInPixels * PIXELS_PER_BYTE];
             cfBitmap = new WriteableBitmap(fd.Width, fd.Height, 96, 96, PixelFormats.Pbgra32, null);            
-            reader = new ZXing.Kinect.BarcodeReader();
+            reader = new BarcodeReader();
 
             image.Source = cfBitmap;
             sensor.Open();
@@ -47,7 +60,8 @@ namespace POC_BarcodeIdentification
         }
 
         /// <summary>
-        /// ColorFrameReader's FrameArrived event handler
+        /// Convert the current frame to "Bgra" image format and link it to our ColorFrame bitmap.
+        /// If user if scanning, decode the frame.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -59,87 +73,46 @@ namespace POC_BarcodeIdentification
                 {
                     cfFrame.CopyConvertedFrameDataToArray(cfDataConverted, ColorImageFormat.Bgra);
                     Int32Rect rect = new Int32Rect(0, 0, (int)cfBitmap.Width, (int)cfBitmap.Height);
-                    int stride = (int)cfBitmap.Width * 4;
+                    int stride = (int)cfBitmap.Width * PIXELS_PER_BYTE;
                     cfBitmap.WritePixels(rect, cfDataConverted, stride, 0);
 
-                    var result = reader.Decode(cfFrame);
-                    if (result != null)
+                    if(scanning)
                     {
-                        MessageBox.Show("Barcode is :" + result.Text);
-                    }
+                        // Wait a number of frame before decoding to avoid
+                        // a jerky image output resulting from this slow
+                        // process.
+                        if (cptFrame > NB_FRAMES_BEFORE_DECODE)
+                        {
+                            this.DecodeFrame(cfFrame);                           
+                            cptFrame = 0;
+                        }
+                        cptFrame++;
+                    }                    
                 }
             }
         }
         
         /// <summary>
-        /// Scan button's Click event handler
+        /// Toggle scanning
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnScan_Click(object sender, RoutedEventArgs e)
         {
-            WriteableBitmap wbmp = this.cfBitmap;
-            if (this.cfBitmap != null)
-            {
-                BitmapImage bmpImg = ConvertWriteableBitmapToBitmapImage(this.cfBitmap);
-                Bitmap bmp = this.BitmapImage2Bitmap(bmpImg);
-
-                this.Capture.Source = bmpImg;
-                //ScanBitmap(bmp);
-            }
+            this.scanning = !this.scanning;
+            this.btnScan.Content = this.scanning ? Properties.Resources.StopScan : Properties.Resources.StartScan;
+            this.lblScan.Content = this.scanning ? Properties.Resources.Scanning : Properties.Resources.NotScanning;
         }
 
         /// <summary>
-        /// Decode a ColorFrame and show the resulting barcode if found
+        /// Decodes a ColorFrame and shows the resulting barcode if found
         /// </summary>
         /// <param name="colorFrame"></param>
         private void DecodeFrame(ColorFrame colorFrame)
         {
             var result = reader.Decode(colorFrame);
             if (result != null)
-            {
-                MessageBox.Show("Barcode is :" + result.Text);
-            }
+                lblResult.Content = Properties.Resources.BarcodeIs + " : " + result.Text;
         }
-
-        /// <summary>
-        /// Convert WriteableBitmap to BitmapImage
-        /// </summary>
-        /// <param name="wbm">WriteableBitmap object</param>
-        /// <returns>Converted BitmapImage object</returns>
-        public BitmapImage ConvertWriteableBitmapToBitmapImage(WriteableBitmap wbm)
-        {
-            BitmapImage bmImage = new BitmapImage();
-            using (MemoryStream stream = new MemoryStream())
-            {
-                PngBitmapEncoder encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(wbm));
-                encoder.Save(stream);
-                bmImage.BeginInit();
-                bmImage.CacheOption = BitmapCacheOption.OnLoad;
-                bmImage.StreamSource = stream;
-                bmImage.EndInit();
-                bmImage.Freeze();
-            }
-            return bmImage;
-        }
-
-        /// <summary>
-        /// Convert BitmapImage to Bitmap
-        /// </summary>
-        /// <param name="wbm">BitmapImage object</param>
-        /// <returns>Converted Bitmap object</returns>
-        private Bitmap BitmapImage2Bitmap(BitmapImage bitmapImage)
-        {
-            using (MemoryStream outStream = new MemoryStream())
-            {
-                BitmapEncoder enc = new BmpBitmapEncoder();
-                enc.Frames.Add(BitmapFrame.Create(bitmapImage));
-                enc.Save(outStream);
-                Bitmap bitmap = new Bitmap(outStream);
-
-                return new Bitmap(bitmap);
-            }
-        }        
     }
 }
