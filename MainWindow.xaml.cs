@@ -16,6 +16,7 @@ namespace POC_MultiUserIdentification
 
         private KinectSensor sensor;
         private BodyIndexFrameReader bifReader;
+        private MultiSourceFrameReader msfr;
         private FrameDescription bifFrameDescription;
         private uint[] bifDataConverted;
         private WriteableBitmap bifBitmap;
@@ -46,36 +47,44 @@ namespace POC_MultiUserIdentification
             bifBitmap = new WriteableBitmap(bifFrameDescription.Width, bifFrameDescription.Height, 96, 96, PixelFormats.Bgr32, null);
 
             this.imgBodyIndex.Source = bifBitmap;
-            ((App)Application.Current).bifImage = imgBodyIndex;
-
             sensor.Open();
 
-            bifReader.FrameArrived += BifReader_FrameArrived;
+            msfr = sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Body | FrameSourceTypes.BodyIndex);
+            ((App)Application.Current).msfReader = msfr;
+            msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
         }
 
-        private void BifReader_FrameArrived(object sender, BodyIndexFrameArrivedEventArgs e)
+        private void Msfr_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
         {
+            MultiSourceFrame msf;
             bool bodyIndexFrameProcessed = false;
-            using (BodyIndexFrame bifFrame = e.FrameReference.AcquireFrame())
+            try
             {
-                if (bifFrame != null)
-                {
-                    using (KinectBuffer bodyIndexBuffer = bifFrame.LockImageBuffer())
+                msf = e.FrameReference.AcquireFrame();
+                if (msf != null)
+                {                    
+                    using (BodyIndexFrame bifFrame = msf.BodyIndexFrameReference.AcquireFrame())
                     {
-                        if (((this.bifFrameDescription.Width * this.bifFrameDescription.Height) == bodyIndexBuffer.Size) &&
-                            (this.bifFrameDescription.Width == this.bifBitmap.PixelWidth) && (this.bifFrameDescription.Height == this.bifBitmap.PixelHeight))
+                        if (bifFrame != null)
                         {
-                            this.ProcessBodyIndexFrameData(bodyIndexBuffer.UnderlyingBuffer, bodyIndexBuffer.Size);
-                            bodyIndexFrameProcessed = true;
+                            using (KinectBuffer bodyIndexBuffer = bifFrame.LockImageBuffer())
+                            {
+                                if (((this.bifFrameDescription.Width * this.bifFrameDescription.Height) == bodyIndexBuffer.Size) &&
+                                    (this.bifFrameDescription.Width == this.bifBitmap.PixelWidth) && (this.bifFrameDescription.Height == this.bifBitmap.PixelHeight))
+                                {
+                                    this.ProcessBodyIndexFrameData(bodyIndexBuffer.UnderlyingBuffer, bodyIndexBuffer.Size);
+                                    bodyIndexFrameProcessed = true;
+                                }
+                            }
                         }
                     }
                 }
             }
+            catch
+            { }
 
             if (bodyIndexFrameProcessed)
-            {
                 this.RenderBodyIndexPixels();
-            }
         }
 
         private unsafe void ProcessBodyIndexFrameData(IntPtr bodyIndexFrameData, uint bodyIndexFrameDataSize)

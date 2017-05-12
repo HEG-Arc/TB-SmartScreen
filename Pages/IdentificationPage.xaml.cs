@@ -16,17 +16,19 @@ namespace POC_MultiUserIdentification.Pages
         private const int NB_FRAMES_BEFORE_DECODE = 30;
         private const int PIXELS_PER_BYTE = 4;
 
+        private MultiSourceFrameReader msfr;
         private KinectSensor sensor;
         private ColorFrameReader cfReader;
         private byte[] cfDataConverted;
         private WriteableBitmap cfBitmap;
         private BarcodeReader reader;
+        private Body[] bodies;
         private int cptFrame = 0;
         private bool scanning = true;
 
         public IdentificationPage()
         {
-            InitializeComponent();
+            InitializeComponent();            
             this.Loaded += IdentificationPage_Loaded;
         }
 
@@ -40,11 +42,59 @@ namespace POC_MultiUserIdentification.Pages
             reader = new BarcodeReader();
 
             image.Source = cfBitmap;
-            //image.Visibility = Visibility.Hidden;
+            DisableScanning();
 
             sensor.Open();
 
+            bodies = new Body[6];
             cfReader.FrameArrived += CfReader_FrameArrived;
+
+            msfr = ((App)Application.Current).msfReader;
+            msfr.MultiSourceFrameArrived += MsfReader_MultiSourceFrameArrived;
+        }
+
+        private void MsfReader_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
+        {
+            MultiSourceFrame msf;
+            bool oneBodyTracked = false;
+            try
+            {
+                msf = e.FrameReference.AcquireFrame();
+                if (msf != null)
+                {
+                    using (BodyFrame bodyFrame = msf.BodyFrameReference.AcquireFrame())
+                    {
+                        if (bodyFrame != null)
+                        {
+                            bodyFrame.GetAndRefreshBodyData(bodies);
+                            foreach (Body body in bodies)
+                            {
+                                if (body.IsTracked)
+                                    oneBodyTracked = true;
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            { }
+
+            if (oneBodyTracked)
+                ActivateScanning();
+            else
+                DisableScanning();
+        }
+
+        private void ActivateScanning()
+        {
+            this.scanning = true;
+            image.Visibility = Visibility.Visible;
+        }
+
+        private void DisableScanning()
+        {
+            this.scanning = false;
+            image.Visibility = Visibility.Hidden;
         }
 
         private void CfReader_FrameArrived(object sender, ColorFrameArrivedEventArgs e)
@@ -81,7 +131,7 @@ namespace POC_MultiUserIdentification.Pages
                 this.Login(result.ToString());
         }
 
-        public void Login(string userCode)
+        private void Login(string userCode)
         {
             App app = (App)Application.Current;
             debug.Content = userCode;
@@ -96,10 +146,20 @@ namespace POC_MultiUserIdentification.Pages
             }
 
             if (!app.User.Equals(default(KeyValuePair<string, string>)))
-            {
-                this.sensor.Close();
-                this.NavigationService.Navigate(new MainPage());
-            }
+                this.Navigate(new MainPage());
+        }
+
+        private void Navigate (Page page)
+        {
+            Destroy();
+            this.NavigationService.Navigate(page);
+        }
+
+        private void Destroy()
+        {
+            DisableScanning();
+            msfr.MultiSourceFrameArrived -= MsfReader_MultiSourceFrameArrived;
+            cfReader.FrameArrived -= CfReader_FrameArrived;
         }
     }
 }

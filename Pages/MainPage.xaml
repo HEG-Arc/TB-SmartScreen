@@ -9,7 +9,11 @@
       Title="MainPage">
 
     <Grid>
-        <Label Name="lblUser" HorizontalAlignment="Right" VerticalAlignment="Top" />
         <Image Name="imgBodyIndex" HorizontalAlignment="Center" VerticalAlignment="Top" Height="150" />
+        
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label Name="lblUser" FontSize="32" />
+            <Label Name="lblDebug" />
+        </StackPanel>
     </Grid>
 </Page>

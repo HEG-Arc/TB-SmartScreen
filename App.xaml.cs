@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Kinect;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -10,7 +11,7 @@ namespace POC_MultiUserIdentification
     /// </summary>
     public partial class App : Application
     {
-        internal System.Windows.Controls.Image bifImage { get; set; }
+        internal MultiSourceFrameReader msfReader { get; set; }
 
         private List<KeyValuePair<string, string>> users = new Dictionary<String, String>
         {
