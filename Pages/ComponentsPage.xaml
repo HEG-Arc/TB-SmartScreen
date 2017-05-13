@@ -1,0 +1,87 @@
+﻿<Page x:Class="POC_GestureNavigation.Pages.ComponentsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:POC_GestureNavigation.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="components">
+
+    <Viewbox HorizontalAlignment="Center" MinWidth="600" MinHeight="300">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="7*" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Main Right Colum -->
+            <Grid Grid.Column="0" Grid.Row="1">
+                <StackPanel Margin="20,0,0,0" VerticalAlignment="Center">
+                    <!-- Radio Buttons -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="5*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                                <RadioButton GroupName="Colors" Name="rbBlue" HorizontalContentAlignment="Left" Content="Blue" Checked="radioButton_Checked" />
+                                <RadioButton GroupName="Colors" Name="rbRed" Margin="0,0,0,0" Content="Red" Checked="radioButton_Checked" />
+                                <RadioButton GroupName="Colors" Name="rbGreen" Margin="0,0,0,0" Content="Green" Checked="radioButton_Checked" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Column="1" Width="10"/>
+
+                        <Grid Grid.Column="2" Name="gridColor" Background="White" />
+                    </Grid>
+
+                    <!-- Slider -->
+                    <StackPanel Margin="0,20,0,0">
+                        <Slider Name="Slider" Maximum="100" Interval="1" ValueChanged="Slider_ValueChanged"/>
+                        <Label Name="lblSliderValue" HorizontalAlignment="Center" Content="{Binding ElementName=Slider, Path=Value}"/>
+                    </StackPanel>
+
+                    <!-- Check Boxes -->
+                    <StackPanel Margin="0,20,0,0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <CheckBox Name="cbA" Content="A" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"/>
+                            <CheckBox Name="cbB" Content="B" Margin="10,0,0,0" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" />
+                            <CheckBox Name="cbC" Content="C" Margin="10,0,0,0" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"/>
+                        </StackPanel>
+                        <Label Name="lblABC" Content="A B C" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Column="1" Grid.Row="1" Width="40"></Grid>
+
+            <!-- Main Left Colum -->
+            <Grid Grid.Column="2" Grid.Row="1">
+                <!-- Combo Box -->
+                <DockPanel Margin="0,0,20,0" VerticalAlignment="Center" LastChildFill="True">
+                    <ComboBox Name="ComboBox" DockPanel.Dock="Top">
+                        <ComboBoxItem Content="Default" Selector.IsSelected="True"/>
+                        <ComboBoxItem Content="One" />
+                        <ComboBoxItem Content="Two" />
+                        <ComboBoxItem Content="Three" />
+                    </ComboBox>
+
+                    <TextBlock HorizontalAlignment="Center" Margin="0,20,0,0" DockPanel.Dock="Top"/>
+                    
+                    <Calendar Margin="0,20,0,0" DockPanel.Dock="Top"/>
+                </DockPanel>
+            </Grid>
+        </Grid>
+    </Viewbox>
+</Page>
