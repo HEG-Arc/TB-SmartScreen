@@ -14,6 +14,7 @@ namespace POC_MultiUserIdentification
     {
         private const int PIXELS_PER_BYTE = 4;
 
+        private App app;
         private KinectSensor sensor;
         private BodyIndexFrameReader bifReader;
         private MultiSourceFrameReader msfr;
@@ -34,13 +35,16 @@ namespace POC_MultiUserIdentification
         public MainWindow()
         {
             InitializeComponent();
-            this.frame.Navigate(new IdentificationPage());
+
+            app = ((App)Application.Current);
             this.Loaded += MainWindow_Loaded;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
+        {            
             sensor = KinectSensor.GetDefault();
+            app.sensor = sensor;
+
             bifReader = sensor.BodyIndexFrameSource.OpenReader();
             bifFrameDescription = sensor.BodyIndexFrameSource.FrameDescription;
             bifDataConverted = new uint[bifFrameDescription.Width * bifFrameDescription.Height];
@@ -50,8 +54,10 @@ namespace POC_MultiUserIdentification
             sensor.Open();
 
             msfr = sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Body | FrameSourceTypes.BodyIndex);
-            ((App)Application.Current).msfReader = msfr;
+            app.msfr = msfr;
+
             msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
+            this.frame.Navigate(new IdentificationPage());
         }
 
         private void Msfr_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)

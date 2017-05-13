@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ZXing.Kinect;
+using System;
 
 namespace POC_MultiUserIdentification.Pages
 {
@@ -16,6 +17,7 @@ namespace POC_MultiUserIdentification.Pages
         private const int NB_FRAMES_BEFORE_DECODE = 30;
         private const int PIXELS_PER_BYTE = 4;
 
+        private App app;
         private MultiSourceFrameReader msfr;
         private KinectSensor sensor;
         private ColorFrameReader cfReader;
@@ -28,13 +30,27 @@ namespace POC_MultiUserIdentification.Pages
 
         public IdentificationPage()
         {
-            InitializeComponent();            
+            InitializeComponent();
+
+            app = (App)Application.Current;
+            sensor = app.sensor;
+            msfr = app.msfr;
+            
             this.Loaded += IdentificationPage_Loaded;
+            this.Unloaded += IdentificationPage_Unloaded;
+            
+            msfr.MultiSourceFrameArrived += MsfReader_MultiSourceFrameArrived;
+        }
+
+        private void IdentificationPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            DisableScanning();
+            msfr.MultiSourceFrameArrived -= MsfReader_MultiSourceFrameArrived;
+            cfReader.FrameArrived -= CfReader_FrameArrived;
         }
 
         private void IdentificationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            sensor = KinectSensor.GetDefault();
             cfReader = sensor.ColorFrameSource.OpenReader();
             FrameDescription fd = sensor.ColorFrameSource.FrameDescription;
             cfDataConverted = new byte[fd.LengthInPixels * PIXELS_PER_BYTE];
@@ -44,84 +60,92 @@ namespace POC_MultiUserIdentification.Pages
             image.Source = cfBitmap;
             DisableScanning();
 
-            sensor.Open();
-
             bodies = new Body[6];
             cfReader.FrameArrived += CfReader_FrameArrived;
-
-            msfr = ((App)Application.Current).msfReader;
-            msfr.MultiSourceFrameArrived += MsfReader_MultiSourceFrameArrived;
         }
 
         private void MsfReader_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
         {
-            MultiSourceFrame msf;
-            bool oneBodyTracked = false;
-            try
+            if(this.NavigationService != null)
             {
-                msf = e.FrameReference.AcquireFrame();
-                if (msf != null)
+                Console.WriteLine("Identification Page");
+                MultiSourceFrame msf;
+                bool oneBodyTracked = false;
+                try
                 {
-                    using (BodyFrame bodyFrame = msf.BodyFrameReference.AcquireFrame())
+                    msf = e.FrameReference.AcquireFrame();
+                    if (msf != null)
                     {
-                        if (bodyFrame != null)
+                        using (BodyFrame bodyFrame = msf.BodyFrameReference.AcquireFrame())
                         {
-                            bodyFrame.GetAndRefreshBodyData(bodies);
-                            foreach (Body body in bodies)
+                            if (bodyFrame != null)
                             {
-                                if (body.IsTracked)
-                                    oneBodyTracked = true;
+                                bodyFrame.GetAndRefreshBodyData(bodies);
+                                foreach (Body body in bodies)
+                                {
+                                    if (body.IsTracked)
+                                        oneBodyTracked = true;
+                                }
                             }
                         }
                     }
                 }
-            }
-            catch
-            { }
+                catch
+                { }
 
-            if (oneBodyTracked)
-                ActivateScanning();
-            else
-                DisableScanning();
+                if (oneBodyTracked)
+                    ActivateScanning();
+                else
+                    DisableScanning();
+            }            
         }
 
         private void ActivateScanning()
         {
-            this.scanning = true;
-            image.Visibility = Visibility.Visible;
+            if(!scanning)
+            {
+                this.scanning = true;
+                image.Visibility = Visibility.Visible;
+            }            
         }
 
         private void DisableScanning()
         {
-            this.scanning = false;
-            image.Visibility = Visibility.Hidden;
+            if(scanning)
+            {
+                this.scanning = false;
+                image.Visibility = Visibility.Hidden;
+            }            
         }
 
         private void CfReader_FrameArrived(object sender, ColorFrameArrivedEventArgs e)
         {
-            using (ColorFrame cfFrame = e.FrameReference.AcquireFrame())
+            if (this.NavigationService != null)
             {
-                if (cfFrame != null)
+                using (ColorFrame cfFrame = e.FrameReference.AcquireFrame())
                 {
-                    cfFrame.CopyConvertedFrameDataToArray(cfDataConverted, ColorImageFormat.Bgra);
-                    Int32Rect rect = new Int32Rect(0, 0, (int)cfBitmap.Width, (int)cfBitmap.Height);
-                    int stride = (int)cfBitmap.Width * PIXELS_PER_BYTE;
-                    cfBitmap.WritePixels(rect, cfDataConverted, stride, 0);
-
-                    // Wait a number of frame before decoding to avoid
-                    // a jerky image output resulting from this slow
-                    // process.
-                    if(scanning)
+                    if (cfFrame != null)
                     {
-                        if (cptFrame > NB_FRAMES_BEFORE_DECODE)
+                        cfFrame.CopyConvertedFrameDataToArray(cfDataConverted, ColorImageFormat.Bgra);
+                        Int32Rect rect = new Int32Rect(0, 0, (int)cfBitmap.Width, (int)cfBitmap.Height);
+                        int stride = (int)cfBitmap.Width * PIXELS_PER_BYTE;
+                        cfBitmap.WritePixels(rect, cfDataConverted, stride, 0);
+
+                        // Wait a number of frame before decoding to avoid
+                        // a jerky image output resulting from this slow
+                        // process.
+                        if (scanning)
                         {
-                            this.DecodeFrame(cfFrame);
-                            cptFrame = 0;
+                            if (cptFrame > NB_FRAMES_BEFORE_DECODE)
+                            {
+                                this.DecodeFrame(cfFrame);
+                                cptFrame = 0;
+                            }
+                            cptFrame++;
                         }
-                        cptFrame++;
-                    }                    
+                    }
                 }
-            }
+            }            
         }
 
         private void DecodeFrame(ColorFrame colorFrame)
@@ -146,20 +170,13 @@ namespace POC_MultiUserIdentification.Pages
             }
 
             if (!app.User.Equals(default(KeyValuePair<string, string>)))
-                this.Navigate(new MainPage());
-        }
+            {
+                if (this.NavigationService.CanGoForward)
+                    this.NavigationService.GoForward();
+                else
+                    this.NavigationService.Navigate(new MainPage());
+            }                
 
-        private void Navigate (Page page)
-        {
-            Destroy();
-            this.NavigationService.Navigate(page);
-        }
-
-        private void Destroy()
-        {
-            DisableScanning();
-            msfr.MultiSourceFrameArrived -= MsfReader_MultiSourceFrameArrived;
-            cfReader.FrameArrived -= CfReader_FrameArrived;
         }
     }
 }

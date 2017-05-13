@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:POC_MultiUserIdentification.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="MainPage">
+      Title="MainPage"
+      KeepAlive="True">
 
     <Grid>
         <Image Name="imgBodyIndex" HorizontalAlignment="Center" VerticalAlignment="Top" Height="150" />

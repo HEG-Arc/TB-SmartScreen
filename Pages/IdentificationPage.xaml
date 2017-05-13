@@ -5,7 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="IdentificationPage">
+      Title="IdentificationPage"
+      KeepAlive="True">
 
     <Grid>
         <StackPanel Width="500" HorizontalAlignment="Center" VerticalAlignment="Center">

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Kinect;
 using System.Windows;
 using System.Windows.Controls;
+using System;
 
 namespace POC_MultiUserIdentification.Pages
 {
@@ -9,6 +10,7 @@ namespace POC_MultiUserIdentification.Pages
     /// </summary>
     public partial class MainPage : Page
     {
+        App app;
         private string username;
         private MultiSourceFrameReader msfr;
         private Body[] bodies;
@@ -16,50 +18,62 @@ namespace POC_MultiUserIdentification.Pages
         public MainPage()
         {
             InitializeComponent();
-            username = ((App)Application.Current).User.Value;
-            msfr = ((App)Application.Current).msfReader;
+            app = (App)Application.Current;
+            msfr = app.msfr;            
+
             this.Loaded += MainPage_Loaded;
+            this.Unloaded += MainPage_Unloaded;
+            msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
+        }
+
+        private void MainPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            msfr.MultiSourceFrameArrived -= Msfr_MultiSourceFrameArrived;
         }
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            this.lblUser.Content = "Welcome, " + username;
-
-            bodies = new Body[6];
-            msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
+            username = app.User.Value;            
+            this.lblUser.Content = "Welcome, " + username;            
+            bodies = new Body[6];            
         }
 
         private void Msfr_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
         {
-            MultiSourceFrame msf;
-            bool oneBodyTracked = false;
-            try
+            if(this.NavigationService != null)
             {
-                msf = e.FrameReference.AcquireFrame();
-                if (msf != null)
+                MultiSourceFrame msf;
+                bool oneBodyTracked = false;
+                try
                 {
-                    using (BodyFrame bodyFrame = msf.BodyFrameReference.AcquireFrame())
+                    msf = e.FrameReference.AcquireFrame();
+                    if (msf != null)
                     {
-                        if (bodyFrame != null)
+                        using (BodyFrame bodyFrame = msf.BodyFrameReference.AcquireFrame())
                         {
-                            bodyFrame.GetAndRefreshBodyData(bodies);
-                            foreach (Body body in bodies)
+                            if (bodyFrame != null)
                             {
-                                if (body.IsTracked)
-                                    oneBodyTracked = true;
+                                bodyFrame.GetAndRefreshBodyData(bodies);
+                                foreach (Body body in bodies)
+                                {
+                                    if (body.IsTracked)
+                                        oneBodyTracked = true;
+                                }
+                                lblDebug.Content = "debug : " + oneBodyTracked;
+                                if (!oneBodyTracked)
+                                {
+                                    if (this.NavigationService.CanGoBack)
+                                        this.NavigationService.GoBack();
+                                    else
+                                        this.NavigationService.Navigate(new IdentificationPage());
+                                }                                    
                             }
                         }
                     }
                 }
-            }
-            catch
-            { }
-            lblDebug.Content = "debug : " + oneBodyTracked;
-        }
-
-        private void Navigate (Page page)
-        {
-            this.NavigationService.Navigate(page);
-        }
+                catch
+                { }
+            }            
+        }               
     }
 }
