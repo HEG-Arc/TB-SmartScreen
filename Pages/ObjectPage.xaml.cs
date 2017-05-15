@@ -28,14 +28,15 @@ namespace POC_GestureNavigation.Pages
         private KinectSensor sensor;
         private BodyFrameReader bfr;
         private Body[] bodies;
+
         private bool grabbing = false;
-        private bool grabbingImage = false;
+        private bool canMove = false;
+        private CustomImage grabbedImage = null;
 
         private KinectPointerPoint kinectPointerPoint;
         private Point kinectPointerPosition;
-        private Point imagePosition;
 
-        private Image image;
+        private CustomImage image;
 
 
         public ObjectPage()
@@ -58,16 +59,17 @@ namespace POC_GestureNavigation.Pages
             kinectCoreWindow.PointerMoved += KinectCoreWindow_PointerMoved;
 
             // UI init
-            image = new Image();
+            image = new CustomImage();
             image.Source = new BitmapImage(new Uri("/Images/Components.png", UriKind.Relative));
             image.Height = 150;
             image.Width = 150;
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;
-            Canvas.SetLeft(image, 50);
-            Canvas.SetTop(image, 50);
-            canvas.Children.Add(image);
+            image.Position = new Point(50, 50);
 
+            Canvas.SetLeft(image, image.Position.X);
+            Canvas.SetTop(image, image.Position.Y);
+            canvas.Children.Add(image);
         }
 
         private void KinectCoreWindow_PointerMoved(object sender, KinectPointerEventArgs e)
@@ -76,13 +78,15 @@ namespace POC_GestureNavigation.Pages
             kinectPointerPosition.X = kinectPointerPoint.Position.X * canvas.ActualWidth;
             kinectPointerPosition.Y = kinectPointerPoint.Position.Y * canvas.ActualHeight;
 
-            if (grabbingImage)
+            if (canMove)
             {
-                this.canvas.Children.Clear();
-                Canvas.SetLeft(image, kinectPointerPosition.X - image.Width / 2);
-                Canvas.SetTop(image, kinectPointerPosition.Y - image.Height / 2);
-                /// TODO set image position to kinectPointerPosition
-                this.canvas.Children.Add(image);
+                canvas.Children.Clear();
+
+                grabbedImage.Position = new Point(kinectPointerPosition.X - grabbedImage.Width / 2, kinectPointerPosition.Y - grabbedImage.Height / 2);
+                Canvas.SetLeft(grabbedImage, grabbedImage.Position.X);
+                Canvas.SetTop(grabbedImage, grabbedImage.Position.Y);
+
+                canvas.Children.Add(grabbedImage);
             }
         }
 
@@ -102,31 +106,18 @@ namespace POC_GestureNavigation.Pages
             }
         }
 
-        private void Image_onGrabbing()
+        private void onGrab()
         {
-            double imgY = (double)image.GetValue(Canvas.TopProperty);
-            double imgX = (double)image.GetValue(Canvas.LeftProperty);
-            double kppX = kinectPointerPosition.X;
-            double kppY = kinectPointerPosition.Y;
-
-            //Debbugging
-              string dbg = "imgX: " + imgX + "\n" +
-                           "imgY:" + imgY + "\n" +
-                           "kppX: " + kppX + "\n" +
-                           "kppY:" + kppY + "\n" +
-                           "farX:" + (imgX + image.Width) + "\n" +
-                           "farY:" + (imgY + image.Height) + "\n";
-            debug.Content = dbg + ((kppX > imgX && kppX < imgX + image.Width) &&
-              (kppY > imgY && kppY < imgY + image.Height));
-
-            grabbingImage = ((kppX > imgX && kppX < imgX + image.Width) &&
-               (kppY > imgY && kppY < imgY + image.Height));
-
+            if(image.isGrabbed(kinectPointerPosition))
+            {
+                canMove = true;
+                grabbedImage = image;
+            }
         }
 
-        private void Image_onRelease()
+        private void onRelease()
         {
-            grabbingImage = false;
+            canMove = false;
         }
 
         bool Grabbing
@@ -141,9 +132,9 @@ namespace POC_GestureNavigation.Pages
                 {
                     grabbing = value;
                     if (grabbing)
-                        Image_onGrabbing();
+                        onGrab();
                     else
-                        Image_onRelease();
+                        onRelease();
                 }
             }
         }

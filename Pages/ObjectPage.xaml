@@ -11,6 +11,6 @@
 
     <Grid>
         <Canvas Name="canvas" Background="Transparent" />
-        <Label Name="debug" />
+        <Label Name="debug" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="50"/>
     </Grid>
 </Page>
