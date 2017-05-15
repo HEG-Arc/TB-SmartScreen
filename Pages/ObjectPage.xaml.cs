@@ -37,7 +37,8 @@ namespace POC_GestureNavigation.Pages
         private Point kinectPointerPosition;
 
         private List<MovableImage> images;
-
+        private Image bucket;
+        
 
         public ObjectPage()
         {
@@ -60,6 +61,13 @@ namespace POC_GestureNavigation.Pages
             kinectCoreWindow.PointerMoved += KinectCoreWindow_PointerMoved;
 
             // UI init
+            bucket = new Image();
+            bucket.Source = new BitmapImage(new Uri("/Images/Bucket.png", UriKind.Relative));
+            bucket.Height = 200;
+            bucket.Width = 200;
+            bucket.HorizontalAlignment = HorizontalAlignment.Right;
+            bucket.VerticalAlignment = VerticalAlignment.Center;
+
             MovableImage template = new MovableImage();
             template.Source = new BitmapImage(new Uri("/Images/Components.png", UriKind.Relative));
             template.Height = 150;
@@ -71,15 +79,11 @@ namespace POC_GestureNavigation.Pages
             for (int i = 0; i < NB_IMG_DISPLAYED; i++)
             {
                 MovableImage mi = MovableImage.Clone(template);
-                mi.Position = new Point(rand.Next(0, (int)(grid.RenderSize.Width - mi.Width)),
+                mi.Position = new Point(rand.Next(0, (int)(grid.RenderSize.Width - mi.Width - bucket.Width - 20)),
                                         rand.Next(0, (int)(grid.RenderSize.Height - mi.Height)));
-
-                Canvas.SetLeft(mi, mi.Position.X);
-                Canvas.SetTop(mi, mi.Position.Y);
-                canvas.Children.Add(mi);
-
                 images.Add(mi);
-            }            
+            }
+            DisplayImages();
         }
 
         private void KinectCoreWindow_PointerMoved(object sender, KinectPointerEventArgs e)
@@ -89,18 +93,8 @@ namespace POC_GestureNavigation.Pages
             kinectPointerPosition.Y = kinectPointerPoint.Position.Y * canvas.ActualHeight;
 
             if (grabbedImage != null)
-            {
-                canvas.Children.Clear();
-
-                foreach(MovableImage mi in images)
-                {
-                    if(!mi.Equals(grabbedImage))
-                    {
-                        Canvas.SetLeft(mi, mi.Position.X);
-                        Canvas.SetTop(mi, mi.Position.Y);
-                        canvas.Children.Add(mi);
-                    }
-                }
+            {                                           
+                DisplayImages(grabbedImage);
 
                 grabbedImage.Position = new Point(kinectPointerPosition.X - grabbedImage.Width / 2, kinectPointerPosition.Y - grabbedImage.Height / 2);
                 Canvas.SetLeft(grabbedImage, grabbedImage.Position.X);
@@ -139,7 +133,43 @@ namespace POC_GestureNavigation.Pages
 
         private void onRelease()
         {
+            if(grabbedImage != null && isInBucket(grabbedImage))
+            {
+                images.Remove(grabbedImage);
+                if (images.Count == 0)
+                    debug.Content = "game over !";
+                DisplayImages();
+            }
             grabbedImage = null;
+        }
+
+        private void DisplayImages(MovableImage except = null)
+        {
+            canvas.Children.Clear();
+            foreach (MovableImage mi in images)
+            {
+                if (!mi.Equals(except))
+                {
+                    Canvas.SetLeft(mi, mi.Position.X);
+                    Canvas.SetTop(mi, mi.Position.Y);
+                    canvas.Children.Add(mi);
+                }
+            }
+
+            Canvas.SetLeft(bucket, grid.RenderSize.Width - bucket.Width - 20);
+            Canvas.SetTop(bucket, grid.RenderSize.Height / 2 - bucket.Height / 2);
+            canvas.Children.Add(bucket);
+        }
+
+        private bool isInBucket(MovableImage img)
+        {
+            double bucketX = Canvas.GetLeft(bucket);
+            double bucketY = Canvas.GetTop(bucket);
+
+            return (
+                        (img.Position.X + img.Width > bucketX && img.Position.X < bucketX + bucket.Width) &&
+                        (img.Position.Y + img.Height > bucketY && img.Position.Y < bucketY + bucket.Height)
+                    );
         }
 
         bool Grabbing

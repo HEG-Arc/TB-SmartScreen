@@ -11,7 +11,7 @@ namespace POC_GestureNavigation
     public class MovableImage : Image
     {
         private Point position;
-
+        
         public Point Position
         {
             get
@@ -24,6 +24,11 @@ namespace POC_GestureNavigation
             }
         }
 
+        /// <summary>
+        /// Retroune un boolean qui indique si la position du point passé en paramètre est sur l'image ou non.
+        /// </summary>
+        /// <param name="pointerPosition"></param>
+        /// <returns></returns>
         public bool IsGrabbed(Point pointerPosition)
         {
             return (
@@ -32,6 +37,11 @@ namespace POC_GestureNavigation
                    );
         }
 
+        /// <summary>
+        /// Cette méthode permet de cloner (faire une copie) d'un objet MovableImage dans une nouvelle instance.
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
         public static MovableImage Clone(MovableImage image)
         {
             MovableImage clone = new MovableImage();

@@ -10,7 +10,7 @@
       Title="ObjectPage">
 
     <Grid Name="grid">
-        <Canvas Name="canvas" Background="Transparent" />
+        <Canvas Name="canvas" Background="Transparent"/>
         <Label Name="debug" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="50"/>
     </Grid>
 </Page>
