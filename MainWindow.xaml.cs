@@ -1,4 +1,6 @@
-﻿using POC_GestureNavigation.Pages;
+﻿using Microsoft.Kinect;
+using Microsoft.Kinect.Wpf.Controls;
+using POC_GestureNavigation.Pages;
 using System.Windows;
 
 namespace POC_GestureNavigation
@@ -16,6 +18,10 @@ namespace POC_GestureNavigation
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            this.kinectRegion.KinectSensor = KinectSensor.GetDefault();
+            KinectRegion.SetKinectRegion(this, kinectRegion);
+            ((App)Application.Current).kinectRegion = kinectRegion;
+
             this.frame.Navigate(new MainPage());
         }
     }

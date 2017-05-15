@@ -59,7 +59,7 @@
                             <CheckBox Name="cbB" Content="B" Margin="10,0,0,0" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" />
                             <CheckBox Name="cbC" Content="C" Margin="10,0,0,0" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"/>
                         </StackPanel>
-                        <Label Name="lblABC" Content="A B C" HorizontalAlignment="Center"/>
+                        <Label Name="lblABC" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
