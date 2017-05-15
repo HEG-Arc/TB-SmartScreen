@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace POC_GestureNavigation.Pages
 {
@@ -26,64 +27,80 @@ namespace POC_GestureNavigation.Pages
         private const int PIXELS_PER_BYTE = 4;
         private const int NB_IMG_DISPLAYED = 10;
 
+        private App app;
+
         private KinectSensor sensor;
         private BodyFrameReader bfr;
         private Body[] bodies;
 
         private bool grabbing = false;
-        private MovableImage grabbedImage = null;
+        private CustomImage grabbedImage = null;
 
+        private KinectCoreWindow kinectCoreWindow;
         private KinectPointerPoint kinectPointerPoint;
         private Point kinectPointerPosition;
 
-        private List<MovableImage> images;
-        private Image bucket;
-        
+        private List<CustomImage> images;
+        private CustomImage bucket;
+
+        private Label lblTime;
+        private DispatcherTimer timer;
 
         public ObjectPage()
         {
             InitializeComponent();
-            images = new List<MovableImage>();
+            app = (App)Application.Current;
+            lblTime = app.lblTime;
+            timer = app.timer;
             this.Loaded += ObjectPage_Loaded;
-        }
+        }        
 
         private void ObjectPage_Loaded(object sender, RoutedEventArgs e)
         {
             // Kinect init
             sensor = KinectSensor.GetDefault();
             bfr = sensor.BodyFrameSource.OpenReader();
-
+            kinectCoreWindow = KinectCoreWindow.GetForCurrentThread();
             sensor.Open();
-            bodies = new Body[6];
+            bodies = new Body[6];            
+        }
 
+        private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            btnStart.Visibility = Visibility.Hidden;
             bfr.FrameArrived += Bfr_FrameArrived;
-            KinectCoreWindow kinectCoreWindow = KinectCoreWindow.GetForCurrentThread();
-            kinectCoreWindow.PointerMoved += KinectCoreWindow_PointerMoved;
+            app.ResetTimer();
+            timer.Start();
+            initUI();
+        }
+        
+        private void initUI()
+        {            
+            lblTime.Visibility = Visibility.Visible;
 
-            // UI init
-            bucket = new Image();
+            bucket = new CustomImage();
             bucket.Source = new BitmapImage(new Uri("/Images/Bucket.png", UriKind.Relative));
             bucket.Height = 200;
             bucket.Width = 200;
-            bucket.HorizontalAlignment = HorizontalAlignment.Right;
-            bucket.VerticalAlignment = VerticalAlignment.Center;
+            bucket.Position = new Point(grid.RenderSize.Width - bucket.Width - 20, grid.RenderSize.Height / 2 - bucket.Height / 2);
 
-            MovableImage template = new MovableImage();
+            CustomImage template = new CustomImage();
             template.Source = new BitmapImage(new Uri("/Images/Components.png", UriKind.Relative));
             template.Height = 150;
             template.Width = 150;
-            template.HorizontalAlignment = HorizontalAlignment.Left;
-            template.VerticalAlignment = VerticalAlignment.Top;
 
             Random rand = new Random();
+            images = new List<CustomImage>();
             for (int i = 0; i < NB_IMG_DISPLAYED; i++)
             {
-                MovableImage mi = MovableImage.Clone(template);
+                CustomImage mi = CustomImage.Clone(template);
                 mi.Position = new Point(rand.Next(0, (int)(grid.RenderSize.Width - mi.Width - bucket.Width - 20)),
                                         rand.Next(0, (int)(grid.RenderSize.Height - mi.Height)));
                 images.Add(mi);
             }
-            DisplayImages();
+            DisplayImages();            
+                    
+            kinectCoreWindow.PointerMoved += KinectCoreWindow_PointerMoved;            
         }
 
         private void KinectCoreWindow_PointerMoved(object sender, KinectPointerEventArgs e)
@@ -121,9 +138,9 @@ namespace POC_GestureNavigation.Pages
 
         private void onGrab()
         {
-            foreach(MovableImage im in images)
+            foreach(CustomImage im in images)
             {
-                if (im.IsGrabbed(kinectPointerPosition))
+                if (im.DoesCollide(kinectPointerPosition))
                 {
                     grabbedImage = im;
                     continue;
@@ -133,20 +150,20 @@ namespace POC_GestureNavigation.Pages
 
         private void onRelease()
         {
-            if(grabbedImage != null && isInBucket(grabbedImage))
+            if(grabbedImage != null && bucket.DoesCollide(grabbedImage))
             {
                 images.Remove(grabbedImage);
                 if (images.Count == 0)
-                    debug.Content = "game over !";
+                    GameOver();
                 DisplayImages();
             }
             grabbedImage = null;
         }
 
-        private void DisplayImages(MovableImage except = null)
+        private void DisplayImages(CustomImage except = null)
         {
             canvas.Children.Clear();
-            foreach (MovableImage mi in images)
+            foreach (CustomImage mi in images)
             {
                 if (!mi.Equals(except))
                 {
@@ -156,20 +173,21 @@ namespace POC_GestureNavigation.Pages
                 }
             }
 
-            Canvas.SetLeft(bucket, grid.RenderSize.Width - bucket.Width - 20);
-            Canvas.SetTop(bucket, grid.RenderSize.Height / 2 - bucket.Height / 2);
+            Canvas.SetLeft(bucket, bucket.Position.X);
+            Canvas.SetTop(bucket, bucket.Position.Y);
             canvas.Children.Add(bucket);
         }
 
-        private bool isInBucket(MovableImage img)
+        private void GameOver()
         {
-            double bucketX = Canvas.GetLeft(bucket);
-            double bucketY = Canvas.GetTop(bucket);
+            timer.Stop();
+            app.objectScore = lblTime.Content.ToString();
+            
+            kinectCoreWindow.PointerMoved -= KinectCoreWindow_PointerMoved;
+            bfr.FrameArrived -= Bfr_FrameArrived;
 
-            return (
-                        (img.Position.X + img.Width > bucketX && img.Position.X < bucketX + bucket.Width) &&
-                        (img.Position.Y + img.Height > bucketY && img.Position.Y < bucketY + bucket.Height)
-                    );
+            bucket.Visibility = Visibility.Hidden;
+            btnStart.Visibility = Visibility.Visible;
         }
 
         bool Grabbing

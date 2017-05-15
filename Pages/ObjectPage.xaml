@@ -11,6 +11,6 @@
 
     <Grid Name="grid">
         <Canvas Name="canvas" Background="Transparent"/>
-        <Label Name="debug" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="50"/>
+        <Button Name="btnStart" Content="Start" HorizontalAlignment="Center" VerticalAlignment="Center" Height="150" Width="200" Click="btnStart_Click" FontSize="25" />
     </Grid>
 </Page>

@@ -13,6 +13,7 @@
         <Grid>
             <Frame Name="frame" NavigationUIVisibility="Hidden" />
             <k:KinectUserViewer Height="200" HorizontalAlignment="Center" VerticalAlignment="Top" />
+            <Label Name="lblTime" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
         </Grid>
     </k:KinectRegion>
 </Window>

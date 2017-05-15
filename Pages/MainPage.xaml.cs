@@ -20,9 +20,26 @@ namespace POC_GestureNavigation.Pages
     /// </summary>
     public partial class MainPage : Page
     {
+        private App app;
+
         public MainPage()
         {
             InitializeComponent();
+            app = (App)Application.Current;
+            this.Loaded += MainPage_Loaded;
+        }
+
+        private void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            String scores = "";
+
+            scores += "Object : ";
+            if (app.objectScore != null)
+                scores += app.objectScore;
+            else
+                scores += "-";
+
+            tbxScores.Text = scores;
         }
 
         private void btnComponents_Click(object sender, RoutedEventArgs e)

@@ -8,10 +8,10 @@ using System.Windows.Controls;
 
 namespace POC_GestureNavigation
 {
-    public class MovableImage : Image
+    public class CustomImage : Image
     {
         private Point position;
-        
+
         public Point Position
         {
             get
@@ -29,7 +29,7 @@ namespace POC_GestureNavigation
         /// </summary>
         /// <param name="pointerPosition"></param>
         /// <returns></returns>
-        public bool IsGrabbed(Point pointerPosition)
+        public bool DoesCollide(Point pointerPosition)
         {
             return (
                     (pointerPosition.X > this.position.X && pointerPosition.X < this.position.X + this.Width) &&
@@ -37,14 +37,22 @@ namespace POC_GestureNavigation
                    );
         }
 
+        public bool DoesCollide(CustomImage image)
+        {
+            return (
+                        (image.Position.X + image.Width > this.position.X && image.Position.X < this.position.X + this.Width) &&
+                        (image.Position.Y + image.Height > this.position.Y && image.Position.Y < this.position.Y + this.Height)
+                    );
+        }
+
         /// <summary>
         /// Cette méthode permet de cloner (faire une copie) d'un objet MovableImage dans une nouvelle instance.
         /// </summary>
         /// <param name="image"></param>
         /// <returns></returns>
-        public static MovableImage Clone(MovableImage image)
+        public static CustomImage Clone(CustomImage image)
         {
-            MovableImage clone = new MovableImage();
+            CustomImage clone = new CustomImage();
             clone.Source = image.Source;
             clone.Height = image.Height;
             clone.Width = image.Width;

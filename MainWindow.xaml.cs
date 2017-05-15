@@ -21,6 +21,7 @@ namespace POC_GestureNavigation
             this.kinectRegion.KinectSensor = KinectSensor.GetDefault();
             KinectRegion.SetKinectRegion(this, kinectRegion);
             ((App)Application.Current).kinectRegion = kinectRegion;
+            ((App)Application.Current).lblTime = lblTime;
 
             this.frame.Navigate(new MainPage());
         }
