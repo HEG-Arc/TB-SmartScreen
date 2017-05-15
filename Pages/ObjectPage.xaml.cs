@@ -24,24 +24,25 @@ namespace POC_GestureNavigation.Pages
     public partial class ObjectPage : Page
     {
         private const int PIXELS_PER_BYTE = 4;
+        private const int NB_IMG_DISPLAYED = 10;
 
         private KinectSensor sensor;
         private BodyFrameReader bfr;
         private Body[] bodies;
 
         private bool grabbing = false;
-        private bool canMove = false;
-        private CustomImage grabbedImage = null;
+        private MovableImage grabbedImage = null;
 
         private KinectPointerPoint kinectPointerPoint;
         private Point kinectPointerPosition;
 
-        private CustomImage image;
+        private List<MovableImage> images;
 
 
         public ObjectPage()
         {
             InitializeComponent();
+            images = new List<MovableImage>();
             this.Loaded += ObjectPage_Loaded;
         }
 
@@ -59,17 +60,26 @@ namespace POC_GestureNavigation.Pages
             kinectCoreWindow.PointerMoved += KinectCoreWindow_PointerMoved;
 
             // UI init
-            image = new CustomImage();
-            image.Source = new BitmapImage(new Uri("/Images/Components.png", UriKind.Relative));
-            image.Height = 150;
-            image.Width = 150;
-            image.HorizontalAlignment = HorizontalAlignment.Left;
-            image.VerticalAlignment = VerticalAlignment.Top;
-            image.Position = new Point(50, 50);
+            MovableImage template = new MovableImage();
+            template.Source = new BitmapImage(new Uri("/Images/Components.png", UriKind.Relative));
+            template.Height = 150;
+            template.Width = 150;
+            template.HorizontalAlignment = HorizontalAlignment.Left;
+            template.VerticalAlignment = VerticalAlignment.Top;
 
-            Canvas.SetLeft(image, image.Position.X);
-            Canvas.SetTop(image, image.Position.Y);
-            canvas.Children.Add(image);
+            Random rand = new Random();
+            for (int i = 0; i < NB_IMG_DISPLAYED; i++)
+            {
+                MovableImage mi = MovableImage.Clone(template);
+                mi.Position = new Point(rand.Next(0, (int)(grid.RenderSize.Width - mi.Width)),
+                                        rand.Next(0, (int)(grid.RenderSize.Height - mi.Height)));
+
+                Canvas.SetLeft(mi, mi.Position.X);
+                Canvas.SetTop(mi, mi.Position.Y);
+                canvas.Children.Add(mi);
+
+                images.Add(mi);
+            }            
         }
 
         private void KinectCoreWindow_PointerMoved(object sender, KinectPointerEventArgs e)
@@ -78,14 +88,23 @@ namespace POC_GestureNavigation.Pages
             kinectPointerPosition.X = kinectPointerPoint.Position.X * canvas.ActualWidth;
             kinectPointerPosition.Y = kinectPointerPoint.Position.Y * canvas.ActualHeight;
 
-            if (canMove)
+            if (grabbedImage != null)
             {
                 canvas.Children.Clear();
+
+                foreach(MovableImage mi in images)
+                {
+                    if(!mi.Equals(grabbedImage))
+                    {
+                        Canvas.SetLeft(mi, mi.Position.X);
+                        Canvas.SetTop(mi, mi.Position.Y);
+                        canvas.Children.Add(mi);
+                    }
+                }
 
                 grabbedImage.Position = new Point(kinectPointerPosition.X - grabbedImage.Width / 2, kinectPointerPosition.Y - grabbedImage.Height / 2);
                 Canvas.SetLeft(grabbedImage, grabbedImage.Position.X);
                 Canvas.SetTop(grabbedImage, grabbedImage.Position.Y);
-
                 canvas.Children.Add(grabbedImage);
             }
         }
@@ -108,16 +127,19 @@ namespace POC_GestureNavigation.Pages
 
         private void onGrab()
         {
-            if(image.isGrabbed(kinectPointerPosition))
+            foreach(MovableImage im in images)
             {
-                canMove = true;
-                grabbedImage = image;
-            }
+                if (im.IsGrabbed(kinectPointerPosition))
+                {
+                    grabbedImage = im;
+                    continue;
+                }
+            }            
         }
 
         private void onRelease()
         {
-            canMove = false;
+            grabbedImage = null;
         }
 
         bool Grabbing
