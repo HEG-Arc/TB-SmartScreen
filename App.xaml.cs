@@ -15,6 +15,8 @@ namespace POC_MultiUserIdentification
         internal MultiSourceFrameReader msfr { get; set; }
         internal KinectSensor sensor { get; set; }
 
+        internal int cptMsfrE = 0;
+
         private List<KeyValuePair<string, string>> users = new Dictionary<String, String>
         {
             {"USER-MAXIME-BECK-457895", "Maxime Beck"},

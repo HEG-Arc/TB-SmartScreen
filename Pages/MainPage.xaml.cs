@@ -22,13 +22,12 @@ namespace POC_MultiUserIdentification.Pages
             msfr = app.msfr;            
 
             this.Loaded += MainPage_Loaded;
-            this.Unloaded += MainPage_Unloaded;
-            msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
-        }
 
-        private void MainPage_Unloaded(object sender, RoutedEventArgs e)
-        {
-            msfr.MultiSourceFrameArrived -= Msfr_MultiSourceFrameArrived;
+            if(app.cptMsfrE == 2)
+            {
+                msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
+                app.cptMsfrE++;
+            }            
         }
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)

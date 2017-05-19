@@ -37,16 +37,7 @@ namespace POC_MultiUserIdentification.Pages
             msfr = app.msfr;
             
             this.Loaded += IdentificationPage_Loaded;
-            this.Unloaded += IdentificationPage_Unloaded;
-            
-            msfr.MultiSourceFrameArrived += MsfReader_MultiSourceFrameArrived;
-        }
-
-        private void IdentificationPage_Unloaded(object sender, RoutedEventArgs e)
-        {
-            DisableScanning();
-            msfr.MultiSourceFrameArrived -= MsfReader_MultiSourceFrameArrived;
-            cfReader.FrameArrived -= CfReader_FrameArrived;
+            this.Unloaded += IdentificationPage_Unloaded;                        
         }
 
         private void IdentificationPage_Loaded(object sender, RoutedEventArgs e)
@@ -61,7 +52,13 @@ namespace POC_MultiUserIdentification.Pages
             DisableScanning();
 
             bodies = new Body[6];
-            cfReader.FrameArrived += CfReader_FrameArrived;
+
+            if (app.cptMsfrE == 1)
+            {
+                msfr.MultiSourceFrameArrived += MsfReader_MultiSourceFrameArrived;
+                cfReader.FrameArrived += CfReader_FrameArrived;
+                app.cptMsfrE++;
+            }            
         }
 
         private void MsfReader_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
@@ -177,6 +174,13 @@ namespace POC_MultiUserIdentification.Pages
                     this.NavigationService.Navigate(new MainPage());
             }                
 
+        }
+
+        private void IdentificationPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            DisableScanning();
+            //msfr.MultiSourceFrameArrived -= MsfReader_MultiSourceFrameArrived;
+            //cfReader.FrameArrived -= CfReader_FrameArrived;
         }
     }
 }

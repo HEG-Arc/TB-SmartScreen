@@ -55,8 +55,10 @@ namespace POC_MultiUserIdentification
 
             msfr = sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Body | FrameSourceTypes.BodyIndex);
             app.msfr = msfr;
-
+            
             msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
+            app.cptMsfrE++;
+
             this.frame.Navigate(new IdentificationPage());
         }
 
