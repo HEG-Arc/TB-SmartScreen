@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System;
+using System.Windows.Threading;
 
 namespace POC_MultiUserIdentification.Pages
 {
@@ -19,15 +20,26 @@ namespace POC_MultiUserIdentification.Pages
         {
             InitializeComponent();
             app = (App)Application.Current;
-            msfr = app.msfr;            
+            msfr = app.msfr;
 
             this.Loaded += MainPage_Loaded;
+            this.Unloaded += MainPage_Unloaded;
+            app.timer.Tick += Timer_Tick;
 
             if(app.cptMsfrE == 2)
             {
                 msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
                 app.cptMsfrE++;
             }            
+        }        
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (this.NavigationService.CanGoBack)
+                this.NavigationService.GoBack();
+            else
+                this.NavigationService.Navigate(new IdentificationPage());
+            app.timer.Stop();
         }
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
@@ -60,12 +72,13 @@ namespace POC_MultiUserIdentification.Pages
                                 }
                                 lblDebug.Content = "debug : " + oneBodyTracked;
                                 if (!oneBodyTracked)
+                                    app.timer.Start();
+                                else
                                 {
-                                    if (this.NavigationService.CanGoBack)
-                                        this.NavigationService.GoBack();
-                                    else
-                                        this.NavigationService.Navigate(new IdentificationPage());
-                                }                                    
+                                    if (app.timer.IsEnabled)
+                                        app.timer.Stop();
+                                }
+
                             }
                         }
                     }
@@ -73,6 +86,11 @@ namespace POC_MultiUserIdentification.Pages
                 catch
                 { }
             }            
-        }               
+        }
+
+        private void MainPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            app.timer.Tick -= Timer_Tick;
+        }
     }
 }

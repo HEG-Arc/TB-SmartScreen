@@ -35,10 +35,11 @@ namespace POC_MultiUserIdentification.Pages
             app = (App)Application.Current;
             sensor = app.sensor;
             msfr = app.msfr;
-            
+
+            app.timer.Tick += Timer_Tick;
             this.Loaded += IdentificationPage_Loaded;
             this.Unloaded += IdentificationPage_Unloaded;                        
-        }
+        }        
 
         private void IdentificationPage_Loaded(object sender, RoutedEventArgs e)
         {
@@ -91,13 +92,19 @@ namespace POC_MultiUserIdentification.Pages
                 { }
 
                 if (oneBodyTracked)
-                    ActivateScanning();
+                {
+                    if(app.timer.IsEnabled)
+                        app.timer.Stop();
+                    EnableScanning();
+                }                    
                 else
-                    DisableScanning();
+                {
+                    app.timer.Start();                    
+                }                    
             }            
         }
 
-        private void ActivateScanning()
+        private void EnableScanning()
         {
             if(!scanning)
             {
@@ -113,6 +120,11 @@ namespace POC_MultiUserIdentification.Pages
                 this.scanning = false;
                 image.Visibility = Visibility.Hidden;
             }            
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            DisableScanning();
         }
 
         private void CfReader_FrameArrived(object sender, ColorFrameArrivedEventArgs e)

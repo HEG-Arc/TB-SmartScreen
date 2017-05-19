@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace POC_MultiUserIdentification
 {
@@ -12,10 +13,13 @@ namespace POC_MultiUserIdentification
     /// </summary>
     public partial class App : Application
     {
+        private const int NB_SECOND_BEFORE_LOGOUT = 3;
         internal MultiSourceFrameReader msfr { get; set; }
         internal KinectSensor sensor { get; set; }
 
         internal int cptMsfrE = 0;
+
+        internal DispatcherTimer timer;
 
         private List<KeyValuePair<string, string>> users = new Dictionary<String, String>
         {
@@ -27,7 +31,8 @@ namespace POC_MultiUserIdentification
 
         public App()
         {
-
+            timer = new DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 0, NB_SECOND_BEFORE_LOGOUT);
         }
 
         public List<KeyValuePair<string, string>> Users
