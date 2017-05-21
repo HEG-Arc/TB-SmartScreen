@@ -15,7 +15,8 @@ namespace POC_UserAwareness
     public partial class MainWindow : Window
     {
         private const int PIXELS_PER_BYTE = 4;
-        private const int COLOR_FRAME_SIZE_RATIO = 3; 
+        private const int COLOR_FRAME_SIZE_RATIO = 3;
+        private const int HEAD_RECTANGLE_SIZE = 100;
 
         private KinectSensor sensor;
         private ColorFrameReader cfReader;
@@ -45,9 +46,6 @@ namespace POC_UserAwareness
             bodies = new Body[6];
             msfr = sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Body | FrameSourceTypes.Color);
             msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
-            
-            //cfReader.FrameArrived += CfReader_FrameArrived;
-
         }
 
         private void Msfr_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
@@ -85,26 +83,28 @@ namespace POC_UserAwareness
                                                                     "Z : " + Math.Round(joint.Value.Orientation.Z, 0) + "\n\n";
                                         }
 
-                                        Joint headJoint = body.Joints[JointType.Head];                                        
+                                        Joint headJoint = body.Joints[JointType.Head];
                                         if (headJoint.TrackingState == TrackingState.Tracked)
                                         {
                                             //JointOrientation orientation;
                                             //body.JointOrientations.TryGetValue(JointType.Head, out orientation);
-                                            ColorSpacePoint dsp = sensor.CoordinateMapper.MapCameraPointToColorSpace(headJoint.Position);
-                                            Rectangle headRect = new Rectangle() { Width = 100, Height = 100, Stroke = Brushes.Red };
+                                            ColorSpacePoint csp = sensor.CoordinateMapper.MapCameraPointToColorSpace(headJoint.Position);
+                                            Rectangle headRect = new Rectangle() { Stroke = Brushes.Red };
                                             TextBlock headInfos = new TextBlock() { Foreground = Brushes.Red };
 
                                             headInfos.Text = "X Position : " + headJoint.Position.X + "\n" +
                                                              "Y Position : " + headJoint.Position.Y + "\n" +
                                                              "Z Position : " + headJoint.Position.Z + "\n";
 
+                                            headRect.Height = headRect.Width = HEAD_RECTANGLE_SIZE / headJoint.Position.Z;
+
+                                            Canvas.SetLeft(headRect, csp.X / COLOR_FRAME_SIZE_RATIO - headRect.Width / 2);
+                                            Canvas.SetTop(headRect, csp.Y / COLOR_FRAME_SIZE_RATIO - headRect.Height / 2);
+                                            Canvas.SetLeft(headInfos, csp.X / COLOR_FRAME_SIZE_RATIO - headRect.Width / 2);
+                                            Canvas.SetTop(headInfos, csp.Y / COLOR_FRAME_SIZE_RATIO + headRect.Height / 2);
+
                                             bodyCanvas.Children.Add(headRect);
                                             bodyCanvas.Children.Add(headInfos);
-
-                                            Canvas.SetLeft(headRect, dsp.X / COLOR_FRAME_SIZE_RATIO - 50);
-                                            Canvas.SetTop(headRect, dsp.Y / COLOR_FRAME_SIZE_RATIO - 50);
-                                            Canvas.SetLeft(headInfos, dsp.X / COLOR_FRAME_SIZE_RATIO - 50);
-                                            Canvas.SetTop(headInfos, dsp.Y / COLOR_FRAME_SIZE_RATIO + 50);
                                         }
                                     }
                                 }
@@ -115,20 +115,6 @@ namespace POC_UserAwareness
             }
             catch
             { }
-        }
-
-        private void CfReader_FrameArrived(object sender, ColorFrameArrivedEventArgs e)
-        {
-            using (ColorFrame cfFrame = e.FrameReference.AcquireFrame())
-            {
-                if (cfFrame != null)
-                {
-                    cfFrame.CopyConvertedFrameDataToArray(cfDataConverted, ColorImageFormat.Bgra);
-                    Int32Rect rect = new Int32Rect(0, 0, (int)cfBitmap.Width, (int)cfBitmap.Height);
-                    int stride = (int)cfBitmap.Width * PIXELS_PER_BYTE;
-                    cfBitmap.WritePixels(rect, cfDataConverted, stride, 0);                    
-                }
-            }
         }
     }
 }
