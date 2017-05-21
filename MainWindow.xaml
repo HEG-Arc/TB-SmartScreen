@@ -5,9 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:POC_UserAwareness"
         mc:Ignorable="d"
-        Title="POC - Barcode Identification" Width="768" Height="447"
+        Title="POC - Barcode Identification" Width="640" Height="820"
         ResizeMode="NoResize">
     <StackPanel>
-        <Image Name="image" Width="768" Height="447" HorizontalAlignment="center" VerticalAlignment="Top"/>
+        <Grid Width="640" Height="360">
+            <Image Name="image" VerticalAlignment="Top" />
+            <Canvas Name="bodyCanvas" VerticalAlignment="Top" />
+        </Grid>
+        <ScrollViewer MaxHeight="300"  
+              Width="Auto" 
+              HorizontalScrollBarVisibility="Disabled"
+              VerticalScrollBarVisibility="Auto">
+            <TextBlock Name="lblResult" TextWrapping="Wrap" />
+        </ScrollViewer>
     </StackPanel>
 </Window>
