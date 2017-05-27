@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace POC_MultiUserIdentification
@@ -12,14 +13,21 @@ namespace POC_MultiUserIdentification
     /// Logique d'interaction pour App.xaml
     /// </summary>
     public partial class App : Application
-    {
+    {               
         private const int NB_SECOND_BEFORE_LOGOUT = 3;
+
         internal MultiSourceFrameReader msfr { get; set; }
         internal KinectSensor sensor { get; set; }
 
+        internal uint[] bodyIndexFrameDataConverted { get; set; }
+
+        internal Nullable<ColorSpacePoint> barcodePoint = null;
+
+        internal DepthSpacePoint[] colorMappedToDepthPoints = null;
+
         internal int cptMsfrE = 0;
 
-        internal DispatcherTimer timer;
+        internal DispatcherTimer timer;        
 
         private List<KeyValuePair<string, string>> users = new Dictionary<String, String>
         {

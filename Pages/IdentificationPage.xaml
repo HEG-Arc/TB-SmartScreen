@@ -9,10 +9,14 @@
       KeepAlive="True">
 
     <Grid>
-        <StackPanel Width="500" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Image Name="image" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <StackPanel Width="480" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid>
+                <Image Name="image" Height="270" Width="480" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Canvas Name="canvas" Height="270" Width="480" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
             <Label Name="output" />
             <Label Name="debug" />
+            <Canvas Name="bodyColorCanvas" Height="50" Background="AliceBlue" />
         </StackPanel>
     </Grid>
 </Page>
