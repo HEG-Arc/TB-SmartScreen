@@ -47,11 +47,6 @@ namespace POC_GestureNavigation.Pages
             this.NavigationService.Navigate(new ComponentsPage());
         }
 
-        private void btnImage_Click(object sender, RoutedEventArgs e)
-        {
-            this.NavigationService.Navigate(new ImagePage());
-        }
-
         private void btnObject_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new ObjectPage());
