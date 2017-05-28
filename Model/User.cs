@@ -9,12 +9,12 @@ namespace POC_MultiUserIdentification.Model
     public class User
     {
         private uint color;
-        private string code;
+        private string name;
 
-        public User(string code, uint color)
+        public User(string name, uint color)
         {
             this.color = color;
-            this.code = code;
+            this.name = name;
         }
 
         public uint Color
@@ -33,11 +33,11 @@ namespace POC_MultiUserIdentification.Model
         {
             get
             {
-                return this.code;
+                return this.name;
             }
             set
             {
-                this.code = value;
+                this.name = value;
             }
         }
     }

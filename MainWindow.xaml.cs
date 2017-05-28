@@ -33,12 +33,12 @@ namespace POC_MultiUserIdentification
 
         private static readonly uint[] BodyColor =
         {
-            0x0000FFFF,
-            0x00FF00FF,
-            0xFFFF40FF,
-            0x40FFFFFF,
-            0xFF40FFFF,
-            0xFF8080FF,
+            0x0000FF,
+            0x00FF00,
+            0xFFFF40,
+            0x40FFFF,
+            0xFF40FF,
+            0xFF8080,
         };
 
         private static readonly uint bodyColorBlack = 0x00000000;
@@ -114,7 +114,7 @@ namespace POC_MultiUserIdentification
                                     colors[3] = ColorSpacePointToBodyIndexColor((ColorSpacePoint)app.barcodePoint, 0, 1, out dsp[3]); // Down                                    
 
                                     DrawDepthSpacePoints(dsp);
-                                    
+
                                     uint userColor = GetUserColor(colors);
                                     if (userColor != 0 && userColor != 1) // Color found
                                         app.currentPerson = userColor;
@@ -151,7 +151,7 @@ namespace POC_MultiUserIdentification
             uint userColor = 0;
             int highestValue = 0;
             bool thereIsEquals = false;
-            foreach(KeyValuePair<uint, int> entry in kvpd)
+            foreach (KeyValuePair<uint, int> entry in kvpd)
             {
                 if (entry.Value > highestValue)
                 {
@@ -176,12 +176,12 @@ namespace POC_MultiUserIdentification
             for (int i = 0; i < dsp.Length; i++)
             {
                 ellipses[i] = new Ellipse() { Height = 2, Width = 2, Fill = new SolidColorBrush(Color.FromRgb(255, 255, 255)) };
-                if(!Double.IsInfinity(dsp[i].X) && !Double.IsInfinity(dsp[i].Y))
-                {                    
+                if (!Double.IsInfinity(dsp[i].X) && !Double.IsInfinity(dsp[i].Y))
+                {
                     Canvas.SetLeft(ellipses[i], dsp[i].X / INFRARED_SCALE_RATIO);
                     Canvas.SetTop(ellipses[i], dsp[i].Y / INFRARED_SCALE_RATIO);
                     bodyIndexCanvas.Children.Add(ellipses[i]);
-                }                
+                }
             }
         }
 
@@ -196,24 +196,31 @@ namespace POC_MultiUserIdentification
             depthSpacePoint = new DepthSpacePoint();
             uint color = bodyColorBlack;
 
-            for (int i = 0; i < PIXEL_CHECKER_RADIUS; i++)
+            try
             {
-                colorSpacePoint.X += i * moveX;
-                colorSpacePoint.Y += i * moveY;
-                colorSpaceIndex = PointToIndex(sensor.ColorFrameSource.FrameDescription,
-                                               new Point() { X = colorSpacePoint.X, Y = colorSpacePoint.Y });
-
-                depthSpacePoint = app.colorMappedToDepthPoints[colorSpaceIndex];
-                depthSpaceIndex = PointToIndex(sensor.DepthFrameSource.FrameDescription,
-                                               new Point() { X = depthSpacePoint.X, Y = depthSpacePoint.Y });
-
-                if (depthSpaceIndex != -1)
+                for (int i = 0; i < PIXEL_CHECKER_RADIUS; i++)
                 {
-                    color = this.bifDataConverted[depthSpaceIndex];
-                    if (color != bodyColorBlack)
-                        continue;
+                    colorSpacePoint.X += i * moveX;
+                    colorSpacePoint.Y += i * moveY;
+                    colorSpaceIndex = PointToIndex(sensor.ColorFrameSource.FrameDescription,
+                                                   new Point() { X = colorSpacePoint.X, Y = colorSpacePoint.Y });
+
+                    depthSpacePoint = app.colorMappedToDepthPoints[colorSpaceIndex];
+                    depthSpaceIndex = PointToIndex(sensor.DepthFrameSource.FrameDescription,
+                                                   new Point() { X = depthSpacePoint.X, Y = depthSpacePoint.Y });
+
+                    if (depthSpaceIndex != -1)
+                    {
+                        if (depthSpaceIndex >= 0)
+                        {
+                            color = this.bifDataConverted[depthSpaceIndex];
+                            if (color != bodyColorBlack)
+                                continue;
+                        }
+                    }
                 }
             }
+            catch { }
 
             return color;
         }
@@ -231,6 +238,8 @@ namespace POC_MultiUserIdentification
             byte* frameData = (byte*)bodyIndexFrameData;
 
             this.currentPeople = new List<uint>();
+            app.currentPeople = currentPeople;
+
             // convert body index to a visual representation
             for (int i = 0; i < (int)bodyIndexFrameDataSize; ++i)
             {
@@ -253,16 +262,21 @@ namespace POC_MultiUserIdentification
                 }
             }
 
+            for (int i = 0; i < this.currentPeople.Count; i++)
+            {
+                this.currentPeople[i] = BodyColor[this.currentPeople[i]];
+            }
+
             bool isUserStillThere = false;
-            foreach (User user in this.users)
+            for (int i = 0; i < this.users.Count; i++)
             {
                 foreach (uint color in this.currentPeople)
                 {
-                    if (user.Color.Equals(color))
+                    if (users[i].Color.Equals(color))
                         isUserStillThere = true;
                 }
                 if (!isUserStillThere)
-                    this.users.Remove(user);
+                    this.users.Remove(users[i]);
                 else
                     isUserStillThere = false;
             }

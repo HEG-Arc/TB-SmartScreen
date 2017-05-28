@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System;
 using System.Windows.Threading;
+using System.Windows.Media;
+using System.Windows.Data;
 
 namespace POC_MultiUserIdentification.Pages
 {
@@ -11,7 +13,7 @@ namespace POC_MultiUserIdentification.Pages
     /// </summary>
     public partial class MainPage : Page
     {
-        App app;
+        private App app;
         private string username;
         private MultiSourceFrameReader msfr;
         private Body[] bodies;
@@ -43,10 +45,35 @@ namespace POC_MultiUserIdentification.Pages
         }
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            username = app.User.Value;            
-            this.lblUser.Content = "Welcome, " + username;            
+        {   
+            this.renderUnidentifedPeopleList();
+            this.renderIdentifiedPeopleList();
             bodies = new Body[6];            
+        }
+
+        private void renderUnidentifedPeopleList()
+        {
+            this.UnidentifedList.Children.Clear();
+            for(int i = 0; i < app.currentPeople.Count; i++)
+            {
+                Grid grid = new Grid() { Width = 80, Height = 80, Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#" + app.currentPeople[i].ToString("X6"))) };
+                this.UnidentifedList.Children.Add(grid);
+            }
+        }
+        
+        private void renderIdentifiedPeopleList()
+        {
+            this.IdentifiedUsers.Children.Clear();
+            for (int i = 0; i < app.users.Count; i++)
+            {
+                StackPanel sp = new StackPanel() { Orientation = Orientation.Horizontal };
+                Grid grid = new Grid() { Width = 80, Height = 80, Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#" + app.users[i].Color.ToString("X6"))), Margin = new Thickness(0,10,0,0) };
+                Label label = new Label() { Content = app.users[i].Code, FontSize = 20, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(10,0,0,0) };
+
+                sp.Children.Add(grid);
+                sp.Children.Add(label);
+                IdentifiedUsers.Children.Add(sp);
+            }            
         }
 
         private void Msfr_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
@@ -70,9 +97,11 @@ namespace POC_MultiUserIdentification.Pages
                                     if (body.IsTracked)
                                         oneBodyTracked = true;
                                 }
-                                lblDebug.Content = "debug : " + oneBodyTracked;
                                 if (!oneBodyTracked)
-                                    app.timer.Start();
+                                {
+                                    if(!app.timer.IsEnabled)
+                                        app.timer.Start();
+                                }                                    
                                 else
                                 {
                                     if (app.timer.IsEnabled)

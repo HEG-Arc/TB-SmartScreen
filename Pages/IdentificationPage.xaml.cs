@@ -227,24 +227,25 @@ namespace POC_MultiUserIdentification.Pages
 
         private void Login(string userCode, uint color)
         {
+            String username = null;
             foreach (KeyValuePair<string, string> kv in app.Users)
             {
                 if (kv.Key.Equals(userCode))
                 {
-                    app.User = kv;
+                    username = kv.Value;
                     continue;
                 }
             }
 
-            if (!app.User.Equals(default(KeyValuePair<string, string>)))
+            //if (!app.User.Equals(default(KeyValuePair<string, string>)))
+            if(username != null)
             {
-                app.users.Add(new User(userCode, color));
+                app.users.Add(new User(username, color));
                 if (this.NavigationService.CanGoForward)
                     this.NavigationService.GoForward();
                 else
                     this.NavigationService.Navigate(new MainPage());
             }
-
         }
 
         private void IdentificationPage_Unloaded(object sender, RoutedEventArgs e)

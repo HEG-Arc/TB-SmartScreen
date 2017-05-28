@@ -40,8 +40,6 @@ namespace POC_MultiUserIdentification
             {"USER-MARC-ABRAHAM-789554", "Marc Abraham"},
         }.ToList();
 
-        private KeyValuePair<string, string> user;
-
         public App()
         {
             currentPerson = 0;
@@ -55,14 +53,6 @@ namespace POC_MultiUserIdentification
             { return this.availableUsers; }
             set
             { this.availableUsers = value; }
-        }
-
-        public KeyValuePair<string, string> User
-        {
-            get
-            { return this.user; }
-            set
-            { this.user = value; }
         }
     }
 }
