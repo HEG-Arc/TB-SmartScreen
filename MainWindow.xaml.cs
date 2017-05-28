@@ -260,13 +260,30 @@ namespace POC_MultiUserIdentification
                     // display black
                     this.bifDataConverted[i] = bodyColorBlack;
                 }
-            }
+            }                    
 
+            // Determines the unidentified users
+            bool isUnidentifiedUser = true;
+            app.unidentifiedPeople = new List<uint>();
             for (int i = 0; i < this.currentPeople.Count; i++)
             {
                 this.currentPeople[i] = BodyColor[this.currentPeople[i]];
+                for (int j = 0; j < this.users.Count; j++)
+                {
+                    if(this.currentPeople[i].Equals(users[j].Color))
+                    {
+                        isUnidentifiedUser = false;
+                        continue;
+                    }
+                }
+
+                if (isUnidentifiedUser)
+                    app.unidentifiedPeople.Add(this.currentPeople[i]);
+                else
+                    isUnidentifiedUser = true;
             }
 
+            // Determines if idententified users are still there (in front of the screen)
             bool isUserStillThere = false;
             for (int i = 0; i < this.users.Count; i++)
             {

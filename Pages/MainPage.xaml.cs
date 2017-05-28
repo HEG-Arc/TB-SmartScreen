@@ -14,7 +14,6 @@ namespace POC_MultiUserIdentification.Pages
     public partial class MainPage : Page
     {
         private App app;
-        private string username;
         private MultiSourceFrameReader msfr;
         private Body[] bodies;
 
@@ -54,9 +53,9 @@ namespace POC_MultiUserIdentification.Pages
         private void renderUnidentifedPeopleList()
         {
             this.UnidentifedList.Children.Clear();
-            for(int i = 0; i < app.currentPeople.Count; i++)
+            for(int i = 0; i < app.unidentifiedPeople.Count; i++)
             {
-                Grid grid = new Grid() { Width = 80, Height = 80, Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#" + app.currentPeople[i].ToString("X6"))) };
+                Grid grid = new Grid() { Width = 80, Height = 80, Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#" + app.unidentifiedPeople[i].ToString("X6"))) };
                 this.UnidentifedList.Children.Add(grid);
             }
         }
@@ -84,6 +83,10 @@ namespace POC_MultiUserIdentification.Pages
                 bool oneBodyTracked = false;
                 try
                 {
+                    // Update Lists
+                    this.renderIdentifiedPeopleList();
+                    this.renderUnidentifedPeopleList();
+
                     msf = e.FrameReference.AcquireFrame();
                     if (msf != null)
                     {

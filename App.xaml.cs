@@ -22,6 +22,8 @@ namespace POC_MultiUserIdentification
 
         internal List<User> users { get; set; }
         internal List<uint> currentPeople { get; set; }
+        internal List<uint> unidentifiedPeople { get; set; }
+
         internal uint currentPerson { get; set; }
 
         internal uint[] bodyIndexFrameDataConverted { get; set; }
