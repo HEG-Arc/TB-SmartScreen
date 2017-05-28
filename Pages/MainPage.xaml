@@ -10,7 +10,7 @@
       KeepAlive="True">
 
     <Grid>
-        <Image Name="imgBodyIndex" HorizontalAlignment="Center" VerticalAlignment="Top" Height="150" />
+        <!--<Image Name="imgBodyIndex" HorizontalAlignment="Center" VerticalAlignment="Top" Height="150" />-->
         
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label Name="lblUser" FontSize="32" />

@@ -7,8 +7,8 @@
         Title="MainWindow" Height="750" Width="1025"
         WindowState="Maximized">
     <Grid>
-        <Image Name="imgBodyIndex" HorizontalAlignment="Center" VerticalAlignment="Top" Height="424" Width="512" />
-        <Canvas Name="bodyIndexCanvas" HorizontalAlignment="Center" VerticalAlignment="Top" Height="424" Width="512" />
-        <Frame Name="frame" NavigationUIVisibility="Hidden" Margin="0,400,0,0" />
+        <Image Name="imgBodyIndex" HorizontalAlignment="Center" VerticalAlignment="Top" Height="212" Width="256" />
+        <Canvas Name="bodyIndexCanvas" HorizontalAlignment="Center" VerticalAlignment="Top" Height="212" Width="256" />
+        <Frame Name="frame" NavigationUIVisibility="Hidden" Margin="0,212,0,0" />
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Kinect;
+using POC_MultiUserIdentification.Model;
 using POC_MultiUserIdentification.Pages;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,10 @@ namespace POC_MultiUserIdentification
         internal MultiSourceFrameReader msfr { get; set; }
         internal KinectSensor sensor { get; set; }
 
+        internal List<User> users { get; set; }
+        internal List<uint> currentPeople { get; set; }
+        internal uint currentPerson { get; set; }
+
         internal uint[] bodyIndexFrameDataConverted { get; set; }
 
         internal Nullable<ColorSpacePoint> barcodePoint = null;
@@ -29,7 +34,7 @@ namespace POC_MultiUserIdentification
 
         internal DispatcherTimer timer;        
 
-        private List<KeyValuePair<string, string>> users = new Dictionary<String, String>
+        private List<KeyValuePair<string, string>> availableUsers = new Dictionary<String, String>
         {
             {"USER-MAXIME-BECK-457895", "Maxime Beck"},
             {"USER-MARC-ABRAHAM-789554", "Marc Abraham"},
@@ -39,6 +44,7 @@ namespace POC_MultiUserIdentification
 
         public App()
         {
+            currentPerson = 0;
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, NB_SECOND_BEFORE_LOGOUT);
         }
@@ -46,9 +52,9 @@ namespace POC_MultiUserIdentification
         public List<KeyValuePair<string, string>> Users
         {
             get
-            { return this.users; }
+            { return this.availableUsers; }
             set
-            { this.users = value; }
+            { this.availableUsers = value; }
         }
 
         public KeyValuePair<string, string> User

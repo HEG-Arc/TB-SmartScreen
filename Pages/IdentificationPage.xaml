@@ -16,7 +16,6 @@
             </Grid>
             <Label Name="output" />
             <Label Name="debug" />
-            <Canvas Name="bodyColorCanvas" Height="50" Background="AliceBlue" />
         </StackPanel>
     </Grid>
 </Page>

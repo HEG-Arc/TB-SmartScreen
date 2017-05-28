@@ -1,6 +1,8 @@
 ﻿using Microsoft.Kinect;
+using POC_MultiUserIdentification.Model;
 using POC_MultiUserIdentification.Pages;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -14,6 +16,7 @@ namespace POC_MultiUserIdentification
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const int INFRARED_SCALE_RATIO = 2;
         private const int PIXELS_PER_BYTE = 4;
         private const int PIXEL_CHECKER_RADIUS = 20;
 
@@ -24,6 +27,9 @@ namespace POC_MultiUserIdentification
         private FrameDescription bifFrameDescription;
         private uint[] bifDataConverted;
         private WriteableBitmap bifBitmap;
+
+        private List<User> users;
+        private List<uint> currentPeople;
 
         private static readonly uint[] BodyColor =
         {
@@ -40,7 +46,6 @@ namespace POC_MultiUserIdentification
         public MainWindow()
         {
             InitializeComponent();
-
             app = ((App)Application.Current);
             this.Loaded += MainWindow_Loaded;
         }
@@ -49,6 +54,12 @@ namespace POC_MultiUserIdentification
         {
             sensor = KinectSensor.GetDefault();
             app.sensor = sensor;
+
+            users = new List<User>();
+            currentPeople = new List<uint>();
+
+            app.users = this.users;
+            app.currentPeople = this.currentPeople;
 
             bifReader = sensor.BodyIndexFrameSource.OpenReader();
             bifFrameDescription = sensor.BodyIndexFrameSource.FrameDescription;
@@ -94,32 +105,21 @@ namespace POC_MultiUserIdentification
 
                                 if (app.barcodePoint != null && app.colorMappedToDepthPoints != null)
                                 {
-                                    Ellipse[] ellipe = new Ellipse[4];
                                     DepthSpacePoint[] dsp = new DepthSpacePoint[4];
-                                    uint[] color = new uint[4];
-                                    int nbColor = 0;
+                                    uint[] colors = new uint[4];
 
-                                    color[0] = ColorSpacePointToBodyIndexColor((ColorSpacePoint)app.barcodePoint, -1, 0, out dsp[0]);
-                                    color[1] = ColorSpacePointToBodyIndexColor((ColorSpacePoint)app.barcodePoint, 1, 0, out dsp[1]);
-                                    color[2] = ColorSpacePointToBodyIndexColor((ColorSpacePoint)app.barcodePoint, 0, 1, out dsp[2]);
-                                    color[3] = ColorSpacePointToBodyIndexColor((ColorSpacePoint)app.barcodePoint, 0, -1, out dsp[3]);
+                                    colors[0] = ColorSpacePointToBodyIndexColor((ColorSpacePoint)app.barcodePoint, -1, 0, out dsp[0]); // Left
+                                    colors[1] = ColorSpacePointToBodyIndexColor((ColorSpacePoint)app.barcodePoint, 1, 0, out dsp[1]); // Right
+                                    colors[2] = ColorSpacePointToBodyIndexColor((ColorSpacePoint)app.barcodePoint, 0, -1, out dsp[2]); // Up
+                                    colors[3] = ColorSpacePointToBodyIndexColor((ColorSpacePoint)app.barcodePoint, 0, 1, out dsp[3]); // Down                                    
 
-                                    bodyIndexCanvas.Children.Clear();
-                                    for(int i = 0; i < 4; i++)
-                                    {
-                                        if (color[i] != bodyColorBlack)
-                                            nbColor++;
-
-                                        ellipe[i] = new Ellipse() { Height = 2, Width = 2, Fill = new SolidColorBrush(Color.FromRgb(255, 255, 255)) };
-                                        Canvas.SetLeft(ellipe[i], dsp[i].X);
-                                        Canvas.SetTop(ellipe[i], dsp[i].Y);
-                                        bodyIndexCanvas.Children.Add(ellipe[i]);
-                                    }
-
-                                    if (nbColor > 0)
-                                        Console.WriteLine("User is : " + color);
-                                    else
-                                        Console.WriteLine("Cannot detect user");
+                                    DrawDepthSpacePoints(dsp);
+                                    
+                                    uint userColor = GetUserColor(colors);
+                                    if (userColor != 0 && userColor != 1) // Color found
+                                        app.currentPerson = userColor;
+                                    else if (userColor == 1) // There is equals
+                                        Console.WriteLine("There is equals");
                                 }
                             }
                         }
@@ -131,6 +131,58 @@ namespace POC_MultiUserIdentification
 
             if (bodyIndexFrameProcessed)
                 this.RenderBodyIndexPixels();
+        }
+
+        private uint GetUserColor(uint[] colors)
+        {
+            Dictionary<uint, int> kvpd = new Dictionary<uint, int>();
+            for (int i = 0; i < colors.Length; i++)
+            {
+                if (kvpd.ContainsKey(colors[i]))
+                    kvpd[colors[i]]++;
+                else if (colors[i] != bodyColorBlack)
+                    kvpd.Add(colors[i], 1);
+            }
+
+            // If colors contains nothing but black
+            if (kvpd.Count == 0)
+                return 0;
+
+            uint userColor = 0;
+            int highestValue = 0;
+            bool thereIsEquals = false;
+            foreach(KeyValuePair<uint, int> entry in kvpd)
+            {
+                if (entry.Value > highestValue)
+                {
+                    highestValue = entry.Value;
+                    userColor = entry.Key;
+                    thereIsEquals = false;
+                }
+                else if (entry.Value == highestValue)
+                    thereIsEquals = true;
+            }
+
+            if (thereIsEquals)
+                return 1;
+            return userColor;
+        }
+
+        private void DrawDepthSpacePoints(DepthSpacePoint[] dsp)
+        {
+            Ellipse[] ellipses = new Ellipse[dsp.Length];
+
+            bodyIndexCanvas.Children.Clear();
+            for (int i = 0; i < dsp.Length; i++)
+            {
+                ellipses[i] = new Ellipse() { Height = 2, Width = 2, Fill = new SolidColorBrush(Color.FromRgb(255, 255, 255)) };
+                if(!Double.IsInfinity(dsp[i].X) && !Double.IsInfinity(dsp[i].Y))
+                {                    
+                    Canvas.SetLeft(ellipses[i], dsp[i].X / INFRARED_SCALE_RATIO);
+                    Canvas.SetTop(ellipses[i], dsp[i].Y / INFRARED_SCALE_RATIO);
+                    bodyIndexCanvas.Children.Add(ellipses[i]);
+                }                
+            }
         }
 
         // ColorSpacePointToBodyIndexColor(point, -1, 0); --> LEFT
@@ -178,6 +230,7 @@ namespace POC_MultiUserIdentification
         {
             byte* frameData = (byte*)bodyIndexFrameData;
 
+            this.currentPeople = new List<uint>();
             // convert body index to a visual representation
             for (int i = 0; i < (int)bodyIndexFrameDataSize; ++i)
             {
@@ -185,6 +238,9 @@ namespace POC_MultiUserIdentification
                 // BodyFrameSource.BodyCount
                 if (frameData[i] < BodyColor.Length)
                 {
+                    if (!this.currentPeople.Contains(frameData[i]))
+                        this.currentPeople.Add(frameData[i]);
+
                     // this pixel is part of a player,
                     // display the appropriate color
                     this.bifDataConverted[i] = BodyColor[frameData[i]];
@@ -195,6 +251,20 @@ namespace POC_MultiUserIdentification
                     // display black
                     this.bifDataConverted[i] = bodyColorBlack;
                 }
+            }
+
+            bool isUserStillThere = false;
+            foreach (User user in this.users)
+            {
+                foreach (uint color in this.currentPeople)
+                {
+                    if (user.Color.Equals(color))
+                        isUserStillThere = true;
+                }
+                if (!isUserStillThere)
+                    this.users.Remove(user);
+                else
+                    isUserStillThere = false;
             }
         }
 

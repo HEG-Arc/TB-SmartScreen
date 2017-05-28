@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using ZXing.Kinect;
 using System;
 using System.Windows.Shapes;
+using POC_MultiUserIdentification.Model;
 
 namespace POC_MultiUserIdentification.Pages
 {
@@ -15,6 +16,7 @@ namespace POC_MultiUserIdentification.Pages
     /// </summary>
     public partial class IdentificationPage : Page
     {
+        private const int COLOR_SCALE_RATIO = 4;
         private const int NB_FRAMES_BEFORE_DECODE = 30;
         private const int PIXELS_PER_BYTE = 4;
 
@@ -80,29 +82,13 @@ namespace POC_MultiUserIdentification.Pages
             if (this.NavigationService != null)
             {
                 MultiSourceFrame msf;
-                /*
-                BodyFrame bodyFrame = null;
-                BodyIndexFrame bodyIndexFrame = null;
-                ColorFrame colorFrame = null;
-                */
                 bool oneBodyTracked = false;
 
                 try
                 {
                     msf = e.FrameReference.AcquireFrame();
                     if (msf != null)
-                    {
-                        /*
-                        bodyFrame = msf.BodyFrameReference.AcquireFrame();
-                        bodyIndexFrame = msf.BodyIndexFrameReference.AcquireFrame();
-                        colorFrame = msf.ColorFrameReference.AcquireFrame();
-
-                        if (bodyFrame == null || bodyIndexFrame == null || colorFrame == null)
-                        {
-                            return;
-                        }
-                        */
-
+                    {                    
                         using (ColorFrame colorFrame = msf.ColorFrameReference.AcquireFrame())
                         {
                             if(colorFrame != null)
@@ -148,25 +134,20 @@ namespace POC_MultiUserIdentification.Pages
 
                                             if (currentBarcode != null && barcodePosition != null)
                                             {
-                                                this.getUser(barcodePosition);
-                                                currentBarcode = null;
+                                                if (app.currentPerson != 0)
+                                                {
+                                                    this.Login(currentBarcode, app.currentPerson);
+                                                    currentBarcode = null;
+                                                    app.currentPerson = 0;
+                                                }                                                    
+                                                else
+                                                    this.getUser(barcodePosition);
                                             }
                                         }                                        
                                     }
                                 }
                             }                            
-                        }                        
-                        
-                        /*
-                        canvas.Children.Clear();
-                        if (barcodePosition != null)
-                        {
-                            Ellipse ellipse = new Ellipse() { Height = 20, Width = 20, Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0)) };
-                            Canvas.SetLeft(ellipse, barcodePosition.X - ellipse.Width / 2);
-                            Canvas.SetTop(ellipse, barcodePosition.Y - ellipse.Height / 2);
-                            canvas.Children.Add(ellipse);
-                        }
-                        */
+                        }                                                                       
                     }
                 }
                 catch
@@ -187,58 +168,21 @@ namespace POC_MultiUserIdentification.Pages
 
         private void getUser(ZXing.ResultPoint barcodePosition)
         {
-            FrameDescription fd = this.sensor.ColorFrameSource.FrameDescription;
-            /*
-            uint[] res = new uint[4];
-            res[0] = bifDataConverted[getPixelPosition(fd, new Point(barcodePosition.X - PIXEL_CHECKER_RADIUS, barcodePosition.Y))]; // left
-            res[1] = bifDataConverted[getPixelPosition(fd, new Point(barcodePosition.X + PIXEL_CHECKER_RADIUS, barcodePosition.Y))]; // right
-            res[2] = bifDataConverted[getPixelPosition(fd, new Point(barcodePosition.X, barcodePosition.Y - PIXEL_CHECKER_RADIUS))]; // up            
-            res[3] = bifDataConverted[getPixelPosition(fd, new Point(barcodePosition.X, barcodePosition.Y + PIXEL_CHECKER_RADIUS))]; // down
-            */
-
             app.barcodePoint = new ColorSpacePoint() { X = barcodePosition.X, Y = barcodePosition.Y };
 
+            // Debug
             debug.Content = "position X : " + barcodePosition.X + "\n" +
-                             "position Y : " + barcodePosition.Y + "\n";
+                            "position Y : " + barcodePosition.Y + "\n";
+            DrawResultPoint(barcodePosition);
+        }
 
+        private void DrawResultPoint(ZXing.ResultPoint rp)
+        {
             canvas.Children.Clear();
-            Ellipse e = new Ellipse() { Height = 2, Width = 2, Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0)) };
-            Canvas.SetLeft(e, barcodePosition.X - 1);
-            Canvas.SetTop(e, barcodePosition.Y - 1);
+            Ellipse e = new Ellipse() { Height = 6, Width = 6, Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0)) };
+            Canvas.SetLeft(e, rp.X / COLOR_SCALE_RATIO - (e.Width / 2));
+            Canvas.SetTop(e, rp.Y / COLOR_SCALE_RATIO - (e.Height / 2));
             canvas.Children.Add(e);
-            /*
-            canvas.Children.Clear();
-            Ellipse el = new Ellipse() { Height = 2, Width = 2, Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0)) };
-            Ellipse er = new Ellipse() { Height = 2, Width = 2, Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0)) };
-            Ellipse eu = new Ellipse() { Height = 2, Width = 2, Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0)) };
-            Ellipse ed = new Ellipse() { Height = 2, Width = 2, Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0)) };
-            Ellipse e = new Ellipse() { Height = 2, Width = 2, Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0)) };
-
-            Canvas.SetLeft(el, (barcodePosition.X - PIXEL_CHECKER_RADIUS) / PIXELS_PER_BYTE);
-            Canvas.SetTop(el, barcodePosition.Y / PIXELS_PER_BYTE);
-            Canvas.SetLeft(er, (barcodePosition.X + PIXEL_CHECKER_RADIUS) / PIXELS_PER_BYTE);
-            Canvas.SetTop(er, barcodePosition.Y / PIXELS_PER_BYTE);
-            Canvas.SetLeft(eu, barcodePosition.X / PIXELS_PER_BYTE);
-            Canvas.SetTop(eu, (barcodePosition.Y - PIXEL_CHECKER_RADIUS) / PIXELS_PER_BYTE);
-            Canvas.SetLeft(ed, barcodePosition.X / PIXELS_PER_BYTE);
-            Canvas.SetTop(ed, (barcodePosition.Y + PIXEL_CHECKER_RADIUS) / PIXELS_PER_BYTE);
-            Canvas.SetLeft(e, 50);
-            Canvas.SetTop(e, 50);
-            canvas.Children.Add(el);
-            canvas.Children.Add(er);
-            canvas.Children.Add(eu);
-            canvas.Children.Add(ed);
-            canvas.Children.Add(e);
-            */
-
-            //bodyColorCanvas.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#" + bifDataConverted[app.res[0]].ToString("X8")));
-            /*
-            for (int i = 0; i < res.Length; i++)
-            {
-                debug.Content += res[i] + "#" + res[i].ToString("X8") + "\n";
-                if (res[i] > 0)
-                    bodyColorCanvas.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#" + res[i].ToString("X8")));
-            }*/
         }
 
         private DepthSpacePoint getPixelPosition(FrameDescription fd, Point point)
@@ -260,8 +204,8 @@ namespace POC_MultiUserIdentification.Pages
         {
             if (scanning)
             {
-                //this.scanning = false;
-                //image.Visibility = Visibility.Hidden;
+                this.scanning = false;
+                image.Visibility = Visibility.Hidden;
             }
         }
 
@@ -278,11 +222,10 @@ namespace POC_MultiUserIdentification.Pages
                 barcodePosition = new ZXing.ResultPoint(result.ResultPoints[0].X,
                                                         result.ResultPoints[0].Y);
                 currentBarcode = result.ToString();
-                //this.Login(result.ToString());
             }
         }
 
-        private void Login(string userCode)
+        private void Login(string userCode, uint color)
         {
             foreach (KeyValuePair<string, string> kv in app.Users)
             {
@@ -295,6 +238,7 @@ namespace POC_MultiUserIdentification.Pages
 
             if (!app.User.Equals(default(KeyValuePair<string, string>)))
             {
+                app.users.Add(new User(userCode, color));
                 if (this.NavigationService.CanGoForward)
                     this.NavigationService.GoForward();
                 else
