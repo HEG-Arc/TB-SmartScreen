@@ -21,6 +21,10 @@ namespace POC_UserAwareness
         private const int HEAD_RECTANGLE_SIZE = 200;
         private const int HEAD_RECT_THICKNESS = 5;
 
+        private const double AMBIANT_ZONE = 1.75;
+        private const double IMPLICITE_ZONE = 1.25;
+        private const double SUBTIL_ZONE = 0.75;
+
         private KinectSensor sensor;
         private ColorFrameReader cfReader;
         private byte[] cfDataConverted;
@@ -161,6 +165,7 @@ namespace POC_UserAwareness
             TextBlock headInfos = new TextBlock() { Foreground = Brushes.Red, FontSize = 25 };
 
             String strEngagement = "";
+            String strZone = "";
 
             if (detectionResult == DetectionResult.Maybe)
                 strEngagement = "No";
@@ -178,7 +183,19 @@ namespace POC_UserAwareness
                 headRect = new Rectangle() { Stroke = Brushes.GreenYellow, StrokeThickness = HEAD_RECT_THICKNESS };
             }
 
+            double distance = Math.Round(headJoint.Position.Z, 2);
+
+            if (distance > 0)
+                strZone = "Personal Zone";
+            if (distance >= SUBTIL_ZONE)
+                strZone = "Subtil Zone";
+            if (distance >= IMPLICITE_ZONE)
+                strZone = "Implicite Zone";
+            if (distance >= AMBIANT_ZONE)
+                strZone = "Ambiant Zone";
+
             headInfos.Text = "Distance : " + Math.Round(headJoint.Position.Z, 2) + "m\n" +
+                             "Zone : " + strZone + "\n" +
                              "Engagement : " + strEngagement;
 
             headRect.Height = headRect.Width = HEAD_RECTANGLE_SIZE / headJoint.Position.Z;
