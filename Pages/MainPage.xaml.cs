@@ -24,8 +24,7 @@ namespace POC_MultiUserIdentification.Pages
             msfr = app.msfr;
 
             this.Loaded += MainPage_Loaded;
-            this.Unloaded += MainPage_Unloaded;
-            app.timer.Tick += Timer_Tick;
+            this.Unloaded += MainPage_Unloaded;            
 
             if(app.cptMsfrE == 2)
             {
@@ -44,7 +43,8 @@ namespace POC_MultiUserIdentification.Pages
         }
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
-        {   
+        {
+            app.timer.Tick += Timer_Tick;
             this.renderUnidentifedPeopleList();
             this.renderIdentifiedPeopleList();
             bodies = new Body[6];            
