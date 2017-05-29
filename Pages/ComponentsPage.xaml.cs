@@ -23,6 +23,12 @@ namespace POC_GestureNavigation.Pages
         public ComponentsPage()
         {
             InitializeComponent();
+            this.Loaded += ComponentsPage_Loaded;
+        }
+
+        private void ComponentsPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            ((App)Application.Current).btnBack.Visibility = Visibility.Visible;
         }
 
         private void radioButton_Checked(object sender, RoutedEventArgs e)

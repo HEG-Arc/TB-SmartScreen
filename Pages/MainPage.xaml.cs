@@ -31,15 +31,7 @@ namespace POC_GestureNavigation.Pages
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            String scores = "";
-
-            scores += "Object : ";
-            if (app.objectScore != null)
-                scores += app.objectScore;
-            else
-                scores += "-";
-
-            tbxScores.Text = scores;
+            app.btnBack.Visibility = Visibility.Hidden;
         }
 
         private void btnComponents_Click(object sender, RoutedEventArgs e)

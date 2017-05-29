@@ -48,8 +48,8 @@ namespace POC_GestureNavigation.Pages
         }
 
         private void ObjectPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Kinect init
+        {            
+            // Kinect init            
             sensor = KinectSensor.GetDefault();
             bfr = sensor.BodyFrameSource.OpenReader();
 
@@ -61,6 +61,8 @@ namespace POC_GestureNavigation.Pages
             kinectCoreWindow.PointerMoved += KinectCoreWindow_PointerMoved;
 
             // UI init
+            ((App)Application.Current).btnBack.Visibility = Visibility.Visible;
+
             bucket = new Image();
             bucket.Source = new BitmapImage(new Uri("/Images/Bucket.png", UriKind.Relative));
             bucket.Height = 200;

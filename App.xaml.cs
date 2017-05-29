@@ -24,7 +24,9 @@ namespace POC_GestureNavigation
 
         internal String objectScore { get; set; }
 
-        private int nbSecondsSinceStart = 0;
+        internal Button btnBack;
+
+        private int nbSecondsSinceStart = 0;        
 
         public App()
         {

@@ -11,7 +11,8 @@
     
     <k:KinectRegion Name="kinectRegion">
         <Grid>
-            <Frame Name="frame" NavigationUIVisibility="Hidden" />
+            <Frame Name="frame" NavigationUIVisibility="Hidden" Margin="0,150,0,0"/>
+            <Button Name="btnBack" Content="Back" FontSize="20" Height="150" Width="200" Click="btnBack_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <k:KinectUserViewer Height="200" HorizontalAlignment="Center" VerticalAlignment="Top" />
             <Label Name="lblTime" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
         </Grid>

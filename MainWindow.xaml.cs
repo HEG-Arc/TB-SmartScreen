@@ -22,7 +22,12 @@ namespace POC_GestureNavigation
             KinectRegion.SetKinectRegion(this, kinectRegion);
             ((App)Application.Current).kinectRegion = kinectRegion;
             ((App)Application.Current).lblTime = lblTime;
+            ((App)Application.Current).btnBack = this.btnBack;
+            this.frame.Navigate(new MainPage());
+        }
 
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
             this.frame.Navigate(new MainPage());
         }
     }
