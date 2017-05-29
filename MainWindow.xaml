@@ -5,21 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:POC_VoiceRecognition"
         mc:Ignorable="d"
-        Title="POC - Voice Recognition" Height="350" Width="525" Closed="Window_Closed" Loaded="Window_Loaded"
+        Title="POC - Voice Recognition" Height="455.8" Width="525" Closed="Window_Closed" Loaded="Window_Loaded"
         ResizeMode="NoResize">
     <Grid>
-        <Rectangle Name="filterBy" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="117,58,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
-        <Rectangle Name="orderBy" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="280,58,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
-        <Rectangle Name="city" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="47" Margin="94,206,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
-        <Rectangle Name="customer" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="47" Margin="199,206,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
-        <Rectangle Name="country" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="47" Margin="304,206,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+        <Rectangle x:Name="monday" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="47" Margin="82,25,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+        <Rectangle x:Name="wednesday" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="47" Margin="207,25,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+        <Rectangle x:Name="sunday" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="47" Margin="332,25,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+        <Label Content="Lundi" HorizontalAlignment="Left" Margin="109,34,0,0" VerticalAlignment="Top"/>
+        <Label Content="Mercredi" HorizontalAlignment="Left" Margin="230,34,0,0" VerticalAlignment="Top"/>
+        <Label Content="Dimanche" HorizontalAlignment="Left" Margin="352,34,0,0" VerticalAlignment="Top"/>
 
-        <Label Content="Filter By" HorizontalAlignment="Left" Margin="142,92,0,0" VerticalAlignment="Top"/>
-        <Label Content="Order By" HorizontalAlignment="Left" Margin="303,92,0,0" VerticalAlignment="Top"/>
-        <Label Content="Customer" HorizontalAlignment="Left" Margin="222,215,0,0" VerticalAlignment="Top"/>
-        <Label Content="Country" HorizontalAlignment="Left" Margin="328,215,0,0" VerticalAlignment="Top"/>
-        <Label Content="City" HorizontalAlignment="Left" Margin="130,215,0,0" VerticalAlignment="Top"/>
+        <Rectangle Name="nineHfifteen" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="47" Margin="82,120,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+        <Rectangle Name="tenHThirty" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="47" Margin="207,120,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+        <Rectangle Name="eigthteenH" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="47" Margin="332,120,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+        <Label Content="9h15" HorizontalAlignment="Left" Margin="112,129,0,0" VerticalAlignment="Top"/>
+        <Label Content="10h30" HorizontalAlignment="Left" Margin="235,129,0,0" VerticalAlignment="Top"/>
+        <Label Content="18h" HorizontalAlignment="Left" Margin="367,129,0,0" VerticalAlignment="Top"/>
 
-        <Label Name="lblResult" HorizontalAlignment="Left" Margin="10,285,0,0" VerticalAlignment="Top"/>
+        <Rectangle x:Name="give" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="47" Margin="82,216,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+        <Rectangle x:Name="accept" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="47" Margin="207,216,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+        <Rectangle x:Name="refuse" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="47" Margin="332,216,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+        <Label Content="Donner" HorizontalAlignment="Left" Margin="106,225,0,0" VerticalAlignment="Top"/>
+        <Label Content="Accepter" HorizontalAlignment="Left" Margin="229,225,0,0" VerticalAlignment="Top"/>
+        <Label Content="Refuser" HorizontalAlignment="Left" Margin="357,225,0,0" VerticalAlignment="Top"/>
+
+        <Label Name="lblResult" HorizontalAlignment="Left" Margin="19,391,0,0" VerticalAlignment="Top"/>
+        <Rectangle x:Name="select" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="47" Margin="82,312,0,0" Stroke="Black" VerticalAlignment="Top" Width="350"/>
+        <Label Content="Sélectionner" HorizontalAlignment="Left" Margin="220,322,0,0" VerticalAlignment="Top"/>
+
+        <Label Content="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="121,79,0,0" FontSize="18" FontWeight="Bold"/>
+        <Label Content="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="246,79,0,0" FontSize="18" FontWeight="Bold"/>
+        <Label Content="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="372,79,0,0" FontSize="18" FontWeight="Bold"/>
+        <Label Content="4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="121,174,0,0" FontSize="18" FontWeight="Bold"/>
+        <Label Content="5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="246,174,0,0" FontSize="18" FontWeight="Bold"/>
+        <Label Content="6" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="372,174,0,0" FontSize="18" FontWeight="Bold"/>
+        <Label Content="7" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="121,269,0,0" FontSize="18" FontWeight="Bold"/>
+        <Label Content="8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="246,269,0,0" FontSize="18" FontWeight="Bold"/>
+        <Label Content="9" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="372,269,0,0" FontSize="18" FontWeight="Bold"/>
+        <Label Content="10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="242,366,0,0" FontSize="18" FontWeight="Bold"/>
     </Grid>
 </Window>

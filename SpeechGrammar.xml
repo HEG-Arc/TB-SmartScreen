@@ -1,36 +1,64 @@
-<grammar version="1.0" xml:lang="en-US" root="rootRule" tag-format="semantics/1.0-literals" xmlns="http://www.w3.org/2001/06/grammar">
+<grammar version="1.0" xml:lang="fr-FR" root="rootRule" tag-format="semantics/1.0-literals" xmlns="http://www.w3.org/2001/06/grammar">
   <rule id="rootRule">
     <one-of>
       <item>
-        <tag>FILTER_BY</tag>
+        <tag>MONDAY</tag>
         <one-of>
-          <item> filter by </item>
-          <item> filter </item>
+          <item> lundi </item>
         </one-of>
       </item>
       <item>
-        <tag>ORDER_BY</tag>
+        <tag>WEDNESDAY</tag>
         <one-of>
-          <item> order by </item>
-          <item> order </item>
+          <item> mercredi </item>
         </one-of>
       </item>
       <item>
-        <tag>CUSTOMER</tag>
+        <tag>SUNDAY</tag>
         <one-of>
-          <item> customer </item>
+          <item> dimanche </item>
         </one-of>
       </item>
       <item>
-        <tag>COUNTRY</tag>
+        <tag>NINE_H_FIFTEEN</tag>
         <one-of>
-          <item> country </item>
+          <item> neuf heures quinze </item>
         </one-of>
       </item>
       <item>
-        <tag>CITY</tag>
+        <tag>TEN_H_THERTY</tag>
         <one-of>
-          <item> city </item>
+          <item> dix heures trente </item>
+        </one-of>
+      </item>
+      <item>
+        <tag>EIGHTEEN_H</tag>
+        <one-of>
+          <item> dix-huit heures </item>
+        </one-of>
+      </item>
+      <item>
+        <tag>GIVE</tag>
+        <one-of>
+          <item> donner </item>
+        </one-of>
+      </item>
+      <item>
+        <tag>ACCEPT</tag>
+        <one-of>
+          <item> accepter </item>
+        </one-of>
+      </item>
+      <item>
+        <tag>REFUSE</tag>
+        <one-of>
+          <item> refuser </item>
+        </one-of>
+      </item>
+      <item>
+        <tag>SELECT</tag>
+        <one-of>
+          <item> sélectionner </item>
         </one-of>
       </item>
     </one-of>

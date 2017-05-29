@@ -22,7 +22,7 @@ namespace POC_VoiceRecognition
 
         private SolidColorBrush defaultBrush = null;
         private SolidColorBrush yellowBrush = null;
-        
+
 
         public MainWindow()
         {
@@ -54,7 +54,7 @@ namespace POC_VoiceRecognition
             {
                 string value;
                 recognizer.AdditionalInfo.TryGetValue("Kinect", out value);
-                if ("True".Equals(value, StringComparison.OrdinalIgnoreCase) && "en-US".Equals(recognizer.Culture.Name, StringComparison.OrdinalIgnoreCase))
+                if ("True".Equals(value, StringComparison.OrdinalIgnoreCase) && "fr-FR".Equals(recognizer.Culture.Name, StringComparison.OrdinalIgnoreCase))
                 {
                     return recognizer;
                 }
@@ -75,7 +75,7 @@ namespace POC_VoiceRecognition
             if (this.kinectSensor != null)
             {
                 this.kinectSensor.Open();
-                
+
                 IReadOnlyList<AudioBeam> audioBeamList = this.kinectSensor.AudioSource.AudioBeams;
                 System.IO.Stream audioStream = audioBeamList[0].OpenInputStream();
 
@@ -115,7 +115,7 @@ namespace POC_VoiceRecognition
                 this.lblResult.Content = Properties.Resources.NoSpeechRecognizer;
             }
         }
-  
+
         /// <summary>
         /// Handles SpeechReconized events trigger by the SpeechEngine.
         /// </summary>
@@ -132,29 +132,49 @@ namespace POC_VoiceRecognition
             {
                 switch (e.Result.Semantics.Value.ToString())
                 {
-                    case "FILTER_BY":
-                        filterBy.Fill = yellowBrush;
+                    case "MONDAY":
+                        monday.Fill = yellowBrush;
                         break;
 
-                    case "ORDER_BY":
-                        orderBy.Fill = yellowBrush;
+                    case "WEDNESDAY":
+                        wednesday.Fill = yellowBrush;
                         break;
 
-                    case "COUNTRY":
-                        country.Fill = yellowBrush;
+                    case "SUNDAY":
+                        sunday.Fill = yellowBrush;
                         break;
 
-                    case "CITY":
-                        city.Fill = yellowBrush;
+                    case "NINE_H_FIFTEEN":
+                        nineHfifteen.Fill = yellowBrush;
                         break;
 
-                    case "CUSTOMER":
-                        customer.Fill = yellowBrush;
+                    case "TEN_H_THERTY":
+                        tenHThirty.Fill = yellowBrush;
+                        break;
+
+                    case "EIGHTEEN_H":
+                        eigthteenH.Fill = yellowBrush;
+                        break;
+
+                    case "GIVE":
+                        give.Fill = yellowBrush;
+                        break;
+
+                    case "ACCEPT":
+                        accept.Fill = yellowBrush;
+                        break;
+
+                    case "REFUSE":
+                        refuse.Fill = yellowBrush;
+                        break;
+
+                    case "SELECT":
+                        select.Fill = yellowBrush;
                         break;
                 }
             }
 
-            this.lblResult.Content = Properties.Resources.ConfidenceLevel + " : " + Math.Round(confidenceLevel, 3);
+            this.lblResult.Content = Properties.Resources.ConfidenceLevel + " : " + Math.Round(confidenceLevel, 3) * 100 + "%";
         }
 
         /// <summary>
@@ -162,12 +182,19 @@ namespace POC_VoiceRecognition
         /// </summary>
         private void ResetComponants()
         {
-            filterBy.Fill = defaultBrush;
-            orderBy.Fill = defaultBrush;
+            monday.Fill = defaultBrush;
+            wednesday.Fill = defaultBrush;
+            sunday.Fill = defaultBrush;
 
-            customer.Fill = defaultBrush;
-            city.Fill = defaultBrush;
-            country.Fill = defaultBrush;
+            nineHfifteen.Fill = defaultBrush;
+            tenHThirty.Fill = defaultBrush;
+            eigthteenH.Fill = defaultBrush;
+
+            give.Fill = defaultBrush;
+            accept.Fill = defaultBrush;
+            refuse.Fill = defaultBrush;
+
+            select.Fill = defaultBrush;
         }
 
         /// <summary>
