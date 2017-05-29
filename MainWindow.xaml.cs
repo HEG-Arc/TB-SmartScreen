@@ -76,9 +76,8 @@ namespace POC_MultiUserIdentification
             app.msfr = msfr;
 
             msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
-            app.cptMsfrE++;
 
-            this.frame.Navigate(new IdentificationPage());
+            this.frame.Navigate(new MainPage());
         }
 
         private void Msfr_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)

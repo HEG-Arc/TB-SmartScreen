@@ -70,10 +70,11 @@ namespace POC_MultiUserIdentification.Pages
 
             bodies = new Body[6];
 
-            if (app.cptMsfrE == 1)
+            if (!app.identicationPage)
             {
                 msfr.MultiSourceFrameArrived += MsfReader_MultiSourceFrameArrived;
-                app.cptMsfrE++;
+                app.idPage = this;
+                app.identicationPage = true;
             }
         }
 
@@ -237,12 +238,13 @@ namespace POC_MultiUserIdentification.Pages
                 }
             }
 
-            //if (!app.User.Equals(default(KeyValuePair<string, string>)))
             if(username != null)
             {
                 app.users.Add(new User(username, color));
-                if (this.NavigationService.CanGoForward)
-                    this.NavigationService.GoForward();
+                //this.NavigationService.Navigate(new MainPage());
+                //this.NavigationService.Navigate(mainPage);
+                if (app.idPage != null)
+                    this.NavigationService.Navigate(app.mPage);
                 else
                     this.NavigationService.Navigate(new MainPage());
             }

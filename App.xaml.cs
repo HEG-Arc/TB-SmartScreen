@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -28,11 +29,21 @@ namespace POC_MultiUserIdentification
 
         internal uint[] bodyIndexFrameDataConverted { get; set; }
 
+        internal StackPanel spUnidentifiedPeople { get; set; }
+
+        internal StackPanel spIdentifiedPeople { get; set; }
+
+        internal IdentificationPage idPage { get; set; }
+
+        internal MainPage mPage { get; set; }
+
         internal Nullable<ColorSpacePoint> barcodePoint = null;
 
         internal DepthSpacePoint[] colorMappedToDepthPoints = null;
 
-        internal int cptMsfrE = 0;
+        internal bool identicationPage = false;
+
+        internal bool mainPage = false;
 
         internal DispatcherTimer timer;        
 
@@ -47,6 +58,9 @@ namespace POC_MultiUserIdentification
             currentPerson = 0;
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, NB_SECOND_BEFORE_LOGOUT);
+            users = new List<User>();
+            currentPeople = new List<uint>();
+            unidentifiedPeople = new List<uint>();
         }
 
         public List<KeyValuePair<string, string>> Users
