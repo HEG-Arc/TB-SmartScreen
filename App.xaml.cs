@@ -20,6 +20,8 @@ namespace POC_MultiUserIndification_Collider
 
         internal List<ulong> trackedBodies { get; set; }
 
+        internal List<ulong> unidentifiedBodies { get; set; }
+
         internal Page identificationPage { get; set; }
 
         internal bool onIdentificationPage { get; set; }
@@ -32,6 +34,7 @@ namespace POC_MultiUserIndification_Collider
         {
             this.users = new List<User>();
             this.trackedBodies = new List<ulong>();
+            this.unidentifiedBodies = new List<ulong>();
         }
 
     }

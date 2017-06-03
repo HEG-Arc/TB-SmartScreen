@@ -28,6 +28,26 @@ namespace POC_MultiUserIdification_Collider.Util
             }
         }
 
+        public static void UpdateUnidentified()
+        {
+            List<ulong> trackedBodies = ((App)Application.Current).trackedBodies;
+            List<User> users = ((App)Application.Current).users;
+            
+            bool add = true;
+            ((App)Application.Current).unidentifiedBodies.Clear();
+            foreach (ulong id in trackedBodies)
+            {
+                foreach(User user in users)
+                {
+                    if (id.Equals(user.BodyId))
+                        add = false;
+                }
+
+                if (add)
+                    ((App)Application.Current).unidentifiedBodies.Add(id);
+            }
+        }
+
         public static User getUser(ulong bodyId)
         {
             User res = null;

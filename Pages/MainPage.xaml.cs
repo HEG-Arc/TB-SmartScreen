@@ -39,7 +39,7 @@ namespace POC_MultiUserIdification_Collider.Pages
             {
                 lvUsersIdentified.Items.Add(user.Username);
             }
-            lblNbUnidentified.Content = app.trackedBodies.Count;
+            lblNbUnidentified.Content = app.unidentifiedBodies.Count;
         }
 
         private void Msfr_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)

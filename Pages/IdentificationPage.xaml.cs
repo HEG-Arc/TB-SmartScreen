@@ -112,15 +112,14 @@ namespace POC_MultiUserIndification_Collider.Pages
                                 {
                                     // Gestion des corps
                                     bodyFrame.GetAndRefreshBodyData(bodies);
-                                    lblDebug.Content = "no collisions";
+                                    colorFrameCanvas.Children.Clear();
                                     foreach (Body body in bodies)
-                                    {
+                                    {                                        
                                         if (body.IsTracked)
                                         {
                                             bool didCollide = false;
                                             currentUser = Users.getUser(body.TrackingId);
-
-                                            colorFrameCanvas.Children.Clear();
+                                            
                                             if (barcodePosition != null && barcodeContent != null)
                                             {
                                                 Canvas.SetLeft(collisionEllipse, barcodePosition.X - collisionEllipse.Width / 2);

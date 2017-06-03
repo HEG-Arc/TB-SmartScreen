@@ -29,13 +29,6 @@ namespace POC_MultiUserIndification_Collider
         private const int PIXELS_PER_BYTE = 4;
         private const int NB_FRAMES_BEFORE_DECODE = 30;
 
-        private const int HEAD_RECTANGLE_SIZE = 400 / COLOR_SCALE_RATIO;
-        private const int HEAD_RECTANGLE_THICKNESS = 3;
-
-        private const int HEAD_INFO_MARGIN_TOP = 10 / COLOR_SCALE_RATIO;
-        private const int HEAD_INFO_FONT_SIZE = 20;
-        private const string HEAD_INFO_DEFAULT_TEXT = "non identifié";
-
         private App app;
 
         private KinectSensor sensor;
@@ -116,6 +109,7 @@ namespace POC_MultiUserIndification_Collider
                                 }
 
                                 Users.UpdateUsers();
+                                Users.UpdateUnidentified();
 
                                 // Affichage des images couleurs à l'écran
                                 colorFrame.CopyConvertedFrameDataToArray(cfDataConverted, ColorImageFormat.Bgra);
