@@ -1,4 +1,5 @@
 ﻿using Microsoft.Kinect;
+using POC_MultiUserIndification_Collider.Model;
 using POC_MultiUserIndification_Collider.Pages;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,11 @@ namespace POC_MultiUserIndification_Collider
         private const int NB_FRAMES_BEFORE_DECODE = 30;
 
         private const int HEAD_RECTANGLE_SIZE = 400 / COLOR_SCALE_RATIO;
-        private const int HAED_RECTANGLE_THICKNESS = 2;
+        private const int HEAD_RECTANGLE_THICKNESS = 3;
+
+        private const int HEAD_INFO_MARGIN_TOP = 10 / COLOR_SCALE_RATIO;
+        private const int HEAD_INFO_FONT_SIZE = 20;
+        private const string HEAD_INFO_DEFAULT_TEXT = "non identifié";
 
         private App app;
 
@@ -38,6 +43,18 @@ namespace POC_MultiUserIndification_Collider
         private CoordinateMapper coordinateMapper;
 
         private Body[] bodies;
+
+        private readonly SolidColorBrush[] BodyColors =
+        {
+            new SolidColorBrush(Color.FromRgb(255,0,0)),
+            new SolidColorBrush(Color.FromRgb(0,255,0)),
+            new SolidColorBrush(Color.FromRgb(0,0,255)),
+            new SolidColorBrush(Color.FromRgb(255,0,255)),
+            new SolidColorBrush(Color.FromRgb(255,255,0)),
+            new SolidColorBrush(Color.FromRgb(255,255,255))
+        };
+
+        private readonly SolidColorBrush DefaultBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
 
         public MainWindow()
         {
@@ -73,6 +90,8 @@ namespace POC_MultiUserIndification_Collider
         {
             MultiSourceFrame msf;
             Joint headJoint = new Joint();
+            User currentUser = null;
+            int userIndex;
 
             try
             {
@@ -93,12 +112,13 @@ namespace POC_MultiUserIndification_Collider
                                     if (body.IsTracked)
                                     {
                                         app.nbBodyTracked++;
-                                                           
+
                                         body.Joints.TryGetValue(JointType.Head, out headJoint);
                                         ColorSpacePoint csp = coordinateMapper.MapCameraPointToColorSpace(headJoint.Position);
                                         Point headPosition = new Point() { X = csp.X / COLOR_SCALE_RATIO, Y = csp.Y / COLOR_SCALE_RATIO };
 
-                                        this.DrawHeadRectangle(headJoint, headPosition);
+                                        currentUser = getUser(body.TrackingId, out userIndex);
+                                        this.DrawHeadRectangle(headJoint, headPosition, currentUser, userIndex);
                                     }
                                 }
 
@@ -115,13 +135,54 @@ namespace POC_MultiUserIndification_Collider
             catch { }
         }
 
-        private void DrawHeadRectangle(Joint headJoint, Point headPosition)
+        private void DrawHeadRectangle(Joint headJoint, Point headPosition, User user, int userIndex)
         {
-            Rectangle headRect = new Rectangle() { Stroke = new SolidColorBrush(Color.FromRgb(255, 0, 0)), StrokeThickness = HAED_RECTANGLE_THICKNESS };
+            Rectangle headRect = new Rectangle() { StrokeThickness = HEAD_RECTANGLE_THICKNESS };
+            TextBlock headInfos = new TextBlock() { FontSize = HEAD_INFO_FONT_SIZE };
+
+            if (userIndex >= 0)
+            {
+                headRect.Stroke = BodyColors[userIndex];
+                headInfos.Foreground = BodyColors[userIndex];
+            }
+            else
+            {
+                headRect.Stroke = DefaultBrush;
+                headInfos.Foreground = DefaultBrush;
+            }                
             headRect.Height = headRect.Width = HEAD_RECTANGLE_SIZE / headJoint.Position.Z;
+
+            if (((headPosition.Y - headRect.Height / 2) + headRect.Height + HEAD_INFO_MARGIN_TOP) > canvasIndicator.Height)
+                headPosition.Y = canvasIndicator.Height - headRect.Height;
             Canvas.SetLeft(headRect, headPosition.X - headRect.Width / 2);
             Canvas.SetTop(headRect, headPosition.Y - headRect.Height / 2);
+
+            if (user != null)
+                headInfos.Text = user.Username;
+            else
+                headInfos.Text = HEAD_INFO_DEFAULT_TEXT;
+            Canvas.SetLeft(headInfos, headPosition.X - headRect.Width / 2);
+            Canvas.SetTop(headInfos, (headPosition.Y - headRect.Height / 2) + headRect.Height + HEAD_INFO_MARGIN_TOP);
+
             canvasIndicator.Children.Add(headRect);
+            canvasIndicator.Children.Add(headInfos);
+        }
+
+        private User getUser(ulong bodyId, out int index)
+        {
+            User res = null;
+            index = -1;
+
+            for(int i = 0; i < app.users.Count; i++)
+            {
+                if (app.users[i].BodyId.Equals(bodyId))
+                {
+                    res = app.users[i];
+                    index = i;
+                    break;
+                }
+            }
+            return res;
         }
     }
 }
