@@ -44,7 +44,7 @@ namespace POC_MultiUserIndification_Collider
         private WriteableBitmap cfBitmap;
         private CoordinateMapper coordinateMapper;
 
-        private Body[] bodies;       
+        private Body[] bodies;
 
         public MainWindow()
         {
@@ -128,8 +128,31 @@ namespace POC_MultiUserIndification_Collider
                 }
             }
             catch { }
+
+            if (app.onIdentificationPage)
+                initForIdentificationPage();
+            else
+                initForOtherPages();
         }
 
-        
+        private void initForIdentificationPage()
+        {
+            if (this.colorFrameIndicator.Visibility != Visibility.Hidden)
+            {
+                this.colorFrameIndicator.Visibility = Visibility.Hidden;
+                this.canvasIndicator.Visibility = Visibility.Hidden;
+                this.frame.Margin = new Thickness(0);
+            }
+        }
+
+        private void initForOtherPages()
+        {
+            if (this.colorFrameIndicator.Visibility != Visibility.Visible)
+            {
+                this.colorFrameIndicator.Visibility = Visibility.Visible;
+                this.canvasIndicator.Visibility = Visibility.Visible;
+                this.frame.Margin = new Thickness(0, 270, 0, 0);
+            }
+        }
     }
 }

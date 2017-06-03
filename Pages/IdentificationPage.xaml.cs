@@ -46,7 +46,8 @@ namespace POC_MultiUserIndification_Collider.Pages
             InitializeComponent();
             app = (App)Application.Current;
             this.Loaded += IdentificationPage_Loaded;
-        }
+            this.Unloaded += IdentificationPage_Unloaded;
+        }        
 
         private void IdentificationPage_Loaded(object sender, RoutedEventArgs e)
         {
@@ -57,6 +58,8 @@ namespace POC_MultiUserIndification_Collider.Pages
 
             collisionEllipse = new Ellipse() { Height = 200, Width = 200, Stroke = new SolidColorBrush(Color.FromRgb(255, 0, 0)), StrokeThickness = 5 };
             initKinect();
+
+            app.onIdentificationPage = true;
         }
 
         private void drawCollisionEllipse()
@@ -219,6 +222,11 @@ namespace POC_MultiUserIndification_Collider.Pages
             else
                 this.NavigationService.Navigate(new MainPage());
             //lblDebug.Content = "id : " + user.BodyId + " name : " + username;
+        }
+
+        private void IdentificationPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            app.onIdentificationPage = false;
         }
     }
 }

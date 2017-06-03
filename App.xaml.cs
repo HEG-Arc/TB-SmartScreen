@@ -22,6 +22,8 @@ namespace POC_MultiUserIndification_Collider
 
         internal Page identificationPage { get; set; }
 
+        internal bool onIdentificationPage { get; set; }
+
         internal Page mainPage { get; set; }
 
         internal MultiSourceFrameReader msfr { get; set; }
