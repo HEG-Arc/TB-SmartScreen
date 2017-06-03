@@ -50,6 +50,16 @@ namespace POC_MultiUserIdification_Collider.Pages
             }
 
             lblNbUnidentified.Content = app.unidentifiedBodies.Count;
+            updateIdentifyButton();
+        }
+
+        private void updateIdentifyButton()
+        {
+            if(app.unidentifiedBodies.Count > 0 && btnIdentify.Visibility != Visibility.Visible)
+                btnIdentify.Visibility = Visibility.Visible;
+
+            if (app.unidentifiedBodies.Count == 0 && btnIdentify.Visibility != Visibility.Hidden)
+                btnIdentify.Visibility = Visibility.Hidden;
         }
 
         private void Msfr_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
