@@ -1,4 +1,5 @@
 ﻿using Microsoft.Kinect;
+using POC_MultiUserIdification_Collider.Pages;
 using POC_MultiUserIndification_Collider.Model;
 using POC_MultiUserIndification_Collider.Util;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ namespace POC_MultiUserIndification_Collider.Pages
         private const int PIXELS_PER_BYTE = 4;
         private const int NB_FRAMES_BEFORE_DECODE = 30;
 
+        private App app;
+
         private KinectSensor sensor;
         private MultiSourceFrameReader msfr;
         private byte[] cfDataConverted;
@@ -30,7 +33,6 @@ namespace POC_MultiUserIndification_Collider.Pages
         private List<ulong> collidedBodies;
 
         private int cptFrame = 0;
-        private bool scanning = true;
         private BarcodeReader reader;
 
         private Point barcodePosition;
@@ -40,12 +42,13 @@ namespace POC_MultiUserIndification_Collider.Pages
 
         public IdentificationPage()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            app = (App)Application.Current;
             this.Loaded += IdentificationPage_Loaded;
         }
 
         private void IdentificationPage_Loaded(object sender, RoutedEventArgs e)
-        {
+        {            
             sensor = KinectSensor.GetDefault();
             coordinateMapper = sensor.CoordinateMapper;
             bodies = new Body[sensor.BodyFrameSource.BodyCount];
@@ -73,7 +76,12 @@ namespace POC_MultiUserIndification_Collider.Pages
             sensor.Open();
 
             msfr = sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Body);
-            msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
+
+            if(app.identificationPage == null)
+            {
+                msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
+                app.identificationPage = this;
+            }            
         }
 
 
@@ -95,10 +103,13 @@ namespace POC_MultiUserIndification_Collider.Pages
                                 bodyFrame.GetAndRefreshBodyData(bodies);
                                 lblDebug.Content = "no collisions";
                                 bool isSomeoneTracked = false;
+                                int nbBodyTracked = 0;
                                 foreach (Body body in bodies)
                                 {
                                     if(body.IsTracked)
                                     {
+                                        nbBodyTracked++;
+
                                         lblDebug.Content = body.TrackingId;
                                         isSomeoneTracked = true;
                                         bool didCollide = false;
@@ -129,6 +140,8 @@ namespace POC_MultiUserIndification_Collider.Pages
                                     }                                    
                                 }
 
+                                app.nbBodyTracked = nbBodyTracked;
+
                                 if(isSomeoneTracked)
                                 {
                                     // Affichage des images couleurs à l'écran
@@ -143,7 +156,7 @@ namespace POC_MultiUserIndification_Collider.Pages
                                     this.TryLogin(collidedBodies, barcodeContent);
 
                                 // Scannage
-                                if (scanning)
+                                if (this.NavigationService != null)
                                 {
                                     if (cptFrame > NB_FRAMES_BEFORE_DECODE)
                                     {
@@ -181,6 +194,8 @@ namespace POC_MultiUserIndification_Collider.Pages
 
         private void TryLogin(List<ulong> potentialUsers, string username)
         {
+            if (NavigationService == null)
+                return;
             if (username == null)
                 return;
             if (potentialUsers.Count == 0)
@@ -189,7 +204,19 @@ namespace POC_MultiUserIndification_Collider.Pages
                 return;
 
             User user = new User(potentialUsers[0], username);
-            lblDebug.Content = "id : " + user.BodyId + " name : " + username;
+
+            if (app.users.Contains(user))
+                return;
+
+            app.users.Add(user);
+
+            this.barcodeContent = null;         
+
+            if(app.mainPage != null)
+                this.NavigationService.Navigate(app.mainPage);
+            else
+                this.NavigationService.Navigate(new MainPage());
+            //lblDebug.Content = "id : " + user.BodyId + " name : " + username;
         }
     }
 }

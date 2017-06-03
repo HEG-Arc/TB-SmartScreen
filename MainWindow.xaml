@@ -12,6 +12,8 @@
         <Image Name="imgBodyIndex" HorizontalAlignment="Center" VerticalAlignment="Top" Height="212" Width="256" />
         <Canvas Name="bodyIndexCanvas" HorizontalAlignment="Center" VerticalAlignment="Top" Height="212" Width="256" />
         -->
-        <Frame Name="frame" NavigationUIVisibility="Hidden" />
+        <Image Name="colorFrameIndicator" HorizontalAlignment="Center" VerticalAlignment="Top" Height="270" Width="480" />
+        <Canvas Name="canvasIndicator" HorizontalAlignment="Center" VerticalAlignment="Top" Height="270" Width="480" />
+        <Frame Name="frame" NavigationUIVisibility="Hidden" Margin="0,270,0,0" />
     </Grid>
 </Window>

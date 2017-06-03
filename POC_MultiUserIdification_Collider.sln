@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POC_MultiUserIndification_Collider", "POC_MultiUserIndification_Collider.csproj", "{096062BE-833F-4BE1-B7AE-B91194F5D124}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POC_MultiUserIdification_Collider", "POC_MultiUserIdification_Collider.csproj", "{096062BE-833F-4BE1-B7AE-B91194F5D124}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
