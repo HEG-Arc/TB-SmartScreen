@@ -1,5 +1,6 @@
 ﻿using Microsoft.Kinect;
 using POC_MultiUserIdification_Collider.Pages;
+using POC_MultiUserIdification_Collider.Util;
 using POC_MultiUserIndification_Collider.Model;
 using POC_MultiUserIndification_Collider.Util;
 using System.Collections.Generic;
@@ -89,6 +90,12 @@ namespace POC_MultiUserIndification_Collider.Pages
             if (NavigationService != null)
             {
                 MultiSourceFrame msf;
+                Joint joint;
+                ColorSpacePoint csp;
+                Point point;
+
+                User currentUser;                
+
                 try
                 {
                     msf = e.FrameReference.AcquireFrame();
@@ -108,6 +115,7 @@ namespace POC_MultiUserIndification_Collider.Pages
                                         if (body.IsTracked)
                                         {
                                             bool didCollide = false;
+                                            currentUser = Users.getUser(body.TrackingId);
 
                                             colorFrameCanvas.Children.Clear();
                                             if (barcodePosition != null && barcodeContent != null)
@@ -118,17 +126,24 @@ namespace POC_MultiUserIndification_Collider.Pages
 
                                                 foreach (KeyValuePair<JointType, Joint> kvJoint in body.Joints)
                                                 {
-                                                    Joint joint = kvJoint.Value;
-                                                    ColorSpacePoint csp = coordinateMapper.MapCameraPointToColorSpace(joint.Position);
-                                                    Point point = new Point() { X = csp.X / COLOR_SCALE_RATIO, Y = csp.Y / COLOR_SCALE_RATIO };
+                                                    joint = kvJoint.Value;
+                                                    csp = coordinateMapper.MapCameraPointToColorSpace(joint.Position);
+                                                    point = new Point() { X = csp.X / COLOR_SCALE_RATIO, Y = csp.Y / COLOR_SCALE_RATIO };
 
                                                     if (Collider.doesCollide(this.collisionEllipse, point))
                                                     {
                                                         lblDebug.Content = joint.JointType;
                                                         didCollide = true;
-                                                    }
+                                                    }                                                                                                           
                                                 }
                                             }
+                                                                                        
+                                            body.Joints.TryGetValue(JointType.Head, out joint);
+                                            csp = coordinateMapper.MapCameraPointToColorSpace(joint.Position);
+                                            point = new Point() { X = csp.X / COLOR_SCALE_RATIO, Y = csp.Y / COLOR_SCALE_RATIO };
+
+                                            Drawer.DrawHeadRectangle(joint, point, currentUser, app.users.IndexOf(currentUser),
+                                                                 colorFrameCanvas, COLOR_SCALE_RATIO);
 
                                             if (didCollide)
                                                 collidedBodies.Add(body.TrackingId);
