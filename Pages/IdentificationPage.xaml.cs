@@ -48,14 +48,14 @@ namespace POC_MultiUserIndification_Collider.Pages
         }
 
         private void IdentificationPage_Loaded(object sender, RoutedEventArgs e)
-        {            
+        {
             sensor = KinectSensor.GetDefault();
             coordinateMapper = sensor.CoordinateMapper;
             bodies = new Body[sensor.BodyFrameSource.BodyCount];
             collidedBodies = new List<ulong>();
 
             collisionEllipse = new Ellipse() { Height = 200, Width = 200, Stroke = new SolidColorBrush(Color.FromRgb(255, 0, 0)), StrokeThickness = 5 };
-            initKinect();            
+            initKinect();
         }
 
         private void drawCollisionEllipse()
@@ -75,103 +75,90 @@ namespace POC_MultiUserIndification_Collider.Pages
             colorFrameImage.Source = cfBitmap;
             sensor.Open();
 
-            msfr = sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Body);
-
-            if(app.identificationPage == null)
+            msfr = app.msfr;
+            if (app.identificationPage == null)
             {
                 msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
                 app.identificationPage = this;
-            }            
+            }
         }
 
 
         private void Msfr_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
         {
-            MultiSourceFrame msf;
-            try
+            if (NavigationService != null)
             {
-                msf = e.FrameReference.AcquireFrame();
-                if (msf != null)
+                MultiSourceFrame msf;
+                try
                 {
-                    using (BodyFrame bodyFrame = msf.BodyFrameReference.AcquireFrame())
+                    msf = e.FrameReference.AcquireFrame();
+                    if (msf != null)
                     {
-                        using (ColorFrame colorFrame = msf.ColorFrameReference.AcquireFrame())
+                        using (BodyFrame bodyFrame = msf.BodyFrameReference.AcquireFrame())
                         {
-                            if (bodyFrame != null && colorFrame != null)
-                            {                            
-                                // Gestion des corps
-                                bodyFrame.GetAndRefreshBodyData(bodies);
-                                lblDebug.Content = "no collisions";
-                                bool isSomeoneTracked = false;
-                                int nbBodyTracked = 0;
-                                foreach (Body body in bodies)
+                            using (ColorFrame colorFrame = msf.ColorFrameReference.AcquireFrame())
+                            {
+                                if (bodyFrame != null && colorFrame != null)
                                 {
-                                    if(body.IsTracked)
+                                    // Gestion des corps
+                                    bodyFrame.GetAndRefreshBodyData(bodies);
+                                    lblDebug.Content = "no collisions";
+                                    foreach (Body body in bodies)
                                     {
-                                        nbBodyTracked++;
-
-                                        lblDebug.Content = body.TrackingId;
-                                        isSomeoneTracked = true;
-                                        bool didCollide = false;
-
-                                        colorFrameCanvas.Children.Clear();
-                                        if (barcodePosition != null && barcodeContent != null)
+                                        if (body.IsTracked)
                                         {
-                                            Canvas.SetLeft(collisionEllipse, barcodePosition.X - collisionEllipse.Width / 2);
-                                            Canvas.SetTop(collisionEllipse, barcodePosition.Y - collisionEllipse.Height / 2);
-                                            colorFrameCanvas.Children.Add(collisionEllipse);
+                                            bool didCollide = false;
 
-                                            foreach (KeyValuePair<JointType, Joint> kvJoint in body.Joints)
+                                            colorFrameCanvas.Children.Clear();
+                                            if (barcodePosition != null && barcodeContent != null)
                                             {
-                                                Joint joint = kvJoint.Value;
-                                                ColorSpacePoint csp = coordinateMapper.MapCameraPointToColorSpace(joint.Position);
-                                                Point point = new Point() { X = csp.X / COLOR_SCALE_RATIO, Y = csp.Y / COLOR_SCALE_RATIO };
+                                                Canvas.SetLeft(collisionEllipse, barcodePosition.X - collisionEllipse.Width / 2);
+                                                Canvas.SetTop(collisionEllipse, barcodePosition.Y - collisionEllipse.Height / 2);
+                                                colorFrameCanvas.Children.Add(collisionEllipse);
 
-                                                if (Collider.doesCollide(this.collisionEllipse, point))
+                                                foreach (KeyValuePair<JointType, Joint> kvJoint in body.Joints)
                                                 {
-                                                    lblDebug.Content = joint.JointType;
-                                                    didCollide = true;
+                                                    Joint joint = kvJoint.Value;
+                                                    ColorSpacePoint csp = coordinateMapper.MapCameraPointToColorSpace(joint.Position);
+                                                    Point point = new Point() { X = csp.X / COLOR_SCALE_RATIO, Y = csp.Y / COLOR_SCALE_RATIO };
+
+                                                    if (Collider.doesCollide(this.collisionEllipse, point))
+                                                    {
+                                                        lblDebug.Content = joint.JointType;
+                                                        didCollide = true;
+                                                    }
                                                 }
-                                            }                                            
-                                        }                                        
+                                            }
 
-                                        if (didCollide)
-                                            collidedBodies.Add(body.TrackingId);
-                                    }                                    
-                                }
+                                            if (didCollide)
+                                                collidedBodies.Add(body.TrackingId);
+                                        }
+                                    }
 
-                                app.nbBodyTracked = nbBodyTracked;
-
-                                if(isSomeoneTracked)
-                                {
                                     // Affichage des images couleurs à l'écran
                                     colorFrame.CopyConvertedFrameDataToArray(cfDataConverted, ColorImageFormat.Bgra);
                                     Int32Rect rect = new Int32Rect(0, 0, (int)cfBitmap.Width, (int)cfBitmap.Height);
                                     int stride = (int)cfBitmap.Width * PIXELS_PER_BYTE;
                                     cfBitmap.WritePixels(rect, cfDataConverted, stride, 0);
-                                    isSomeoneTracked = false;
-                                }
 
-                                if (collidedBodies.Count > 0)
-                                    this.TryLogin(collidedBodies, barcodeContent);
+                                    if (collidedBodies.Count > 0)
+                                        this.TryLogin(collidedBodies, barcodeContent);
 
-                                // Scannage
-                                if (this.NavigationService != null)
-                                {
+                                    // Scannage
                                     if (cptFrame > NB_FRAMES_BEFORE_DECODE)
                                     {
                                         this.DecodeFrame(colorFrame);
                                         cptFrame = 0;
                                     }
                                     cptFrame++;
+                                    collidedBodies.Clear();
                                 }
-                                collidedBodies.Clear();
                             }
                         }
                     }
                 }
+                catch { }
             }
-            catch { }
         }
 
         private void DecodeFrame(ColorFrame colorFrame)
@@ -188,7 +175,7 @@ namespace POC_MultiUserIndification_Collider.Pages
                     User user = new User(collidedBodies[0].TrackingId, result.ToString());
                     lblUser.Content = "ID : " + user.BodyId + " Username : " + user.Username;
                 } 
-                */               
+                */
             }
         }
 
@@ -210,9 +197,9 @@ namespace POC_MultiUserIndification_Collider.Pages
 
             app.users.Add(user);
 
-            this.barcodeContent = null;         
+            this.barcodeContent = null;
 
-            if(app.mainPage != null)
+            if (app.mainPage != null)
                 this.NavigationService.Navigate(app.mainPage);
             else
                 this.NavigationService.Navigate(new MainPage());

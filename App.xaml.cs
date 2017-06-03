@@ -1,4 +1,5 @@
-﻿using POC_MultiUserIndification_Collider.Model;
+﻿using Microsoft.Kinect;
+using POC_MultiUserIndification_Collider.Model;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,15 +18,18 @@ namespace POC_MultiUserIndification_Collider
     {
         internal List<User> users { get; set; }
 
-        internal int nbBodyTracked { get; set; }
+        internal List<ulong> trackedBodies { get; set; }
 
         internal Page identificationPage { get; set; }
 
         internal Page mainPage { get; set; }
 
+        internal MultiSourceFrameReader msfr { get; set; }
+
         public App()
         {
             this.users = new List<User>();
+            this.trackedBodies = new List<ulong>();
         }
 
     }

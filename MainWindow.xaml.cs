@@ -1,4 +1,5 @@
 ﻿using Microsoft.Kinect;
+using POC_MultiUserIdification_Collider.Pages;
 using POC_MultiUserIndification_Collider.Model;
 using POC_MultiUserIndification_Collider.Pages;
 using System;
@@ -66,7 +67,7 @@ namespace POC_MultiUserIndification_Collider
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             initKinect();
-            //frame.Navigate(new IdentificationPage());
+            frame.Navigate(new MainPage());
         }
 
         private void initKinect()
@@ -83,6 +84,7 @@ namespace POC_MultiUserIndification_Collider
             sensor.Open();
 
             msfr = sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Body);
+            app.msfr = msfr;
             msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
         }
 
@@ -106,21 +108,24 @@ namespace POC_MultiUserIndification_Collider
                             {
                                 // Gestion des corps
                                 bodyFrame.GetAndRefreshBodyData(bodies);
+                                app.trackedBodies.Clear();
                                 canvasIndicator.Children.Clear();
                                 foreach (Body body in bodies)
                                 {
                                     if (body.IsTracked)
                                     {
-                                        app.nbBodyTracked++;
+                                        app.trackedBodies.Add(body.TrackingId);
 
                                         body.Joints.TryGetValue(JointType.Head, out headJoint);
                                         ColorSpacePoint csp = coordinateMapper.MapCameraPointToColorSpace(headJoint.Position);
                                         Point headPosition = new Point() { X = csp.X / COLOR_SCALE_RATIO, Y = csp.Y / COLOR_SCALE_RATIO };
 
-                                        currentUser = getUser(body.TrackingId, out userIndex);
+                                        currentUser = getUser(body.TrackingId, out userIndex);                                        
                                         this.DrawHeadRectangle(headJoint, headPosition, currentUser, userIndex);
                                     }
                                 }
+
+                                UpdateUsers();
 
                                 // Affichage des images couleurs à l'écran
                                 colorFrame.CopyConvertedFrameDataToArray(cfDataConverted, ColorImageFormat.Bgra);
@@ -166,6 +171,23 @@ namespace POC_MultiUserIndification_Collider
 
             canvasIndicator.Children.Add(headRect);
             canvasIndicator.Children.Add(headInfos);
+        }
+
+        private void UpdateUsers()
+        {
+            bool remove = true;
+            for(int i = 0; i < app.users.Count; i++)
+            {
+                foreach(ulong id in app.trackedBodies)
+                {
+                    if (app.users[i].BodyId.Equals(id))
+                        remove = false;
+                }
+
+                if (remove)
+                    app.users.Remove(app.users[i]);
+                remove = true;
+            }
         }
 
         private User getUser(ulong bodyId, out int index)

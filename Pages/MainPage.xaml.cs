@@ -1,4 +1,5 @@
-﻿using POC_MultiUserIndification_Collider;
+﻿using Microsoft.Kinect;
+using POC_MultiUserIndification_Collider;
 using POC_MultiUserIndification_Collider.Model;
 using POC_MultiUserIndification_Collider.Pages;
 using System.Windows;
@@ -12,6 +13,7 @@ namespace POC_MultiUserIdification_Collider.Pages
     public partial class MainPage : Page
     {
         private App app;
+        private MultiSourceFrameReader msfr;
 
         public MainPage()
         {
@@ -22,12 +24,28 @@ namespace POC_MultiUserIdification_Collider.Pages
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
+            msfr = app.msfr;
+            if (app.mainPage == null)
+            {
+                msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
+                app.mainPage = this;
+            }            
+        }
+
+        private void updateUI()
+        {
             lvUsersIdentified.Items.Clear();
             foreach (User user in app.users)
             {
                 lvUsersIdentified.Items.Add(user.Username);
             }
-            app.mainPage = this;
+            lblNbUnidentified.Content = app.trackedBodies.Count;
+        }
+
+        private void Msfr_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
+        {
+            if(this.NavigationService != null)
+                updateUI();
         }
 
         private void btnIdentify_Click(object sender, RoutedEventArgs e)
