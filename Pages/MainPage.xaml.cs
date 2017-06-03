@@ -1,9 +1,11 @@
 ﻿using Microsoft.Kinect;
+using POC_MultiUserIdification_Collider.Util;
 using POC_MultiUserIndification_Collider;
 using POC_MultiUserIndification_Collider.Model;
 using POC_MultiUserIndification_Collider.Pages;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace POC_MultiUserIdification_Collider.Pages
 {
@@ -34,11 +36,19 @@ namespace POC_MultiUserIdification_Collider.Pages
 
         private void updateUI()
         {
-            lvUsersIdentified.Items.Clear();
-            foreach (User user in app.users)
+            spIdentifiedList.Children.Clear();
+            for (int i = 0; i < app.users.Count; i++)
             {
-                lvUsersIdentified.Items.Add(user.Username);
+                StackPanel sp = new StackPanel() { Orientation = Orientation.Horizontal };
+                Grid grid = new Grid() { Width = 80, Height = 80, Background = Drawer.BodyColors[i], Margin = new Thickness(0, 10, 0, 0) };
+                Label label = new Label() { Content = app.users[i].Username, FontSize = 20, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(10, 0, 0, 0) };
+
+                sp.Children.Add(grid);
+                sp.Children.Add(label);
+                                
+                spIdentifiedList.Children.Add(sp);
             }
+
             lblNbUnidentified.Content = app.unidentifiedBodies.Count;
         }
 

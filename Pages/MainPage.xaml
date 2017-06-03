@@ -25,7 +25,9 @@
         <Grid Grid.Column="1" HorizontalAlignment="Center">
             <StackPanel>
                 <Label Content="Utilisateurs identifiés" FontWeight="Bold" FontSize="32"/>
-                <ListView Name="lvUsersIdentified" Margin="0,20,0,0" />
+                <StackPanel Name="spIdentifiedList" Margin="0,20,0,0">
+
+                </StackPanel>
             </StackPanel>
         </Grid>
     </Grid>

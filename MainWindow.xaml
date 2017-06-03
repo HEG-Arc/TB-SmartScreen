@@ -8,10 +8,6 @@
         Title="MainWindow" Height="750" Width="1025"
         WindowState="Maximized">
     <Grid>
-        <!--
-        <Image Name="imgBodyIndex" HorizontalAlignment="Center" VerticalAlignment="Top" Height="212" Width="256" />
-        <Canvas Name="bodyIndexCanvas" HorizontalAlignment="Center" VerticalAlignment="Top" Height="212" Width="256" />
-        -->
         <Grid Width="{Binding ActualWidth, RelativeSource = {RelativeSource AncestorType = {x:Type Window}}}"
               HorizontalAlignment="Center" VerticalAlignment="Top">
             <Image Name="colorFrameIndicator" Height="270" Width="480" />
