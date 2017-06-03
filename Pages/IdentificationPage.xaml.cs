@@ -87,7 +87,6 @@ namespace POC_MultiUserIndification_Collider.Pages
             }
         }
 
-
         private void Msfr_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
         {
             if (NavigationService != null)
@@ -196,31 +195,39 @@ namespace POC_MultiUserIndification_Collider.Pages
             }
         }
 
-        private void TryLogin(List<ulong> potentialUsers, string username)
+        private void TryLogin(List<ulong> potentialUsers, string userCode)
         {
             if (NavigationService == null)
                 return;
-            if (username == null)
+            if (userCode == null)
                 return;
             if (potentialUsers.Count == 0)
                 return;
             else if (potentialUsers.Count > 1)
-                return;
+                return;            
 
-            User user = new User(potentialUsers[0], username);
 
-            if (app.users.Contains(user))
-                return;
+            string username = null;
+            foreach (KeyValuePair<string, string> kv in app.AvailableUsers)
+            {
+                if (kv.Key.Equals(userCode))
+                {
+                    username = kv.Value;
+                    continue;
+                }
+            }
 
-            app.users.Add(user);
+            if (username != null)
+            {
+                User user = new User(potentialUsers[0], username);
+                app.users.Add(user);
+                if (app.mainPage != null)
+                    this.NavigationService.Navigate(app.mainPage);
+                else
+                    this.NavigationService.Navigate(new MainPage());
+            }
 
-            this.barcodeContent = null;
-
-            if (app.mainPage != null)
-                this.NavigationService.Navigate(app.mainPage);
-            else
-                this.NavigationService.Navigate(new MainPage());
-            //lblDebug.Content = "id : " + user.BodyId + " name : " + username;
+            this.barcodeContent = null;            
         }
 
         private void IdentificationPage_Unloaded(object sender, RoutedEventArgs e)
