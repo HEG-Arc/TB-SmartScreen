@@ -9,12 +9,13 @@
       Title="IdentificationPage">
 
     <Grid>
-        <StackPanel Width="960" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 50, 0, 0">
+        <Label Name="lblError" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0" FontSize="40" FontWeight="Bold" Foreground="Red"/>
+        <Label Content="Veuillez présenter votre carte d'employé" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,200,0,0" FontSize="40" FontWeight="Bold" />
+        <StackPanel Width="640" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 50, 0, 0">
             <Grid>
-                <Image Name="colorFrameImage" Height="540" Width="960" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <Canvas Name="colorFrameCanvas" Height="540" Width="960" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Image Name="colorFrameImage" Height="360" Width="640" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Canvas Name="colorFrameCanvas" Height="360" Width="640" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Grid>
-            <Label Name="lblDebug"/>
             <Label Name="lblUser" FontSize="32" FontWeight="Bold"/>
         </StackPanel>
     </Grid>

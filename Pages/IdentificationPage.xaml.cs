@@ -18,7 +18,7 @@ namespace POC_MultiUserIndification_Collider.Pages
     /// </summary>
     public partial class IdentificationPage : Page
     {
-        private const int COLOR_SCALE_RATIO = 2;
+        private const int COLOR_SCALE_RATIO = 3;
         private const int PIXELS_PER_BYTE = 4;
         private const int NB_FRAMES_BEFORE_DECODE = 30;
 
@@ -132,10 +132,7 @@ namespace POC_MultiUserIndification_Collider.Pages
                                                     point = new Point() { X = csp.X / COLOR_SCALE_RATIO, Y = csp.Y / COLOR_SCALE_RATIO };
 
                                                     if (Collider.doesCollide(this.collisionEllipse, point))
-                                                    {
-                                                        lblDebug.Content = joint.JointType;
                                                         didCollide = true;
-                                                    }                                                                                                           
                                                 }
                                             }
                                                                                         
@@ -184,14 +181,6 @@ namespace POC_MultiUserIndification_Collider.Pages
             {
                 barcodePosition = new Point() { X = result.ResultPoints[0].X / COLOR_SCALE_RATIO, Y = result.ResultPoints[0].Y / COLOR_SCALE_RATIO };
                 barcodeContent = result.ToString();
-
-                /*
-                if(collidedBodies.Count == 1)
-                {
-                    User user = new User(collidedBodies[0].TrackingId, result.ToString());
-                    lblUser.Content = "ID : " + user.BodyId + " Username : " + user.Username;
-                } 
-                */
             }
         }
 
@@ -204,8 +193,19 @@ namespace POC_MultiUserIndification_Collider.Pages
             if (potentialUsers.Count == 0)
                 return;
             else if (potentialUsers.Count > 1)
-                return;            
+            {
+                lblError.Content = "Veuillez vous éloigner l'un de l'autre !";
+                return;
+            }                
 
+            foreach(User user in app.users)
+            {
+                if(user.Code.Equals(userCode) || user.BodyId.Equals(potentialUsers[0]))
+                {
+                    lblError.Content = user.Username + " est déjà identifié !";
+                    return;
+                }
+            }
 
             string username = null;
             foreach (KeyValuePair<string, string> kv in app.AvailableUsers)
@@ -219,7 +219,7 @@ namespace POC_MultiUserIndification_Collider.Pages
 
             if (username != null)
             {
-                User user = new User(potentialUsers[0], username);
+                User user = new User(potentialUsers[0], username, userCode);
                 app.users.Add(user);
                 if (app.mainPage != null)
                     this.NavigationService.Navigate(app.mainPage);

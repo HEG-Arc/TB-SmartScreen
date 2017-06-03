@@ -10,11 +10,25 @@ namespace POC_MultiUserIndification_Collider.Model
     {
         private ulong bodyId;
         private string username;
+        private string code;
 
-        public User(ulong bodyId, string username)
+        public User(ulong bodyId, string username, string code)
         {
             this.bodyId = bodyId;
             this.Username = username;
+            this.Code = code;
+        }
+
+        public string Code
+        {
+            get
+            {
+                return code;
+            }
+            set
+            {
+                code = value;
+            }
         }
 
         public string Username
