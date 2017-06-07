@@ -57,9 +57,15 @@ namespace POC_MultiUserIndification_Collider.Pages
             collidedBodies = new List<ulong>();
 
             collisionEllipse = new Ellipse() { Height = 200, Width = 200, Stroke = new SolidColorBrush(Color.FromRgb(255, 0, 0)), StrokeThickness = 5 };
+            initUI();
             initKinect();
 
             app.onIdentificationPage = true;
+        }
+
+        private void initUI()
+        {
+            lblError.Content = "";
         }
 
         private void drawCollisionEllipse()
