@@ -45,6 +45,8 @@ namespace POC_MultiUserIdification_Collider.Util
 
                 if (add)
                     ((App)Application.Current).unidentifiedBodies.Add(id);
+                else
+                    add = true;
             }
         }
 
