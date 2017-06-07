@@ -9,14 +9,20 @@
       Title="IdentificationPage">
 
     <Grid>
-        <Label Name="lblError" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0" FontSize="40" FontWeight="Bold" Foreground="Red"/>
-        <Label Content="Veuillez présenter votre carte d'employé" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,200,0,0" FontSize="40" FontWeight="Bold" />
+        <Label Name="lblError" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,45,0,0" FontSize="40" FontWeight="Bold" Foreground="Red"/>
+        <Label Content="Veuillez présenter votre carte d'employé" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,85,0,0" FontSize="40" FontWeight="Bold" />
         <StackPanel Width="640" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 50, 0, 0">
             <Grid>
                 <Image Name="colorFrameImage" Height="360" Width="640" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <Canvas Name="colorFrameCanvas" Height="360" Width="640" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Grid>
-            <Label Name="lblUser" FontSize="32" FontWeight="Bold"/>
+            <Label Content="Conseil d'identification" FontWeight="Bold" FontSize="25" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="subHeaderText"  
+                   TextWrapping="Wrap" 
+                   Foreground="Black"
+                   Text="Présenter votre carte de sorte qu'elle apparaisse proche du centre de votre corps à l'écran. Rester à une distance raisonnable de tout autres personnes devant la caméra." 
+                   FontSize="23" FontStyle="Italic" FontWeight="Light" />
+            <Button Name="btnCancel" Content="Annuler" FontSize="20" Click="btnCancel_Click" Width="640" Height="150" Margin="0,50,0,0" HorizontalAlignment="Center" />
         </StackPanel>
     </Grid>
 </Page>

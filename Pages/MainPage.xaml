@@ -18,7 +18,7 @@
             <StackPanel>
                 <TextBlock FontWeight="Bold" FontSize="32" TextAlignment="Center" >Nombre d'utilisateurs <LineBreak/> non-identifiés</TextBlock>
                 <Label Name="lblNbUnidentified" Content="0" FontSize="52" HorizontalAlignment="Center" Margin="0,20,0,0" />
-                <Button Name="btnIdentify" Width="300" Height="200" Margin="0,50,0,0" FontSize="30" Content="S'identifier" Click="btnIdentify_Click" />
+                <Button Name="btnIdentify" Width="300" Height="200" Margin="0,50,0,0" FontSize="20" Content="S'identifier" Click="btnIdentify_Click" />
             </StackPanel>
         </Grid>
 

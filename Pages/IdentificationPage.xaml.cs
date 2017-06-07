@@ -130,7 +130,7 @@ namespace POC_MultiUserIndification_Collider.Pages
                                     {
                                         Canvas.SetLeft(collisionEllipse, barcodePosition.X - collisionEllipse.Width / 2);
                                         Canvas.SetTop(collisionEllipse, barcodePosition.Y - collisionEllipse.Height / 2);
-                                        colorFrameCanvas.Children.Add(collisionEllipse);
+                                        //colorFrameCanvas.Children.Add(collisionEllipse);
                                     }
 
                                     foreach (Body body in bodies)
@@ -238,10 +238,7 @@ namespace POC_MultiUserIndification_Collider.Pages
             {
                 User user = new User(potentialUsers[0], username, userCode);
                 app.users.Add(user);
-                if (app.mainPage != null)
-                    this.NavigationService.Navigate(app.mainPage);
-                else
-                    this.NavigationService.Navigate(new MainPage());
+                this.NavigateToMainPage();
             }
             else
             {
@@ -249,6 +246,14 @@ namespace POC_MultiUserIndification_Collider.Pages
             }
 
             this.barcodeContent = null;
+        }
+
+        private void NavigateToMainPage()
+        {
+            if (app.mainPage != null)
+                this.NavigationService.Navigate(app.mainPage);
+            else
+                this.NavigationService.Navigate(new MainPage());
         }
 
         private void displayError(string message)
@@ -265,6 +270,11 @@ namespace POC_MultiUserIndification_Collider.Pages
         private void IdentificationPage_Unloaded(object sender, RoutedEventArgs e)
         {
             app.onIdentificationPage = false;
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigateToMainPage();
         }
     }
 }
