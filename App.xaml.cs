@@ -31,8 +31,8 @@ namespace POC_MultiUserIndification_Collider
         internal MultiSourceFrameReader msfr { get; set; }
 
         private List<KeyValuePair<string, string>> availableUsers = new Dictionary<String, String>
-        {
-            {"USER-MAXIME-BECK-457895", "Maxime Beck"},
+        {            
+            {"USER-JEFF-SOKOLI-732195", "Jeff Sokoli"},
             {"USER-MARC-ABRAHAM-789554", "Marc Abraham"},
         }.ToList();
 

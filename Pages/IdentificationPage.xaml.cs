@@ -47,7 +47,7 @@ namespace POC_MultiUserIndification_Collider.Pages
             app = (App)Application.Current;
             this.Loaded += IdentificationPage_Loaded;
             this.Unloaded += IdentificationPage_Unloaded;
-        }        
+        }
 
         private void IdentificationPage_Loaded(object sender, RoutedEventArgs e)
         {
@@ -96,7 +96,7 @@ namespace POC_MultiUserIndification_Collider.Pages
                 ColorSpacePoint csp;
                 Point point;
 
-                User currentUser;                
+                User currentUser;
 
                 try
                 {
@@ -112,19 +112,23 @@ namespace POC_MultiUserIndification_Collider.Pages
                                     // Gestion des corps
                                     bodyFrame.GetAndRefreshBodyData(bodies);
                                     colorFrameCanvas.Children.Clear();
+
+                                    if (barcodePosition != null && barcodeContent != null)
+                                    {
+                                        Canvas.SetLeft(collisionEllipse, barcodePosition.X - collisionEllipse.Width / 2);
+                                        Canvas.SetTop(collisionEllipse, barcodePosition.Y - collisionEllipse.Height / 2);
+                                        colorFrameCanvas.Children.Add(collisionEllipse);
+                                    }
+
                                     foreach (Body body in bodies)
-                                    {                                        
+                                    {
                                         if (body.IsTracked)
                                         {
                                             bool didCollide = false;
                                             currentUser = Users.getUser(body.TrackingId);
-                                            
+
                                             if (barcodePosition != null && barcodeContent != null)
                                             {
-                                                Canvas.SetLeft(collisionEllipse, barcodePosition.X - collisionEllipse.Width / 2);
-                                                Canvas.SetTop(collisionEllipse, barcodePosition.Y - collisionEllipse.Height / 2);
-                                                colorFrameCanvas.Children.Add(collisionEllipse);
-
                                                 foreach (KeyValuePair<JointType, Joint> kvJoint in body.Joints)
                                                 {
                                                     joint = kvJoint.Value;
@@ -135,7 +139,7 @@ namespace POC_MultiUserIndification_Collider.Pages
                                                         didCollide = true;
                                                 }
                                             }
-                                                                                        
+
                                             body.Joints.TryGetValue(JointType.Head, out joint);
                                             csp = coordinateMapper.MapCameraPointToColorSpace(joint.Position);
                                             point = new Point() { X = csp.X / COLOR_SCALE_RATIO, Y = csp.Y / COLOR_SCALE_RATIO };
@@ -196,11 +200,11 @@ namespace POC_MultiUserIndification_Collider.Pages
             {
                 lblError.Content = "Veuillez vous éloigner l'un de l'autre !";
                 return;
-            }                
+            }
 
-            foreach(User user in app.users)
+            foreach (User user in app.users)
             {
-                if(user.Code.Equals(userCode) || user.BodyId.Equals(potentialUsers[0]))
+                if (user.Code.Equals(userCode) || user.BodyId.Equals(potentialUsers[0]))
                 {
                     lblError.Content = user.Username + " est déjà identifié !";
                     return;
@@ -227,7 +231,7 @@ namespace POC_MultiUserIndification_Collider.Pages
                     this.NavigationService.Navigate(new MainPage());
             }
 
-            this.barcodeContent = null;            
+            this.barcodeContent = null;
         }
 
         private void IdentificationPage_Unloaded(object sender, RoutedEventArgs e)
