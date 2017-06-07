@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using ZXing.Kinect;
 
 namespace POC_MultiUserIndification_Collider.Pages
@@ -21,6 +22,7 @@ namespace POC_MultiUserIndification_Collider.Pages
         private const int COLOR_SCALE_RATIO = 3;
         private const int PIXELS_PER_BYTE = 4;
         private const int NB_FRAMES_BEFORE_DECODE = 30;
+        private const int NB_SECONDS_ERROR_DISLPAY = 3;
 
         private App app;
 
@@ -41,6 +43,8 @@ namespace POC_MultiUserIndification_Collider.Pages
 
         private Ellipse collisionEllipse;
 
+        private DispatcherTimer timer;
+
         public IdentificationPage()
         {
             InitializeComponent();
@@ -60,8 +64,11 @@ namespace POC_MultiUserIndification_Collider.Pages
             initUI();
             initKinect();
 
+            timer = new DispatcherTimer();
+            timer.Interval = new System.TimeSpan(0, 0, NB_SECONDS_ERROR_DISLPAY);
+            timer.Tick += Timer_Tick;
             app.onIdentificationPage = true;
-        }
+        }        
 
         private void initUI()
         {
@@ -204,7 +211,7 @@ namespace POC_MultiUserIndification_Collider.Pages
                 return;
             else if (potentialUsers.Count > 1)
             {
-                lblError.Content = "Veuillez vous éloigner l'un de l'autre !";
+                this.displayError("Veuillez vous éloigner l'un de l'autre !");
                 return;
             }
 
@@ -212,7 +219,7 @@ namespace POC_MultiUserIndification_Collider.Pages
             {
                 if (user.Code.Equals(userCode) || user.BodyId.Equals(potentialUsers[0]))
                 {
-                    lblError.Content = user.Username + " est déjà identifié !";
+                    this.displayError(user.Username + " est déjà identifié !");
                     return;
                 }
             }
@@ -236,8 +243,23 @@ namespace POC_MultiUserIndification_Collider.Pages
                 else
                     this.NavigationService.Navigate(new MainPage());
             }
+            else
+            {
+                this.displayError("Accès non autorisé !");
+            }
 
             this.barcodeContent = null;
+        }
+
+        private void displayError(string message)
+        {
+            lblError.Content = message;
+            timer.Start();
+        }
+
+        private void Timer_Tick(object sender, System.EventArgs e)
+        {
+            this.initUI();
         }
 
         private void IdentificationPage_Unloaded(object sender, RoutedEventArgs e)
