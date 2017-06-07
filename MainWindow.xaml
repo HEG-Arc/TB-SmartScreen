@@ -1,5 +1,6 @@
 ﻿<Window x:Class="POC_MultiUserIndification_Collider.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:k="http://schemas.microsoft.com/kinect/2014"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,13 +8,15 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="750" Width="1025"
         WindowState="Maximized">
-    <Grid>
-        <Grid Width="{Binding ActualWidth, RelativeSource = {RelativeSource AncestorType = {x:Type Window}}}"
+    <k:KinectRegion Name="kinectRegion">
+        <Grid>
+            <Grid Width="{Binding ActualWidth, RelativeSource = {RelativeSource AncestorType = {x:Type Window}}}"
               HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Image Name="colorFrameIndicator" Height="270" Width="480" />
-            <Canvas Name="canvasIndicator" Height="270" Width="480" />
-            <Label Name="lblDebug" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="32" />
+                <Image Name="colorFrameIndicator" Height="270" Width="480" />
+                <Canvas Name="canvasIndicator" Height="270" Width="480" />
+                <Label Name="lblDebug" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="32" />
+            </Grid>
+            <Frame Name="frame" NavigationUIVisibility="Hidden" Margin="0,270,0,0" />
         </Grid>
-        <Frame Name="frame" NavigationUIVisibility="Hidden" Margin="0,270,0,0" />
-    </Grid>
+    </k:KinectRegion>
 </Window>
