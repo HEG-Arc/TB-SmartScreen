@@ -50,7 +50,7 @@ namespace POC_MultiUserIdification_Collider.Pages
             }
 
             lblNbUnidentified.Content = app.unidentifiedBodies.Count;
-            //updateIdentifyButton();
+            updateIdentifyButton();
         }
 
         private void updateIdentifyButton()
