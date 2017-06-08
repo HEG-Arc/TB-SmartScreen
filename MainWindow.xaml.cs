@@ -23,6 +23,8 @@ namespace POC_GestureNavigation
             ((App)Application.Current).kinectRegion = kinectRegion;
             ((App)Application.Current).lblTime = lblTime;
             ((App)Application.Current).btnBack = this.btnBack;
+            ((App)Application.Current).lblTitle = this.lblTitle;
+            ((App)Application.Current).tbSubTitle = this.tbSubTitle;
             this.frame.Navigate(new MainPage());
         }
 

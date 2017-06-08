@@ -24,7 +24,11 @@ namespace POC_GestureNavigation
 
         internal String objectScore { get; set; }
 
-        internal Button btnBack;
+        internal Button btnBack { get; set; }
+
+        internal Label lblTitle { get; set; }
+
+        internal TextBlock tbSubTitle { get; set; }
 
         private int nbSecondsSinceStart = 0;        
 

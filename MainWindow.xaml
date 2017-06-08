@@ -6,13 +6,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:POC_GestureNavigation"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1050"
+        Title="POC - Gesture Navigation" Height="700" Width="1050"
         WindowState="Maximized">
     
     <k:KinectRegion Name="kinectRegion">
         <Grid>
             <Frame Name="frame" NavigationUIVisibility="Hidden" Margin="0,150,0,0"/>
             <Button Name="btnBack" Content="Back" FontSize="20" Height="150" Width="200" Click="btnBack_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0">
+                <Label Name="lblTitle" Content="Déroulement du test" FontWeight="Bold" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <TextBlock x:Name="tbSubTitle"  
+                           Margin="0,0,0,20"
+                           Width="800"
+                   TextWrapping="Wrap" 
+                   Foreground="Black"
+                   TextAlignment="Center"
+                   Text="." 
+                   FontSize="23" FontStyle="Italic" FontWeight="Light" />
+            </StackPanel>
             <k:KinectUserViewer Height="200" HorizontalAlignment="Center" VerticalAlignment="Top" />
             <Label Name="lblTime" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
         </Grid>

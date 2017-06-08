@@ -29,6 +29,8 @@ namespace POC_GestureNavigation.Pages
         private void ComponentsPage_Loaded(object sender, RoutedEventArgs e)
         {
             ((App)Application.Current).btnBack.Visibility = Visibility.Visible;
+            ((App)Application.Current).lblTitle.Visibility = Visibility.Visible;
+            ((App)Application.Current).tbSubTitle.Text = "Sélectionner les composants comme indiqué par la flèche verte.";
         }
 
         private void radioButton_Checked(object sender, RoutedEventArgs e)

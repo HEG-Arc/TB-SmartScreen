@@ -62,6 +62,8 @@ namespace POC_GestureNavigation.Pages
 
             // UI init
             ((App)Application.Current).btnBack.Visibility = Visibility.Visible;
+            ((App)Application.Current).lblTitle.Visibility = Visibility.Visible;
+            ((App)Application.Current).tbSubTitle.Text = "Glisser/déposer tous les composants dans la corbeille.";
 
             bucket = new Image();
             bucket.Source = new BitmapImage(new Uri("/Images/Bucket.png", UriKind.Relative));

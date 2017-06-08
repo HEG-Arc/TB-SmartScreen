@@ -32,6 +32,8 @@ namespace POC_GestureNavigation.Pages
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
             app.btnBack.Visibility = Visibility.Hidden;
+            app.lblTitle.Visibility = Visibility.Hidden;
+            app.tbSubTitle.Text = "";
         }
 
         private void btnComponents_Click(object sender, RoutedEventArgs e)
