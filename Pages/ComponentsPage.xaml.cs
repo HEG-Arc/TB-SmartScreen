@@ -31,6 +31,7 @@ namespace POC_GestureNavigation.Pages
             ((App)Application.Current).btnBack.Visibility = Visibility.Visible;
             ((App)Application.Current).lblTitle.Visibility = Visibility.Visible;
             ((App)Application.Current).tbSubTitle.Text = "Sélectionner les composants comme indiqué par la flèche verte.";
+            this.lblABC.Content = "";
         }
 
         private void radioButton_Checked(object sender, RoutedEventArgs e)
@@ -73,8 +74,10 @@ namespace POC_GestureNavigation.Pages
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            /*
             Decimal d = new Decimal(Slider.Value);
             lblSliderValue.Content = Math.Round(d, 0);
+            */
         }
     }
 }

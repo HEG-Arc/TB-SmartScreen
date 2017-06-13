@@ -141,7 +141,7 @@ namespace POC_GestureNavigation.Pages
             {
                 images.Remove(grabbedImage);
                 if (images.Count == 0)
-                    debug.Content = "game over !";
+                    debug.Content = "Bravo !! Vous avez gagné !";
                 DisplayImages();
             }
             grabbedImage = null;
