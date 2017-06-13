@@ -17,15 +17,17 @@ namespace SCE_ProductionChain
     {       
         internal Page identificationPage;
 
+        internal Page calendarPage;
+
+        internal List<User> users { get; set; }
+        internal List<ulong> trackedBodies { get; set; }
+        internal List<ulong> unidentifiedBodies { get; set; }
+
         private List<KeyValuePair<string, string>> availableUsers = new Dictionary<String, String>
         {
             {"USER-JEFF-SOKOLI-732195", "Jeff Sokoli"},
             {"USER-MARC-ABRAHAM-789554", "Marc Abraham"},
         }.ToList();
-
-        internal List<User> users { get; set; }
-        internal List<ulong> trackedBodies { get; set; }
-        internal List<ulong> unidentifiedBodies { get; set; }
 
         public App()
         {

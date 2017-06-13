@@ -22,7 +22,7 @@ namespace SCE_ProductionChain.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace SCE_ProductionChain.Properties {
         ///   Retourne l'instance ResourceManager mise en cache utilisée par cette classe.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SCE_ProductionChain.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace SCE_ProductionChain.Properties {
         ///   les recherches de ressources à l'aide de cette classe de ressource fortement typée.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace SCE_ProductionChain.Properties {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à Présentez votre carte d&apos;employé à la caméra de sorte à ce qu&apos;elle apparaisse au centre de votre poitrine à l&apos;écran..
         /// </summary>
-        internal static string IdentificationGetCloser {
+        public static string IdentificationGetCloser {
             get {
                 return ResourceManager.GetString("IdentificationGetCloser", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace SCE_ProductionChain.Properties {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à Approchez-vous de l&apos;écran jusqu&apos;à ce que le carré qui encadre votre tête devienne bleu..
         /// </summary>
-        internal static string IdentificationShowCard {
+        public static string IdentificationShowCard {
             get {
                 return ResourceManager.GetString("IdentificationShowCard", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace SCE_ProductionChain.Properties {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à Une ou plusieurs personnes interfèrent avec votre identification. Déplacez-vous pour régler le problème..
         /// </summary>
-        internal static string IdentificationTooCloseToOtherPeople {
+        public static string IdentificationTooCloseToOtherPeople {
             get {
                 return ResourceManager.GetString("IdentificationTooCloseToOtherPeople", resourceCulture);
             }

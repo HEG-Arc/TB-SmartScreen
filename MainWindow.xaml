@@ -9,6 +9,6 @@
         WindowStyle="None" ResizeMode="NoResize"  
         WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid>
-        <Frame Name="frame" />
+        <Frame Name="frame" NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>

@@ -60,6 +60,7 @@ namespace SCE_ProductionChain.Pages
             coordinateMapper = sensor.CoordinateMapper;
             bodies = new Body[sensor.BodyFrameSource.BodyCount];
             collidedBodies = new List<ulong>();
+            collisionEllipse = new Ellipse() { Height = 200, Width = 200, Stroke = new SolidColorBrush(Color.FromRgb(255, 0, 0)), StrokeThickness = 5 };
 
             initUI();
             initKinect();
@@ -67,7 +68,7 @@ namespace SCE_ProductionChain.Pages
 
         private void initUI()
         {
-            this.tbMessage.Text = (string)this.FindName("IdentificationShowCard");
+            this.tbMessage.Text = Properties.Resources.IdentificationShowCard;
         }
         private void initKinect()
         {
@@ -85,6 +86,14 @@ namespace SCE_ProductionChain.Pages
                 msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived; ;
                 app.identificationPage = this;
             }
+        }
+
+        private void navigateToHomePage()
+        {
+            if (app.calendarPage != null)
+                this.NavigationService.Navigate(app.calendarPage);
+            else
+                this.NavigationService.Navigate(new CalendarPage());
         }
 
         private void Msfr_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
@@ -153,11 +162,11 @@ namespace SCE_ProductionChain.Pages
                                                     this.DecodeFrame(colorFrame);
                                                     cptFrame = 0;
                                                 }
-                                                this.tbMessage.Text = (string)this.FindName("IdentificationShowCard");
+                                                this.tbMessage.Text = Properties.Resources.IdentificationShowCard;
                                             }
                                             else
                                             {
-                                                this.tbMessage.Text = (string)this.FindName("IdentificationGetCloser");
+                                                this.tbMessage.Text = Properties.Resources.IdentificationGetCloser;
                                             }
                                                 
                                             Drawer.DrawHeadRectangle(joint, point, currentUser, app.users.IndexOf(currentUser), isDistanceOK,
@@ -178,11 +187,11 @@ namespace SCE_ProductionChain.Pages
                                         this.TryLogin(collidedBodies, barcodeContent);
 
                                     // Scannage
-                                    //if (cptFrame > NB_FRAMES_BEFORE_DECODE)
-                                    //{
-                                    //    this.DecodeFrame(colorFrame);
-                                    //    cptFrame = 0;
-                                    //}
+                                    if (cptFrame > NB_FRAMES_BEFORE_DECODE)
+                                    {
+                                        this.DecodeFrame(colorFrame);
+                                        cptFrame = 0;
+                                    }
                                     cptFrame++;
                                     collidedBodies.Clear();
                                 }
@@ -241,7 +250,7 @@ namespace SCE_ProductionChain.Pages
             {
                 User user = new User(potentialUsers[0], username, userCode);
                 app.users.Add(user);
-                //this.NavigateToMainPage();
+                navigateToHomePage();
             }
             else
             {
