@@ -36,7 +36,7 @@ namespace SCE_ProductionChain.Util
         private readonly static SolidColorBrush TooFarBrush = new SolidColorBrush(Color.FromRgb(200, 200, 200));
         private readonly static SolidColorBrush DistanceOKBrush = new SolidColorBrush(Color.FromRgb(0, 0, 255));
 
-        public static void DrawHeadRectangle(Joint headJoint, Point headPosition, User user, int userIndex, bool isAtTheRightDistance,
+        public static void DrawHeadRectangle(Joint headJoint, Point headPosition, User user, int userIndex, Nullable<bool> isAtTheRightDistance,
                                              Canvas canvas, double color_scale_ratio)
         {
             Rectangle headRect = new Rectangle() { StrokeThickness = HEAD_RECTANGLE_THICKNESS };
@@ -53,19 +53,15 @@ namespace SCE_ProductionChain.Util
             }
             else
             {
-                if(!isAtTheRightDistance)
+                if(isAtTheRightDistance == null || !(bool)isAtTheRightDistance)
                 {
                     headRect.Stroke = TooFarBrush;
                     headUsernameInfo.Foreground = TooFarBrush;
-                    //headDistanceInfo.Foreground = TooFarBrush;
-                    //headDistanceInfo.Content = HEAD_DISTANCE_INFO_TOO_FAR;
                 }
                 else
                 {
                     headRect.Stroke = DistanceOKBrush;
                     headUsernameInfo.Foreground = DistanceOKBrush;
-                    //headDistanceInfo.Foreground = DistanceOKBrush;
-                    //headDistanceInfo.Content = HEAD_DISTANCE_INFO_OK;
                 }
                 headUsernameInfo.Text = HEAD_INFO_DEFAULT_TEXT;
             }

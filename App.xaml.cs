@@ -1,4 +1,5 @@
-﻿using SCE_ProductionChain.Model;
+﻿using Microsoft.Kinect;
+using SCE_ProductionChain.Model;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -21,6 +22,8 @@ namespace SCE_ProductionChain
         internal List<User> users { get; set; }
         internal List<ulong> trackedBodies { get; set; }
         internal List<ulong> unidentifiedBodies { get; set; }
+        internal MultiSourceFrameReader msfr { get; set; }    
+        internal bool onIdentificationPage { get; set; }
 
         private List<KeyValuePair<string, string>> availableUsers = new Dictionary<String, String>
         {
@@ -31,6 +34,9 @@ namespace SCE_ProductionChain
         public App()
         {
             this.users = new List<User>();
+            this.trackedBodies = new List<ulong>();
+            this.unidentifiedBodies = new List<ulong>();
+            this.onIdentificationPage = false;
         }
         public List<KeyValuePair<string, string>> AvailableUsers
         {

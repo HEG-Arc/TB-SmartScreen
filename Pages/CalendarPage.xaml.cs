@@ -56,7 +56,13 @@ namespace SCE_ProductionChain.Pages
             {
                 for (int row = 3; row <= 21; row++)
                 {
-                    Rectangle rect = new Rectangle() { Height = 100, Width = 300, Fill = noWorkBrush };
+                    Rectangle rect = new Rectangle()
+                    {
+                        Fill = noWorkBrush,
+                        Stretch = Stretch.UniformToFill,
+                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                        VerticalAlignment = VerticalAlignment.Stretch
+                    };
                     Grid.SetRow(rect, row);
                     Grid.SetColumn(rect, col);
                     gdCalendar.Children.Add(rect);

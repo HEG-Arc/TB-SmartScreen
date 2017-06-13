@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SCE_ProductionChain"
         mc:Ignorable="d"
-        Title="LOSVAXIS - Système de gestion organisationnel" Height="350" Width="525"
+        Title="LOSVAXIS - Système de gestion organisationnel" Height="1080" Width="1920"
         WindowStyle="None" ResizeMode="NoResize"  
         WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid>
-        <Frame Name="frame" NavigationUIVisibility="Hidden" />
+        <Frame Name="frame" NavigationUIVisibility="Hidden"/>
+        <Image Name="multiSourceFrameIndicator" Height="240" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
+        <Canvas Name="multiSourceFrameIndicatorCanvas" Height="240" Width="427" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
     </Grid>
 </Window>

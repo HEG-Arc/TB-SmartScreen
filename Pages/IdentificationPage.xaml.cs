@@ -52,6 +52,7 @@ namespace SCE_ProductionChain.Pages
             InitializeComponent();
             app = (App)Application.Current;
             this.Loaded += IdentificationPage_Loaded;
+            this.Unloaded += IdentificationPage_Unloaded;
         }
 
         private void IdentificationPage_Loaded(object sender, RoutedEventArgs e)
@@ -61,6 +62,7 @@ namespace SCE_ProductionChain.Pages
             bodies = new Body[sensor.BodyFrameSource.BodyCount];
             collidedBodies = new List<ulong>();
             collisionEllipse = new Ellipse() { Height = 200, Width = 200, Stroke = new SolidColorBrush(Color.FromRgb(255, 0, 0)), StrokeThickness = 5 };
+            app.onIdentificationPage = true;
 
             initUI();
             initKinect();
@@ -80,7 +82,7 @@ namespace SCE_ProductionChain.Pages
             multiSourceFrameImage.Source = cfBitmap;
             sensor.Open();
 
-            msfr = sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Body);
+            msfr = app.msfr;
             if (app.identificationPage == null)
             {
                 msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived; ;
@@ -258,6 +260,11 @@ namespace SCE_ProductionChain.Pages
             }
 
             this.barcodeContent = null;
+        }
+
+        private void IdentificationPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            app.onIdentificationPage = false;
         }
     }
 }
