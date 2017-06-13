@@ -61,6 +61,33 @@ namespace SCE_ProductionChain.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Accès non autorisé !.
+        /// </summary>
+        public static string IdentificationErrorAccessProhibited {
+            get {
+                return ResourceManager.GetString("IdentificationErrorAccessProhibited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à est déjà identifié !.
+        /// </summary>
+        public static string IdentificationErrorAlreadyIdentified {
+            get {
+                return ResourceManager.GetString("IdentificationErrorAlreadyIdentified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Une ou plusieurs personnes interfèrent avec votre identification. Déplacez-vous pour régler le problème..
+        /// </summary>
+        public static string IdentificationErrorTooCloseToOtherPeople {
+            get {
+                return ResourceManager.GetString("IdentificationErrorTooCloseToOtherPeople", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Présentez votre carte d&apos;employé à la caméra de sorte à ce qu&apos;elle apparaisse au centre de votre poitrine à l&apos;écran..
         /// </summary>
         public static string IdentificationGetCloser {
@@ -75,15 +102,6 @@ namespace SCE_ProductionChain.Properties {
         public static string IdentificationShowCard {
             get {
                 return ResourceManager.GetString("IdentificationShowCard", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à Une ou plusieurs personnes interfèrent avec votre identification. Déplacez-vous pour régler le problème..
-        /// </summary>
-        public static string IdentificationTooCloseToOtherPeople {
-            get {
-                return ResourceManager.GetString("IdentificationTooCloseToOtherPeople", resourceCulture);
             }
         }
     }

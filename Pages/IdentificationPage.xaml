@@ -35,5 +35,9 @@
             <Image Name="multiSourceFrameImage" Height="500" HorizontalAlignment="Right" VerticalAlignment="Center" />
             <Canvas Name="multiSourceFrameCanvas" Height="500" Width="890" />
         </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="2" Margin="0,30,50,0">
+            <Label Name="lblError" Foreground="Red" FontSize="28" HorizontalAlignment="Center" />
+        </Grid>
     </Grid>
 </Page>

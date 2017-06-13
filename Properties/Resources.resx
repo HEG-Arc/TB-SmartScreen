@@ -117,13 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="IdentificationErrorAccessProhibited" xml:space="preserve">
+    <value>Accès non autorisé !</value>
+  </data>
+  <data name="IdentificationErrorAlreadyIdentified" xml:space="preserve">
+    <value>est déjà identifié !</value>
+  </data>
+  <data name="IdentificationErrorTooCloseToOtherPeople" xml:space="preserve">
+    <value>Une ou plusieurs personnes interfèrent avec votre identification. Déplacez-vous pour régler le problème.</value>
+  </data>
   <data name="IdentificationGetCloser" xml:space="preserve">
     <value>Présentez votre carte d'employé à la caméra de sorte à ce qu'elle apparaisse au centre de votre poitrine à l'écran.</value>
   </data>
   <data name="IdentificationShowCard" xml:space="preserve">
     <value>Approchez-vous de l'écran jusqu'à ce que le carré qui encadre votre tête devienne bleu.</value>
-  </data>
-  <data name="IdentificationTooCloseToOtherPeople" xml:space="preserve">
-    <value>Une ou plusieurs personnes interfèrent avec votre identification. Déplacez-vous pour régler le problème.</value>
   </data>
 </root>

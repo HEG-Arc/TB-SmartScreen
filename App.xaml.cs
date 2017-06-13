@@ -18,7 +18,6 @@ namespace SCE_ProductionChain
         internal Page identificationPage;
 
         internal Page calendarPage;
-
         internal List<User> users { get; set; }
         internal List<ulong> trackedBodies { get; set; }
         internal List<ulong> unidentifiedBodies { get; set; }

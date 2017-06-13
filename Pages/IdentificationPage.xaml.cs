@@ -223,7 +223,7 @@ namespace SCE_ProductionChain.Pages
                 return;
             else if (potentialUsers.Count > 1)
             {
-                //this.displayError("Veuillez vous éloigner l'un de l'autre !");
+                this.lblError.Content = Properties.Resources.IdentificationErrorTooCloseToOtherPeople;
                 return;
             }
 
@@ -231,7 +231,7 @@ namespace SCE_ProductionChain.Pages
             {
                 if (user.Code.Equals(userCode) || user.BodyId.Equals(potentialUsers[0]))
                 {
-                    //this.displayError(user.Username + " est déjà identifié !");
+                    this.lblError.Content = user.Username + Properties.Resources.IdentificationErrorAlreadyIdentified;
                     return;
                 }
             }
@@ -254,7 +254,7 @@ namespace SCE_ProductionChain.Pages
             }
             else
             {
-                //this.displayError("Accès non autorisé !");
+                this.lblError.Content = Properties.Resources.IdentificationErrorAccessProhibited;
             }
 
             this.barcodeContent = null;
