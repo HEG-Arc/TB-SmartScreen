@@ -85,7 +85,7 @@ namespace SCE_ProductionChain.Pages
             msfr = app.msfr;
             if (app.identificationPage == null)
             {
-                msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived; ;
+                msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
                 app.identificationPage = this;
             }
         }

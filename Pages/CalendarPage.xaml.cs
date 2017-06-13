@@ -40,7 +40,6 @@ namespace SCE_ProductionChain.Pages
         {
             initUI();
             initCalendar();
-
             drawCalendar(this.calendar);
 
             if (app.calendarPage == null)

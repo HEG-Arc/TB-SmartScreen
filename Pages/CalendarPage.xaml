@@ -9,6 +9,7 @@
       Title="CalendarPage">
 
     <Grid Name="gdCalendar" ShowGridLines="False">
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="100"/>

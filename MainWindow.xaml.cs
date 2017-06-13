@@ -45,7 +45,7 @@ namespace SCE_ProductionChain
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            initKinect();
+            initKinect();            
             this.frame.Navigate(new IdentificationPage());
         }
 
@@ -119,12 +119,16 @@ namespace SCE_ProductionChain
                 }
             }
             catch { }
-            
+
+            this.updateUIForIdentificationPage();
+        }
+
+        private void updateUIForIdentificationPage()
+        {
             if (app.onIdentificationPage)
                 initForIdentificationPage();
             else
                 initForOtherPages();
-
         }
         private void initForIdentificationPage()
         {
@@ -132,6 +136,8 @@ namespace SCE_ProductionChain
             {
                 this.multiSourceFrameIndicator.Visibility = Visibility.Hidden;
                 this.multiSourceFrameIndicatorCanvas.Visibility = Visibility.Hidden;
+                this.btnCalendar.Visibility = Visibility.Hidden;
+                this.btnStatistics.Visibility = Visibility.Hidden;
             }
         }
 
@@ -141,8 +147,25 @@ namespace SCE_ProductionChain
             {
                 this.multiSourceFrameIndicator.Visibility = Visibility.Visible;
                 this.multiSourceFrameIndicatorCanvas.Visibility = Visibility.Visible;
+                this.btnCalendar.Visibility = Visibility.Visible;
+                this.btnStatistics.Visibility = Visibility.Visible;
             }
         }
 
+        private void btnCalendar_Click(object sender, RoutedEventArgs e)
+        {
+            if (app.calendarPage != null)
+                this.frame.Navigate(app.calendarPage);
+            else
+                this.frame.Navigate(new CalendarPage());
+        }
+
+        private void btnStatistics_Click(object sender, RoutedEventArgs e)
+        {
+            if (app.statisticsPage != null)
+                this.frame.Navigate(app.statisticsPage);
+            else
+                this.frame.Navigate(new StatisticsPage());
+        }
     }
 }

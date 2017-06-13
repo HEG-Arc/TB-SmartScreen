@@ -18,11 +18,24 @@ namespace SCE_ProductionChain.Pages
     /// <summary>
     /// Logique d'interaction pour StatisticPage.xaml
     /// </summary>
-    public partial class StatisticPage : Page
+    public partial class StatisticsPage : Page
     {
-        public StatisticPage()
+        private App app;
+
+        public StatisticsPage()
         {
             InitializeComponent();
+            app = (App)Application.Current;
+            this.Loaded += StatisticsPage_Loaded;
+        }
+
+        private void StatisticsPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (app.statisticsPage == null)
+            {
+                // msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
+                app.identificationPage = this;
+            }
         }
     }
 }
