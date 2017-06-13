@@ -20,6 +20,8 @@ namespace SCE_ProductionChain.Util
         private const int HEAD_INFO_MARGIN_TOP = 10;
         private const int HEAD_INFO_FONT_SIZE = 20;
         private const string HEAD_INFO_DEFAULT_TEXT = "non identifié";
+        //private const string HEAD_DISTANCE_INFO_TOO_FAR = "Trop loin !";
+        //private const string HEAD_DISTANCE_INFO_OK = "Distance OK !";
 
         public static readonly SolidColorBrush[] BodyColors =
         {
@@ -31,23 +33,41 @@ namespace SCE_ProductionChain.Util
             new SolidColorBrush(Color.FromRgb(255,255,255))
         };
 
-        private readonly static SolidColorBrush DefaultBrush = new SolidColorBrush(Color.FromRgb(200, 200, 200));
+        private readonly static SolidColorBrush TooFarBrush = new SolidColorBrush(Color.FromRgb(200, 200, 200));
+        private readonly static SolidColorBrush DistanceOKBrush = new SolidColorBrush(Color.FromRgb(0, 0, 255));
 
-        public static void DrawHeadRectangle(Joint headJoint, Point headPosition, User user, int userIndex,
+        public static void DrawHeadRectangle(Joint headJoint, Point headPosition, User user, int userIndex, bool isAtTheRightDistance,
                                              Canvas canvas, double color_scale_ratio)
         {
             Rectangle headRect = new Rectangle() { StrokeThickness = HEAD_RECTANGLE_THICKNESS };
-            TextBlock headInfos = new TextBlock() { FontSize = HEAD_INFO_FONT_SIZE };
+            TextBlock headUsernameInfo = new TextBlock() { FontSize = HEAD_INFO_FONT_SIZE };
+            //Label headDistanceInfo = new Label() { FontSize = HEAD_INFO_FONT_SIZE };
 
             if (userIndex >= 0)
             {
                 headRect.Stroke = BodyColors[userIndex];
-                headInfos.Foreground = BodyColors[userIndex];
+                headUsernameInfo.Foreground = BodyColors[userIndex];
+
+                if (user != null)
+                    headUsernameInfo.Text = user.Username;
             }
             else
             {
-                headRect.Stroke = DefaultBrush;
-                headInfos.Foreground = DefaultBrush;
+                if(!isAtTheRightDistance)
+                {
+                    headRect.Stroke = TooFarBrush;
+                    headUsernameInfo.Foreground = TooFarBrush;
+                    //headDistanceInfo.Foreground = TooFarBrush;
+                    //headDistanceInfo.Content = HEAD_DISTANCE_INFO_TOO_FAR;
+                }
+                else
+                {
+                    headRect.Stroke = DistanceOKBrush;
+                    headUsernameInfo.Foreground = DistanceOKBrush;
+                    //headDistanceInfo.Foreground = DistanceOKBrush;
+                    //headDistanceInfo.Content = HEAD_DISTANCE_INFO_OK;
+                }
+                headUsernameInfo.Text = HEAD_INFO_DEFAULT_TEXT;
             }
             headRect.Height = headRect.Width = (HEAD_RECTANGLE_SIZE / color_scale_ratio) / headJoint.Position.Z;
 
@@ -56,15 +76,15 @@ namespace SCE_ProductionChain.Util
             Canvas.SetLeft(headRect, headPosition.X - headRect.Width / 2);
             Canvas.SetTop(headRect, headPosition.Y - headRect.Height / 2);
 
-            if (user != null)
-                headInfos.Text = user.Username;
-            else
-                headInfos.Text = HEAD_INFO_DEFAULT_TEXT;
-            Canvas.SetLeft(headInfos, headPosition.X - headRect.Width / 2);
-            Canvas.SetTop(headInfos, (headPosition.Y - headRect.Height / 2) + headRect.Height + (HEAD_INFO_MARGIN_TOP / color_scale_ratio));
+            Canvas.SetLeft(headUsernameInfo, headPosition.X - headRect.Width / 2);
+            Canvas.SetTop(headUsernameInfo, (headPosition.Y - headRect.Height / 2) + headRect.Height + (HEAD_INFO_MARGIN_TOP / color_scale_ratio));
+
+            //Canvas.SetLeft(headDistanceInfo, headPosition.X - headRect.Width / 2);
+            //Canvas.SetTop(headDistanceInfo, (headPosition.Y - headRect.Height / 2) - HEAD_INFO_FONT_SIZE - HEAD_INFO_MARGIN_TOP);
 
             canvas.Children.Add(headRect);
-            canvas.Children.Add(headInfos);
+            canvas.Children.Add(headUsernameInfo);
+            //canvas.Children.Add(headDistanceInfo);
         }
     }
 }

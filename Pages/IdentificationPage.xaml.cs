@@ -27,6 +27,7 @@ namespace SCE_ProductionChain.Pages
         private const double COLOR_SCALE_RATIO = 2.16;
         private const int PIXELS_PER_BYTE = 4;
         private const int NB_FRAMES_BEFORE_DECODE = 30;
+        private const double DISTANCE_FOR_SCANNING = 1.2;
 
         private App app;
         private KinectSensor sensor;
@@ -66,7 +67,7 @@ namespace SCE_ProductionChain.Pages
 
         private void initUI()
         {
-            tbMessage.Text = "Approchez-vous de l'écran jusqu'à ce que le carré qui encadre votre tête devienne bleu.";
+            this.tbMessage.Text = (string)this.FindName("IdentificationShowCard");
         }
         private void initKinect()
         {
@@ -96,6 +97,7 @@ namespace SCE_ProductionChain.Pages
                 Point point;
 
                 User currentUser;
+                bool isDistanceOK = false;
 
                 try
                 {
@@ -143,7 +145,22 @@ namespace SCE_ProductionChain.Pages
                                             csp = coordinateMapper.MapCameraPointToColorSpace(joint.Position);
                                             point = new Point() { X = csp.X / COLOR_SCALE_RATIO, Y = csp.Y / COLOR_SCALE_RATIO };
 
-                                            Drawer.DrawHeadRectangle(joint, point, currentUser, app.users.IndexOf(currentUser),
+                                            isDistanceOK = (joint.Position.Z < DISTANCE_FOR_SCANNING);
+                                            if(isDistanceOK)
+                                            {
+                                                if (cptFrame > NB_FRAMES_BEFORE_DECODE)
+                                                {
+                                                    this.DecodeFrame(colorFrame);
+                                                    cptFrame = 0;
+                                                }
+                                                this.tbMessage.Text = (string)this.FindName("IdentificationShowCard");
+                                            }
+                                            else
+                                            {
+                                                this.tbMessage.Text = (string)this.FindName("IdentificationGetCloser");
+                                            }
+                                                
+                                            Drawer.DrawHeadRectangle(joint, point, currentUser, app.users.IndexOf(currentUser), isDistanceOK,
                                                                  multiSourceFrameCanvas, COLOR_SCALE_RATIO);
 
                                             if (didCollide)
@@ -161,11 +178,11 @@ namespace SCE_ProductionChain.Pages
                                         this.TryLogin(collidedBodies, barcodeContent);
 
                                     // Scannage
-                                    if (cptFrame > NB_FRAMES_BEFORE_DECODE)
-                                    {
-                                        this.DecodeFrame(colorFrame);
-                                        cptFrame = 0;
-                                    }
+                                    //if (cptFrame > NB_FRAMES_BEFORE_DECODE)
+                                    //{
+                                    //    this.DecodeFrame(colorFrame);
+                                    //    cptFrame = 0;
+                                    //}
                                     cptFrame++;
                                     collidedBodies.Clear();
                                 }
