@@ -132,4 +132,7 @@
   <data name="IdentificationShowCard" xml:space="preserve">
     <value>Approchez-vous de l'écran jusqu'à ce que le carré qui encadre votre tête devienne bleu.</value>
   </data>
+  <data name="UnidentifiedUser" xml:space="preserve">
+    <value>non identifié</value>
+  </data>
 </root>

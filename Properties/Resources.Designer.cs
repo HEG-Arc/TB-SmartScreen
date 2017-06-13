@@ -104,5 +104,14 @@ namespace SCE_ProductionChain.Properties {
                 return ResourceManager.GetString("IdentificationShowCard", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à non identifié.
+        /// </summary>
+        public static string UnidentifiedUser {
+            get {
+                return ResourceManager.GetString("UnidentifiedUser", resourceCulture);
+            }
+        }
     }
 }
