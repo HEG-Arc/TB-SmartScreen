@@ -106,6 +106,42 @@ namespace SCE_ProductionChain.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Estimation salarial mensuel.
+        /// </summary>
+        public static string StatisticsEstimationSalaryTitle {
+            get {
+                return ResourceManager.GetString("StatisticsEstimationSalaryTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Nombre d&apos;heures comptabilisées ce mois.
+        /// </summary>
+        public static string StatisticsNbHoursTitle {
+            get {
+                return ResourceManager.GetString("StatisticsNbHoursTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Nombre de pièces comptabilisées ce mois.
+        /// </summary>
+        public static string StatisticsNbPiecesTitle {
+            get {
+                return ResourceManager.GetString("StatisticsNbPiecesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Salaire par heures de travail.
+        /// </summary>
+        public static string StatisticsRevenuPerHoursTitle {
+            get {
+                return ResourceManager.GetString("StatisticsRevenuPerHoursTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à non identifié.
         /// </summary>
         public static string UnidentifiedUser {

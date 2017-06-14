@@ -29,9 +29,9 @@ namespace SCE_ProductionChain.Pages
             app = (App)Application.Current;
             calendar = new bool[CALENDAR_DAYS, CALENDAR_HOURS];
 
-            noWorkBrush = new SolidColorBrush(Color.FromRgb(102, 102, 102));
+            noWorkBrush = app.secondaryBrush;
             WorkBrush = new SolidColorBrush(Color.FromRgb(184, 0, 0));
-            spaceBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            spaceBrush = app.backgroundBrush;
 
             this.Loaded += CalendarPage_Loaded;
         }

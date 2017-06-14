@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace SCE_ProductionChain
 {
@@ -27,6 +28,10 @@ namespace SCE_ProductionChain
         internal MultiSourceFrameReader msfr { get; set; }    
         internal bool onIdentificationPage { get; set; }
 
+        internal SolidColorBrush primaryBrush { get; set; }
+        internal SolidColorBrush secondaryBrush { get; set; }
+        internal SolidColorBrush backgroundBrush { get; set; }
+
         private List<KeyValuePair<string, string>> availableUsers = new Dictionary<String, String>
         {
             {"USER-JEFF-SOKOLI-732195", "Jeff Sokoli"},
@@ -39,7 +44,12 @@ namespace SCE_ProductionChain
             this.trackedBodies = new List<ulong>();
             this.unidentifiedBodies = new List<ulong>();
             this.onIdentificationPage = false;
+
+            primaryBrush = new SolidColorBrush(Color.FromRgb(77, 77, 77));
+            secondaryBrush = new SolidColorBrush(Color.FromRgb(102, 102, 102));
+            backgroundBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         }
+
         public List<KeyValuePair<string, string>> AvailableUsers
         {
             get

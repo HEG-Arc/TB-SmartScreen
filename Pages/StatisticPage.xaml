@@ -9,6 +9,37 @@
       Title="StatisticsPage">
 
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="370"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="370"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="370"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="600"/>
+
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="105" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="105" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="350" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid Name="titleNbHours" Grid.Row="1" Grid.Column="1" Grid.RowSpan="3"/>
+        <Grid Name="titleNbPieces" Grid.Row="1" Grid.Column="3" Grid.RowSpan="3"/>
+        <Grid Name="titleRevenuPerHour" Grid.Row="1" Grid.Column="5" Grid.RowSpan="3"/>
+        <Grid Name="titleEstimatedSalary" Grid.Row="1" Grid.Column="7"/>
+
+        <Grid Name="contentNbHours" Grid.Row="5" Grid.Column="1" />
+        <Grid Name="contentNbPieces" Grid.Row="5" Grid.Column="3" />
+        <Grid Name="contentRevenuPerHour" Grid.Row="5" Grid.Column="5" />
+        <Grid Name="contentEstimatedSalary" Grid.Row="3" Grid.Column="7" Grid.RowSpan="3" />
     </Grid>
 </Page>

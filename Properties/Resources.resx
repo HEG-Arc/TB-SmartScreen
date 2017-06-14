@@ -132,6 +132,18 @@
   <data name="IdentificationShowCard" xml:space="preserve">
     <value>Approchez-vous de l'écran jusqu'à ce que le carré qui encadre votre tête devienne bleu.</value>
   </data>
+  <data name="StatisticsEstimationSalaryTitle" xml:space="preserve">
+    <value>Estimation salarial mensuel</value>
+  </data>
+  <data name="StatisticsNbHoursTitle" xml:space="preserve">
+    <value>Nombre d'heures comptabilisées ce mois</value>
+  </data>
+  <data name="StatisticsNbPiecesTitle" xml:space="preserve">
+    <value>Nombre de pièces comptabilisées ce mois</value>
+  </data>
+  <data name="StatisticsRevenuPerHoursTitle" xml:space="preserve">
+    <value>Salaire par heures de travail</value>
+  </data>
   <data name="UnidentifiedUser" xml:space="preserve">
     <value>non identifié</value>
   </data>

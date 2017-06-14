@@ -45,8 +45,9 @@ namespace SCE_ProductionChain
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            initKinect();            
-            this.frame.Navigate(new IdentificationPage());
+            initKinect();
+            //this.frame.Navigate(new IdentificationPage());
+            this.frame.Navigate(new CalendarPage());
         }
 
         private void initKinect()
@@ -143,7 +144,7 @@ namespace SCE_ProductionChain
 
         private void initForOtherPages()
         {
-            if (this.multiSourceFrameIndicator.Visibility != Visibility.Visible)
+            if (this.btnCalendar.Visibility != Visibility.Visible)
             {
                 this.multiSourceFrameIndicator.Visibility = Visibility.Visible;
                 this.multiSourceFrameIndicatorCanvas.Visibility = Visibility.Visible;
