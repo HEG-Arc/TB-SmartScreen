@@ -59,9 +59,7 @@ namespace SCE_ProductionChain.Pages
                     Rectangle rect = new Rectangle()
                     {
                         Fill = noWorkBrush,
-                        Stretch = Stretch.UniformToFill,
-                        HorizontalAlignment = HorizontalAlignment.Stretch,
-                        VerticalAlignment = VerticalAlignment.Stretch
+                        Stretch = Stretch.Fill
                     };
                     Grid.SetRow(rect, row);
                     Grid.SetColumn(rect, col);

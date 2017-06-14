@@ -6,10 +6,9 @@
       xmlns:local="clr-namespace:SCE_ProductionChain.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="1080" d:DesignWidth="1920"
-      Title="CalendarPage"
-      KeepAlive="True">
+      Title="CalendarPage">
 
-    <Grid Name="gdCalendar" ShowGridLines="False">
+    <Grid Name="gdCalendar" ShowGridLines="False" SnapsToDevicePixels="True">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />

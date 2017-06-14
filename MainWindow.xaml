@@ -13,11 +13,11 @@
         <Image Name="multiSourceFrameIndicator" Height="240" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
         <Canvas Name="multiSourceFrameIndicatorCanvas" Height="240" Width="427" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
 
-        <Grid Width="510" Height="250" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="Transparent">
-            <Button Name="btnCalendar" Style="{StaticResource btnCalendar}" Width="250" Height="250" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="btnCalendar_Click" Visibility="Hidden">
+        <Grid Width="510" Height="250" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="Transparent" ShowGridLines="False" SnapsToDevicePixels="True">
+            <Button Name="btnCalendar" Style="{StaticResource btnCalendar}" Width="250" Height="250" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="btnCalendar_Click" Visibility="Hidden" SnapsToDevicePixels="True">
                 <Image Source="Images/button_calendar.png" Width="90" />
             </Button>
-            <Button Name="btnStatistics" Style="{StaticResource btnStatistics}" Width="250" Height="250" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="btnStatistics_Click" Visibility="Hidden">
+            <Button Name="btnStatistics" Style="{StaticResource btnStatistics}" Width="250" Height="250" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="btnStatistics_Click" Visibility="Hidden" SnapsToDevicePixels="True">
                 <Image Source="Images/button_statictics.png" Width="90" />
             </Button>
         </Grid>
