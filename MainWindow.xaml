@@ -14,10 +14,10 @@
         <Canvas Name="multiSourceFrameIndicatorCanvas" Height="240" Width="427" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
 
         <Grid Width="510" Height="250" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="Transparent">
-            <Button Name="btnCalendar" Width="250" Height="250" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="#00bebe" Click="btnCalendar_Click" Visibility="Hidden">
+            <Button Name="btnCalendar" Style="{StaticResource btnCalendar}" Width="250" Height="250" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="btnCalendar_Click" Visibility="Hidden">
                 <Image Source="Images/button_calendar.png" Width="90" />
             </Button>
-            <Button Name="btnStatistics" Width="250" Height="250" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="#25be00" Click="btnStatistics_Click" Visibility="Hidden">
+            <Button Name="btnStatistics" Style="{StaticResource btnStatistics}" Width="250" Height="250" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="btnStatistics_Click" Visibility="Hidden">
                 <Image Source="Images/button_statictics.png" Width="90" />
             </Button>
         </Grid>
