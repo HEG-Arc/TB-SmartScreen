@@ -88,7 +88,7 @@ namespace SCE_ProductionChain.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Présentez votre carte d&apos;employé à la caméra de sorte à ce qu&apos;elle apparaisse au centre de votre poitrine à l&apos;écran..
+        ///   Recherche une chaîne localisée semblable à Approchez-vous de l&apos;écran jusqu&apos;à ce que le carré qui encadre votre tête devienne bleu..
         /// </summary>
         public static string IdentificationGetCloser {
             get {
@@ -97,7 +97,7 @@ namespace SCE_ProductionChain.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Approchez-vous de l&apos;écran jusqu&apos;à ce que le carré qui encadre votre tête devienne bleu..
+        ///   Recherche une chaîne localisée semblable à Présentez votre carte d&apos;employé à la caméra de sorte à ce qu&apos;elle apparaisse au centre de votre poitrine à l&apos;écran..
         /// </summary>
         public static string IdentificationShowCard {
             get {

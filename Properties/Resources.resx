@@ -127,10 +127,10 @@
     <value>Une ou plusieurs personnes interfèrent avec votre identification. Déplacez-vous pour régler le problème.</value>
   </data>
   <data name="IdentificationGetCloser" xml:space="preserve">
-    <value>Présentez votre carte d'employé à la caméra de sorte à ce qu'elle apparaisse au centre de votre poitrine à l'écran.</value>
+    <value>Approchez-vous de l'écran jusqu'à ce que le carré qui encadre votre tête devienne bleu.</value>
   </data>
   <data name="IdentificationShowCard" xml:space="preserve">
-    <value>Approchez-vous de l'écran jusqu'à ce que le carré qui encadre votre tête devienne bleu.</value>
+    <value>Présentez votre carte d'employé à la caméra de sorte à ce qu'elle apparaisse au centre de votre poitrine à l'écran.</value>
   </data>
   <data name="StatisticsEstimationSalaryTitle" xml:space="preserve">
     <value>Estimation salarial mensuel</value>
