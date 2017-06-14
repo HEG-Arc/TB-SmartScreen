@@ -19,12 +19,12 @@ namespace SCE_ProductionChain.Util
 
         public static readonly SolidColorBrush[] BodyColors =
         {
-            new SolidColorBrush(Color.FromRgb(255,0,0)),
-            new SolidColorBrush(Color.FromRgb(0,255,0)),
-            new SolidColorBrush(Color.FromRgb(0,0,255)),
-            new SolidColorBrush(Color.FromRgb(255,0,255)),
-            new SolidColorBrush(Color.FromRgb(255,255,0)),
-            new SolidColorBrush(Color.FromRgb(255,255,255))
+            new SolidColorBrush(Color.FromRgb(184,0,0)),
+            new SolidColorBrush(Color.FromRgb(0,184,0)),
+            new SolidColorBrush(Color.FromRgb(0,0,184)),
+            new SolidColorBrush(Color.FromRgb(184,0,184)),
+            new SolidColorBrush(Color.FromRgb(184,184,0)),
+            new SolidColorBrush(Color.FromRgb(0,184,184))
         };
 
         private readonly static SolidColorBrush TooFarBrush = new SolidColorBrush(Color.FromRgb(200, 200, 200));

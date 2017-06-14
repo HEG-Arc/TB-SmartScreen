@@ -1,4 +1,5 @@
 ﻿using SCE_ProductionChain.Model;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -52,7 +53,7 @@ namespace SCE_ProductionChain.Pages
             {
                 for (int row = 3; row <= 21; row++)
                 {
-                    if(app.calendarPage != null)
+                    if (app.calendarPage != null)
                         gdCalendar.Children.Remove((Rectangle)gdCalendar.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == row && Grid.GetColumn(e) == col));
 
                     Rectangle rect = new Rectangle()
@@ -77,9 +78,23 @@ namespace SCE_ProductionChain.Pages
                 user = app.users[0];
                 if (user != null)
                     drawUserCalendar(user);
+                drawUsernames(app.users);
             }
             catch
             { }
+        }
+
+        private void drawUsernames(List<User> users)
+        {
+            this.spUsernames.Children.Clear();
+            foreach (User user in users)
+            {
+                Grid grid = new Grid() { Background = user.Color, Style = FindResource("gdUserName") as Style };
+                Label label = new Label() { Content = user.Username, Style = FindResource("lblUsername") as Style };
+
+                this.spUsernames.Children.Add(grid);
+                this.spUsernames.Children.Add(label);
+            }
         }
 
         private void drawUserCalendar(User user)

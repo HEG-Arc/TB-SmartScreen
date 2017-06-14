@@ -14,7 +14,7 @@
             <Setter Property="Foreground" Value="White" />
         </Style>
         <Style TargetType="{x:Type Button}" x:Key="btnCalendar">
-            <Setter Property="Background" Value="#00bebe" /> <!-- Value="#25be00" />-->
+            <Setter Property="Background" Value="#00bebe" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -83,11 +83,20 @@
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
-        <Style TargetType="{x:Type Label}" x:Key="lblStatisticsContentLarge">
-            <Setter Property="FontSize" Value="124" />
-            <Setter Property="FontWeight" Value="Regular" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
+        <Style TargetType="{x:Type Grid}" x:Key="gdUserName">
+            <Setter Property="Width" Value="70" />
+            <Setter Property="Height" Value="70" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+        <Style TargetType="{x:Type Label}" x:Key="lblUsername">
+            <Setter Property="FontSize" Value="28" />
             <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="10,0,10,0" />
+        </Style>
+        <Style TargetType="{x:Type StackPanel}" x:Key="spUsernames">
+            <Setter Property="Orientation" Value="Horizontal" />
+            <Setter Property="Height" Value="70" />
+            <Setter Property="VerticalAlignment" Value="Top" />
         </Style>
     </Application.Resources>
 </Application>

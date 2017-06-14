@@ -109,7 +109,7 @@ namespace SCE_ProductionChain.Pages
             this.singleUserContentRevenuPerHour.Children.Add(rectContents[2]);
             this.singleUserContentRevenuPerHour.Children.Add(new Label() { Content = String.Format("{0:# ###}", currentUser.Statistics.RevenuePerHour) + ".-", Style = FindResource("lblStatisticsContent") as Style });
             this.singleUserContentEstimatedSalary.Children.Add(rectContents[3]);
-            this.singleUserContentEstimatedSalary.Children.Add(new Label() { Content = String.Format("{0:~# ###}", currentUser.Statistics.SalaryEstimation) + ".-", Style = FindResource("lblStatisticsContentLarge") as Style });
+            this.singleUserContentEstimatedSalary.Children.Add(new Label() { Content = String.Format("{0:~# ###}", currentUser.Statistics.SalaryEstimation) + ".-", Style = FindResource("lblStatisticsContent") as Style });
         }
 
         private void initMultiUserUI()
