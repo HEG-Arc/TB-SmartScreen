@@ -34,7 +34,8 @@ namespace SCE_ProductionChain.Pages
 
         private void StatisticsPage_Loaded(object sender, RoutedEventArgs e)
         {
-            initSingleUserUI();
+            resetUI();
+            initMultiUserUI();
 
             if (app.statisticsPage == null)
             {
@@ -42,8 +43,30 @@ namespace SCE_ProductionChain.Pages
             }
         }
 
+        private void resetUI()
+        {
+            this.singleUserTitleNbHours.Children.Clear();
+            this.singleUserTitleNbPieces.Children.Clear();
+            this.singleUserTitleRevenuPerHour.Children.Clear();
+            this.singleUserTitleEstimatedSalary.Children.Clear();
+            this.singleUserContentNbHours.Children.Clear();
+            this.singleUserContentNbPieces.Children.Clear();
+            this.singleUserContentRevenuPerHour.Children.Clear();
+            this.singleUserContentEstimatedSalary.Children.Clear();
+
+            this.multiUserTitleNbPiecesHours.Children.Clear();
+            this.multiUserTitleEstimatedSalary.Children.Clear();
+            this.multiUserContentNbPiecesHours.Children.Clear();
+            this.multiUserContentEstimatedSalary.Children.Clear();
+
+            this.gdSingleUser.Visibility = Visibility.Hidden;
+            this.gdMultiUser.Visibility = Visibility.Hidden;
+        }
+
         private void initSingleUserUI()
         {
+            this.gdSingleUser.Visibility = Visibility.Visible;
+            
             rectTitles = new Rectangle[4];
             rectContents = new Rectangle[4];
             for (int i = 0; i < 4; i++)
@@ -65,23 +88,59 @@ namespace SCE_ProductionChain.Pages
                 };
             }
 
-            this.titleNbHours.Children.Add(rectTitles[0]);
-            this.titleNbHours.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsNbHoursTitle, Style = FindResource("tbStatisticsTitle") as Style });
-            this.titleNbPieces.Children.Add(rectTitles[1]);
-            this.titleNbPieces.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsNbPiecesTitle, Style = FindResource("tbStatisticsTitle") as Style });
-            this.titleRevenuPerHour.Children.Add(rectTitles[2]);
-            this.titleRevenuPerHour.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsRevenuPerHoursTitle, Style = FindResource("tbStatisticsTitle") as Style });
-            this.titleEstimatedSalary.Children.Add(rectTitles[3]);
-            this.titleEstimatedSalary.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsEstimationSalaryTitle, Style = FindResource("tbStatisticsTitleLarge") as Style });
+            this.singleUserTitleNbHours.Children.Add(rectTitles[0]);
+            this.singleUserTitleNbHours.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsNbHoursTitle, Style = FindResource("tbStatisticsTitle") as Style });
+            this.singleUserTitleNbPieces.Children.Add(rectTitles[1]);
+            this.singleUserTitleNbPieces.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsNbPiecesTitle, Style = FindResource("tbStatisticsTitle") as Style });
+            this.singleUserTitleRevenuPerHour.Children.Add(rectTitles[2]);
+            this.singleUserTitleRevenuPerHour.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsRevenuPerHoursTitle, Style = FindResource("tbStatisticsTitle") as Style });
+            this.singleUserTitleEstimatedSalary.Children.Add(rectTitles[3]);
+            this.singleUserTitleEstimatedSalary.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsEstimationSalaryTitle, Style = FindResource("tbStatisticsTitleLarge") as Style });
 
-            this.contentNbHours.Children.Add(rectContents[0]);
-            this.contentNbHours.Children.Add(new Label() { Content = "64", Style = FindResource("lblStatisticsContent") as Style });
-            this.contentNbPieces.Children.Add(rectContents[1]);
-            this.contentNbPieces.Children.Add(new Label() { Content = "1'456", Style = FindResource("lblStatisticsContent") as Style });
-            this.contentRevenuPerHour.Children.Add(rectContents[2]);
-            this.contentRevenuPerHour.Children.Add(new Label() { Content = "22.-", Style = FindResource("lblStatisticsContent") as Style });
-            this.contentEstimatedSalary.Children.Add(rectContents[3]);
-            this.contentEstimatedSalary.Children.Add(new Label() { Content = "~ 3'565.-", Style = FindResource("lblStatisticsContentLarge") as Style });
+            this.singleUserContentNbHours.Children.Add(rectContents[0]);
+            this.singleUserContentNbHours.Children.Add(new Label() { Content = "64", Style = FindResource("lblStatisticsContent") as Style });
+            this.singleUserContentNbPieces.Children.Add(rectContents[1]);
+            this.singleUserContentNbPieces.Children.Add(new Label() { Content = "1'456", Style = FindResource("lblStatisticsContent") as Style });
+            this.singleUserContentRevenuPerHour.Children.Add(rectContents[2]);
+            this.singleUserContentRevenuPerHour.Children.Add(new Label() { Content = "22.-", Style = FindResource("lblStatisticsContent") as Style });
+            this.singleUserContentEstimatedSalary.Children.Add(rectContents[3]);
+            this.singleUserContentEstimatedSalary.Children.Add(new Label() { Content = "~ 3'565.-", Style = FindResource("lblStatisticsContentLarge") as Style });
+        }
+
+        private void initMultiUserUI()
+        {
+            this.gdMultiUser.Visibility = Visibility.Visible;
+
+            rectTitles = new Rectangle[2];
+            rectContents = new Rectangle[2];
+            for (int i = 0; i < 2; i++)
+            {
+                rectTitles[i] = new Rectangle()
+                {
+                    Fill = app.primaryBrush,
+                    Stretch = Stretch.UniformToFill,
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch
+                };
+
+                rectContents[i] = new Rectangle()
+                {
+                    Fill = app.secondaryBrush,
+                    Stretch = Stretch.UniformToFill,
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch
+                };
+            }
+
+            this.multiUserTitleNbPiecesHours.Children.Add(rectTitles[0]);
+            this.multiUserTitleNbPiecesHours.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsNbHoursTitle, Style = FindResource("tbStatisticsTitleLarge") as Style });
+            this.multiUserTitleEstimatedSalary.Children.Add(rectTitles[1]);
+            this.multiUserTitleEstimatedSalary.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsEstimationSalaryTitle, Style = FindResource("tbStatisticsTitleLarge") as Style });
+
+            this.multiUserContentNbPiecesHours.Children.Add(rectContents[0]);
+            //this.multiUserContentNbPiecesHours.Children.Add(new Label() { Content = "64", Style = FindResource("lblStatisticsContent") as Style });
+            this.multiUserContentEstimatedSalary.Children.Add(rectContents[1]);
+            //this.multiUserContentEstimatedSalary.Children.Add(new Label() { Content = "~ 3'565.-", Style = FindResource("lblStatisticsContentLarge") as Style });
         }
     }
 }
