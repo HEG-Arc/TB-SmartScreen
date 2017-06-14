@@ -103,13 +103,13 @@ namespace SCE_ProductionChain.Pages
             this.singleUserTitleEstimatedSalary.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsEstimationSalaryTitle, Style = FindResource("tbStatisticsTitleLarge") as Style });
 
             this.singleUserContentNbHours.Children.Add(rectContents[0]);
-            this.singleUserContentNbHours.Children.Add(new Label() { Content = currentUser.Statistics.NbHoursWorked, Style = FindResource("lblStatisticsContent") as Style });
+            this.singleUserContentNbHours.Children.Add(new Label() { Content = String.Format("{0:# ###}", currentUser.Statistics.NbHoursWorked), Style = FindResource("lblStatisticsContent") as Style });
             this.singleUserContentNbPieces.Children.Add(rectContents[1]);
-            this.singleUserContentNbPieces.Children.Add(new Label() { Content = currentUser.Statistics.NbPiecesWorked, Style = FindResource("lblStatisticsContent") as Style });
+            this.singleUserContentNbPieces.Children.Add(new Label() { Content = String.Format("{0:# ###}", currentUser.Statistics.NbPiecesWorked), Style = FindResource("lblStatisticsContent") as Style });
             this.singleUserContentRevenuPerHour.Children.Add(rectContents[2]);
-            this.singleUserContentRevenuPerHour.Children.Add(new Label() { Content = currentUser.Statistics.RevenuePerHour, Style = FindResource("lblStatisticsContent") as Style });
+            this.singleUserContentRevenuPerHour.Children.Add(new Label() { Content = String.Format("{0:# ###}", currentUser.Statistics.RevenuePerHour) + ".-", Style = FindResource("lblStatisticsContent") as Style });
             this.singleUserContentEstimatedSalary.Children.Add(rectContents[3]);
-            this.singleUserContentEstimatedSalary.Children.Add(new Label() { Content = currentUser.Statistics.SalaryEstimation, Style = FindResource("lblStatisticsContentLarge") as Style });
+            this.singleUserContentEstimatedSalary.Children.Add(new Label() { Content = String.Format("{0:~# ###}", currentUser.Statistics.SalaryEstimation) + ".-", Style = FindResource("lblStatisticsContentLarge") as Style });
         }
 
         private void initMultiUserUI()
