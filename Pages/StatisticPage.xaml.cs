@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SCE_ProductionChain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,7 +36,10 @@ namespace SCE_ProductionChain.Pages
         private void StatisticsPage_Loaded(object sender, RoutedEventArgs e)
         {
             resetUI();
-            initMultiUserUI();
+            if (app.users.Count > 1)
+                initMultiUserUI();
+            else
+                initSingleUserUI();
 
             if (app.statisticsPage == null)
             {
@@ -65,7 +69,8 @@ namespace SCE_ProductionChain.Pages
 
         private void initSingleUserUI()
         {
-            this.gdSingleUser.Visibility = Visibility.Visible;
+            User currentUser = app.users[0];
+            gdSingleUser.Visibility = Visibility.Visible;
             
             rectTitles = new Rectangle[4];
             rectContents = new Rectangle[4];
@@ -98,13 +103,13 @@ namespace SCE_ProductionChain.Pages
             this.singleUserTitleEstimatedSalary.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsEstimationSalaryTitle, Style = FindResource("tbStatisticsTitleLarge") as Style });
 
             this.singleUserContentNbHours.Children.Add(rectContents[0]);
-            this.singleUserContentNbHours.Children.Add(new Label() { Content = "64", Style = FindResource("lblStatisticsContent") as Style });
+            this.singleUserContentNbHours.Children.Add(new Label() { Content = currentUser.Statistics.NbHoursWorked, Style = FindResource("lblStatisticsContent") as Style });
             this.singleUserContentNbPieces.Children.Add(rectContents[1]);
-            this.singleUserContentNbPieces.Children.Add(new Label() { Content = "1'456", Style = FindResource("lblStatisticsContent") as Style });
+            this.singleUserContentNbPieces.Children.Add(new Label() { Content = currentUser.Statistics.NbPiecesWorked, Style = FindResource("lblStatisticsContent") as Style });
             this.singleUserContentRevenuPerHour.Children.Add(rectContents[2]);
-            this.singleUserContentRevenuPerHour.Children.Add(new Label() { Content = "22.-", Style = FindResource("lblStatisticsContent") as Style });
+            this.singleUserContentRevenuPerHour.Children.Add(new Label() { Content = currentUser.Statistics.RevenuePerHour, Style = FindResource("lblStatisticsContent") as Style });
             this.singleUserContentEstimatedSalary.Children.Add(rectContents[3]);
-            this.singleUserContentEstimatedSalary.Children.Add(new Label() { Content = "~ 3'565.-", Style = FindResource("lblStatisticsContentLarge") as Style });
+            this.singleUserContentEstimatedSalary.Children.Add(new Label() { Content = currentUser.Statistics.SalaryEstimation, Style = FindResource("lblStatisticsContentLarge") as Style });
         }
 
         private void initMultiUserUI()
