@@ -54,52 +54,52 @@
         </Grid.RowDefinitions>
 
         <!-- Définition des jours de la semaine -->
-        <Grid Grid.Column="3" Grid.Row="1" Background="#4d4d4d">
-            <Label Content="Lundi" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="3" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}">
+            <Label Content="Lundi" Style="{StaticResource lblTitle}"/>
         </Grid>
-        <Grid Grid.Column="5" Grid.Row="1" Background="#4d4d4d">
-            <Label Content="Mardi" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="5" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}">
+            <Label Content="Mardi" Style="{StaticResource lblTitle}"/>
         </Grid>
-        <Grid Grid.Column="7" Grid.Row="1" Background="#4d4d4d">
-            <Label Content="Mercredi" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="7" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}">
+            <Label Content="Mercredi" Style="{StaticResource lblTitle}"/>
         </Grid>
-        <Grid Grid.Column="9" Grid.Row="1" Background="#4d4d4d">
-            <Label Content="Jeudi" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="9" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}">
+            <Label Content="Jeudi" Style="{StaticResource lblTitle}"/>
         </Grid>
-        <Grid Grid.Column="11" Grid.Row="1" Background="#4d4d4d">
-            <Label Content="Vendredi" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="11" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}">
+            <Label Content="Vendredi" Style="{StaticResource lblTitle}"/>
         </Grid>
 
         <!-- Définition des heures de la semaine -->
-        <Grid Grid.Column="1" Grid.Row="3" Background="#4d4d4d">
-            <Label Content="7:00" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="1" Grid.Row="3" Style="{StaticResource gdPrimaryColorCell}">
+            <Label Content="7:00" Style="{StaticResource lblContent}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
-        <Grid Grid.Column="1" Grid.Row="5" Background="#4d4d4d">
-            <Label Content="8:00" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="1" Grid.Row="5" Style="{StaticResource gdPrimaryColorCell}">
+            <Label Content="8:00" Style="{StaticResource lblContent}"/>
         </Grid>
-        <Grid Grid.Column="1" Grid.Row="7" Background="#4d4d4d">
-            <Label Content="9:00" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="1" Grid.Row="7" Style="{StaticResource gdPrimaryColorCell}">
+            <Label Content="9:00" Style="{StaticResource lblContent}"/>
         </Grid>
-        <Grid Grid.Column="1" Grid.Row="9" Background="#4d4d4d">
-            <Label Content="10:00" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="1" Grid.Row="9" Style="{StaticResource gdPrimaryColorCell}">
+            <Label Content="10:00" Style="{StaticResource lblContent}"/>
         </Grid>
-        <Grid Grid.Column="1" Grid.Row="11" Background="#4d4d4d">
-            <Label Content="11:00" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="1" Grid.Row="11" Style="{StaticResource gdPrimaryColorCell}">
+            <Label Content="11:00" Style="{StaticResource lblContent}"/>
         </Grid>
-        <Grid Grid.Column="1" Grid.Row="13" Background="#4d4d4d">
-            <Label Content="12:00" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="1" Grid.Row="13" Style="{StaticResource gdPrimaryColorCell}">
+            <Label Content="12:00" Style="{StaticResource lblContent}"/>
         </Grid>
-        <Grid Grid.Column="1" Grid.Row="15" Background="#4d4d4d">
-            <Label Content="13:00" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="1" Grid.Row="15" Style="{StaticResource gdPrimaryColorCell}">
+            <Label Content="13:00" Style="{StaticResource lblContent}"/>
         </Grid>
-        <Grid Grid.Column="1" Grid.Row="17" Background="#4d4d4d">
-            <Label Content="14:00" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="1" Grid.Row="17" Style="{StaticResource gdPrimaryColorCell}">
+            <Label Content="14:00" Style="{StaticResource lblContent}"/>
         </Grid>
-        <Grid Grid.Column="1" Grid.Row="19" Background="#4d4d4d">
-            <Label Content="15:00" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="1" Grid.Row="19" Style="{StaticResource gdPrimaryColorCell}">
+            <Label Content="15:00" Style="{StaticResource lblContent}"/>
         </Grid>
-        <Grid Grid.Column="1" Grid.Row="21" Background="#4d4d4d">
-            <Label Content="16:00" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="1" Grid.Row="21" Style="{StaticResource gdPrimaryColorCell}">
+            <Label Content="16:00" Style="{StaticResource lblContent}"/>
         </Grid>
     </Grid>
 </Page>

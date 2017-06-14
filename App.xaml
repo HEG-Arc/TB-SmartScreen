@@ -47,5 +47,47 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="{x:Type Grid}" x:Key="gdPrimaryColorCell">
+            <Setter Property="Background" Value="#4d4d4d" />
+        </Style>
+        <Style TargetType="{x:Type Label}" x:Key="lblTitle">
+            <Setter Property="FontSize" Value="40" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="{x:Type Label}" x:Key="lblContent">
+            <Setter Property="FontSize" Value="28" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="{x:Type TextBlock}" x:Key="tbStatisticsTitle">
+            <Setter Property="Width" Value="315" />
+            <Setter Property="Margin" Value="20,20,0,0" />
+            <Setter Property="FontSize" Value="38" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style TargetType="{x:Type TextBlock}" x:Key="tbStatisticsTitleLarge">
+            <Setter Property="Width" Value="550" />
+            <Setter Property="Margin" Value="20,20,0,0" />
+            <Setter Property="FontSize" Value="38" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style TargetType="{x:Type Label}" x:Key="lblStatisticsContent">
+            <Setter Property="FontSize" Value="124" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="{x:Type Label}" x:Key="lblStatisticsContentLarge">
+            <Setter Property="FontSize" Value="124" />
+            <Setter Property="FontWeight" Value="Regular" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
     </Application.Resources>
 </Application>

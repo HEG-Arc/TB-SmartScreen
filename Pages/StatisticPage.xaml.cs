@@ -20,12 +20,6 @@ namespace SCE_ProductionChain.Pages
     /// </summary>
     public partial class StatisticsPage : Page
     {
-        private const int TITLE_FONT_SIZE = 38;
-        private const int CONTENT_FONT_SIZE = 124;
-        private const int TEXT_BLOCK_SMALL_WIDTH = 315;
-        private const int TEXT_BLOCK_LARGE_WIDTH = 550;
-        private const int TITLE_MARGIN_LEFT = 25;
-
         private App app;
 
         private Rectangle[] rectTitles;
@@ -72,22 +66,22 @@ namespace SCE_ProductionChain.Pages
             }
 
             this.titleNbHours.Children.Add(rectTitles[0]);
-            this.titleNbHours.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsNbHoursTitle, Width = TEXT_BLOCK_SMALL_WIDTH, FontSize = TITLE_FONT_SIZE, Margin = new Thickness(TITLE_MARGIN_LEFT,0,0,0), HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center, TextWrapping = TextWrapping.Wrap });
+            this.titleNbHours.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsNbHoursTitle, Style = FindResource("tbStatisticsTitle") as Style });
             this.titleNbPieces.Children.Add(rectTitles[1]);
-            this.titleNbPieces.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsNbPiecesTitle, Width = TEXT_BLOCK_SMALL_WIDTH, FontSize = TITLE_FONT_SIZE, Margin = new Thickness(TITLE_MARGIN_LEFT, 0, 0, 0), HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center, TextWrapping = TextWrapping.Wrap });
+            this.titleNbPieces.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsNbPiecesTitle, Style = FindResource("tbStatisticsTitle") as Style });
             this.titleRevenuPerHour.Children.Add(rectTitles[2]);
-            this.titleRevenuPerHour.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsRevenuPerHoursTitle, Width = TEXT_BLOCK_SMALL_WIDTH, FontSize = TITLE_FONT_SIZE, Margin = new Thickness(TITLE_MARGIN_LEFT, 0, 0, 0), HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center, TextWrapping = TextWrapping.Wrap });
+            this.titleRevenuPerHour.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsRevenuPerHoursTitle, Style = FindResource("tbStatisticsTitle") as Style });
             this.titleEstimatedSalary.Children.Add(rectTitles[3]);
-            this.titleEstimatedSalary.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsEstimationSalaryTitle, Width = TEXT_BLOCK_LARGE_WIDTH, FontSize = TITLE_FONT_SIZE, Margin = new Thickness(TITLE_MARGIN_LEFT, 0, 0, 0), HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center, TextWrapping = TextWrapping.Wrap });
+            this.titleEstimatedSalary.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsEstimationSalaryTitle, Style = FindResource("tbStatisticsTitleLarge") as Style });
 
             this.contentNbHours.Children.Add(rectContents[0]);
-            this.contentNbHours.Children.Add(new Label() { Content = "64", FontSize = CONTENT_FONT_SIZE, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center });
+            this.contentNbHours.Children.Add(new Label() { Content = "64", Style = FindResource("lblStatisticsContent") as Style });
             this.contentNbPieces.Children.Add(rectContents[1]);
-            this.contentNbPieces.Children.Add(new Label() { Content = "1'456", FontSize = CONTENT_FONT_SIZE, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center });
+            this.contentNbPieces.Children.Add(new Label() { Content = "1'456", Style = FindResource("lblStatisticsContent") as Style });
             this.contentRevenuPerHour.Children.Add(rectContents[2]);
-            this.contentRevenuPerHour.Children.Add(new Label() { Content = "22.-", FontSize = CONTENT_FONT_SIZE, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center });
+            this.contentRevenuPerHour.Children.Add(new Label() { Content = "22.-", Style = FindResource("lblStatisticsContent") as Style });
             this.contentEstimatedSalary.Children.Add(rectContents[3]);
-            this.contentEstimatedSalary.Children.Add(new Label() { Content = "~ 3'565.-", FontSize = CONTENT_FONT_SIZE, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center });
+            this.contentEstimatedSalary.Children.Add(new Label() { Content = "~ 3'565.-", Style = FindResource("lblStatisticsContentLarge") as Style });
         }
     }
 }
