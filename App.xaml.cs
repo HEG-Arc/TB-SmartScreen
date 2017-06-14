@@ -1,5 +1,6 @@
 ﻿using Microsoft.Kinect;
 using SCE_ProductionChain.Model;
+using SCE_ProductionChain.Util;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,7 +17,11 @@ namespace SCE_ProductionChain
     /// Logique d'interaction pour App.xaml
     /// </summary>
     public partial class App : Application
-    {       
+    {
+        private const int _CALENDAR_DAYS = 5;
+
+        private const int _CALENDAR_HOURS = 10;
+
         internal Page identificationPage;
 
         internal Page calendarPage;
@@ -31,12 +36,15 @@ namespace SCE_ProductionChain
         internal SolidColorBrush primaryBrush { get; set; }
         internal SolidColorBrush secondaryBrush { get; set; }
         internal SolidColorBrush backgroundBrush { get; set; }
-
+        /*
         private List<KeyValuePair<string, string>> availableUsers = new Dictionary<String, String>
         {
             {"USER-JEFF-SOKOLI-732195", "Jeff Sokoli"},
             {"USER-MARC-ABRAHAM-789554", "Marc Abraham"},
         }.ToList();
+        */
+
+        internal List<User> availableUsers { get; set; }
 
         public App()
         {
@@ -44,18 +52,37 @@ namespace SCE_ProductionChain
             this.trackedBodies = new List<ulong>();
             this.unidentifiedBodies = new List<ulong>();
             this.onIdentificationPage = false;
+            this.availableUsers = new GenerateUsers().getUsers();
 
             primaryBrush = new SolidColorBrush(Color.FromRgb(77, 77, 77));
             secondaryBrush = new SolidColorBrush(Color.FromRgb(102, 102, 102));
             backgroundBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-        }
+        }      
 
+        /*
         public List<KeyValuePair<string, string>> AvailableUsers
         {
             get
             { return this.availableUsers; }
             set
             { this.availableUsers = value; }
+        }
+        */
+
+        public int CALENDAR_DAYS
+        {
+            get
+            {
+                return _CALENDAR_DAYS;
+            }
+        }
+
+        public int CALENDAR_HOURS
+        {
+            get
+            {
+                return _CALENDAR_HOURS;
+            }
         }
 
         public void UpdateUsers()

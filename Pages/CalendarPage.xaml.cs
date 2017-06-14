@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using SCE_ProductionChain.Model;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -20,14 +21,11 @@ namespace SCE_ProductionChain.Pages
         private SolidColorBrush WorkBrush;
         private SolidColorBrush spaceBrush;
 
-        private bool[,] calendar;
-
         public CalendarPage()
         {
             InitializeComponent();
 
             app = (App)Application.Current;
-            calendar = new bool[CALENDAR_DAYS, CALENDAR_HOURS];
 
             noWorkBrush = app.secondaryBrush;
             WorkBrush = new SolidColorBrush(Color.FromRgb(184, 0, 0));
@@ -40,7 +38,6 @@ namespace SCE_ProductionChain.Pages
         {
             initUI();
             initCalendar();
-            drawCalendar(this.calendar);
 
             if (app.calendarPage == null)
             {
@@ -66,35 +63,20 @@ namespace SCE_ProductionChain.Pages
                     Grid.SetColumn(rect, col);
                     gdCalendar.Children.Add(rect);
                 }
-            }            
+            }
         }
 
         private void initCalendar()
         {
-            // Initialise le calendrier à false;
-            for(int d = 0; d < CALENDAR_DAYS; d++)
+            User user = null;
+            try
             {
-                for (int h = 0; h < CALENDAR_HOURS; h++)
-                {
-                    calendar[d, h] = false;
-                }
+                user = app.users[0];
+                if (user != null)
+                    drawCalendar(user.Calendar);
             }
-
-            // Lundi de 7:00 à 12:00 et de 13:00 à 17:00
-            // Mardi de 7:00 à 12:00
-            // Jeudi de 7:00 à 12:00
-            // Vendredi de 13:00 à 17:00
-            for (int h = 7; h < 12; h++)
-            {
-                calendar[0, h - 7] = true;
-                calendar[1, h - 7] = true;
-                calendar[3, h - 7] = true;
-            }                
-            for (int h = 13; h < 17; h++)
-            {
-                calendar[0, h - 7] = true;
-                calendar[4, h - 7] = true;
-            }
+            catch
+            { }
         }
 
         private void drawCalendar(bool[,] calendar)
@@ -108,7 +90,7 @@ namespace SCE_ProductionChain.Pages
                     int row = h + 3 + nbSpace;
                     var hourRect = (Rectangle)gdCalendar.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == row && Grid.GetColumn(e) == col);
 
-                    if (calendar[d-1,h])
+                    if (calendar[d - 1, h])
                     {
                         hourRect.Fill = WorkBrush;
                         if (row < 21)
@@ -119,19 +101,19 @@ namespace SCE_ProductionChain.Pages
                             else
                                 spaceRect.Fill = spaceBrush;
                         }
-                    }                        
+                    }
                     else
                     {
                         hourRect.Fill = noWorkBrush;
-                        if(row < 21)
+                        if (row < 21)
                         {
                             var spaceRect = (Rectangle)gdCalendar.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == row + 1 && Grid.GetColumn(e) == col);
                             if (calendar[d - 1, h + 1])
                                 spaceRect.Fill = spaceBrush;
                             else
                                 spaceRect.Fill = noWorkBrush;
-                        }                        
-                    }                        
+                        }
+                    }
                     nbSpace++;
                 }
                 nbSpace = 0;

@@ -77,6 +77,7 @@
     </Compile>
     <Compile Include="Util\Collider.cs" />
     <Compile Include="Util\Drawer.cs" />
+    <Compile Include="Util\GenerateUsers.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

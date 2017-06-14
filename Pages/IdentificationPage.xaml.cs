@@ -238,20 +238,20 @@ namespace SCE_ProductionChain.Pages
                 }
             }
 
-            string username = null;
-            foreach (KeyValuePair<string, string> kv in app.AvailableUsers)
+            User currentUser = null;
+            foreach (User user in app.availableUsers)
             {
-                if (kv.Key.Equals(userCode))
+                if (user.Code.Equals(userCode))
                 {
-                    username = kv.Value;
+                    currentUser = user;
+                    currentUser.BodyId = potentialUsers[0];
                     continue;
                 }
             }
 
-            if (username != null)
+            if (currentUser != null)
             {
-                User user = new User(potentialUsers[0], username, userCode);
-                app.users.Add(user);
+                app.users.Add(currentUser);
                 navigateToHomePage();
             }
             else

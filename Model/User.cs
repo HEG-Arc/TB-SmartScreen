@@ -11,12 +11,14 @@ namespace SCE_ProductionChain.Model
         private ulong bodyId;
         private string username;
         private string code;
+        private bool[,] calendar;
 
-        public User(ulong bodyId, string username, string code)
+        public User(ulong bodyId, string username, string code, bool[,] calendar)
         {
             this.bodyId = bodyId;
             this.Username = username;
             this.Code = code;
+            this.calendar = calendar;
         }
 
         public string Code
@@ -54,6 +56,19 @@ namespace SCE_ProductionChain.Model
             set
             {
                 bodyId = value;
+            }
+        }
+
+        public bool[,] Calendar
+        {
+            get
+            {
+                return calendar;
+            }
+
+            set
+            {
+                calendar = value;
             }
         }
     }
