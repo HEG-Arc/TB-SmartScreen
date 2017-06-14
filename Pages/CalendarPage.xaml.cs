@@ -52,6 +52,9 @@ namespace SCE_ProductionChain.Pages
             {
                 for (int row = 3; row <= 21; row++)
                 {
+                    if(app.calendarPage != null)
+                        gdCalendar.Children.Remove((Rectangle)gdCalendar.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == row && Grid.GetColumn(e) == col));
+
                     Rectangle rect = new Rectangle()
                     {
                         Fill = noWorkBrush,
