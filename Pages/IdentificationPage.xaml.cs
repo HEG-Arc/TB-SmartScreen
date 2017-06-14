@@ -245,6 +245,7 @@ namespace SCE_ProductionChain.Pages
                 {
                     currentUser = user;
                     currentUser.BodyId = potentialUsers[0];
+                    currentUser.Color = Drawer.GetAvailableColor();
                     continue;
                 }
             }

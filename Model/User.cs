@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace SCE_ProductionChain.Model
 {
@@ -13,14 +14,16 @@ namespace SCE_ProductionChain.Model
         private string code;
         private bool[,] calendar;
         private Statistics statistics;
+        private SolidColorBrush color;
 
-        public User(ulong bodyId, string username, string code, bool[,] calendar, Statistics stats)
+        public User(ulong bodyId, string username, string code, bool[,] calendar, Statistics stats, SolidColorBrush color)
         {
             this.bodyId = bodyId;
             this.Username = username;
             this.Code = code;
             this.calendar = calendar;
             this.Statistics = stats;
+            this.Color = color;
         }
 
         public string Code
@@ -84,6 +87,19 @@ namespace SCE_ProductionChain.Model
             set
             {
                 statistics = value;
+            }
+        }
+
+        public SolidColorBrush Color
+        {
+            get
+            {
+                return color;
+            }
+
+            set
+            {
+                color = value;
             }
         }
     }

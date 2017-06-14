@@ -1,6 +1,7 @@
 ﻿using Microsoft.Kinect;
 using SCE_ProductionChain.Model;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -37,15 +38,15 @@ namespace SCE_ProductionChain.Util
 
             if (userIndex >= 0)
             {
-                headRect.Stroke = BodyColors[userIndex];
-                headUsernameInfo.Foreground = BodyColors[userIndex];
+                headRect.Stroke = user.Color;
+                headUsernameInfo.Foreground = user.Color;
 
                 if (user != null)
                     headUsernameInfo.Text = user.Username;
             }
             else
             {
-                if(isAtTheRightDistance == null || !(bool)isAtTheRightDistance)
+                if (isAtTheRightDistance == null || !(bool)isAtTheRightDistance)
                 {
                     headRect.Stroke = TooFarBrush;
                     headUsernameInfo.Foreground = TooFarBrush;
@@ -69,6 +70,32 @@ namespace SCE_ProductionChain.Util
 
             canvas.Children.Add(headRect);
             canvas.Children.Add(headUsernameInfo);
+        }
+
+        public static SolidColorBrush GetAvailableColor()
+        {
+            SolidColorBrush[] availableColors = GetRandomColors();
+
+            bool available = true;            
+            for (int i = 0; i < availableColors.Length; i++)
+            {
+                available = true;
+                foreach (User user in ((App)Application.Current).users)
+                {
+                    if (availableColors[i].Equals(user.Color))
+                        available = false;
+                }
+
+                if (available)
+                    return availableColors[i];                
+            }
+            return null;
+        }
+
+        public static SolidColorBrush[] GetRandomColors()
+        {
+            Random rnd = new Random();
+            return BodyColors.OrderBy(x => rnd.Next()).ToArray();
         }
     }
 }

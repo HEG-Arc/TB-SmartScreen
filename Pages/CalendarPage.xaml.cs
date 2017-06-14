@@ -76,14 +76,15 @@ namespace SCE_ProductionChain.Pages
             {
                 user = app.users[0];
                 if (user != null)
-                    drawCalendar(user.Calendar);
+                    drawUserCalendar(user);
             }
             catch
             { }
         }
 
-        private void drawCalendar(bool[,] calendar)
+        private void drawUserCalendar(User user)
         {
+            this.WorkBrush = user.Color;
             int nbSpace = 0;
             for (int d = 1; d <= CALENDAR_DAYS; d++)
             {
@@ -93,13 +94,13 @@ namespace SCE_ProductionChain.Pages
                     int row = h + 3 + nbSpace;
                     var hourRect = (Rectangle)gdCalendar.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == row && Grid.GetColumn(e) == col);
 
-                    if (calendar[d - 1, h])
+                    if (user.Calendar[d - 1, h])
                     {
                         hourRect.Fill = WorkBrush;
                         if (row < 21)
                         {
                             var spaceRect = (Rectangle)gdCalendar.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == row + 1 && Grid.GetColumn(e) == col);
-                            if (calendar[d - 1, h + 1])
+                            if (user.Calendar[d - 1, h + 1])
                                 spaceRect.Fill = WorkBrush;
                             else
                                 spaceRect.Fill = spaceBrush;
@@ -111,7 +112,7 @@ namespace SCE_ProductionChain.Pages
                         if (row < 21)
                         {
                             var spaceRect = (Rectangle)gdCalendar.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == row + 1 && Grid.GetColumn(e) == col);
-                            if (calendar[d - 1, h + 1])
+                            if (user.Calendar[d - 1, h + 1])
                                 spaceRect.Fill = spaceBrush;
                             else
                                 spaceRect.Fill = noWorkBrush;
