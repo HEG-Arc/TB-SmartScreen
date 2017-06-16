@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SCE_ProductionChain.Model
+﻿namespace SCE_ProductionChain.Model
 {
     public class TimeSlot
     {

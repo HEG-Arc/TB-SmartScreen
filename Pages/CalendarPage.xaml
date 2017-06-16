@@ -14,15 +14,25 @@
             <ColumnDefinition />
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="145"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="145"/>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="145"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="145"/>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="145"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="145"/>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="145"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="145"/>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="145"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="145"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
@@ -53,19 +63,19 @@
         </Grid.RowDefinitions>
 
         <!-- Définition des jours de la semaine -->
-        <Grid Grid.Column="3" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}">
+        <Grid Grid.Column="3" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}" Grid.ColumnSpan="3">
             <Label Content="Lundi" Style="{StaticResource lblTitle}"/>
         </Grid>
-        <Grid Grid.Column="5" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}">
+        <Grid Grid.Column="7" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}" Grid.ColumnSpan="3">
             <Label Content="Mardi" Style="{StaticResource lblTitle}"/>
         </Grid>
-        <Grid Grid.Column="7" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}">
+        <Grid Grid.Column="11" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}" Grid.ColumnSpan="3">
             <Label Content="Mercredi" Style="{StaticResource lblTitle}"/>
         </Grid>
-        <Grid Grid.Column="9" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}">
+        <Grid Grid.Column="15" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}" Grid.ColumnSpan="3">
             <Label Content="Jeudi" Style="{StaticResource lblTitle}"/>
         </Grid>
-        <Grid Grid.Column="11" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}">
+        <Grid Grid.Column="19" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}" Grid.ColumnSpan="3">
             <Label Content="Vendredi" Style="{StaticResource lblTitle}"/>
         </Grid>
 
@@ -103,11 +113,8 @@
 
         <Grid Grid.Column="3" Grid.Row="22" Grid.ColumnSpan="9" Margin="0,30,0,0">
             <StackPanel Name="spUsernames" Style="{StaticResource spUsernames}">
-                
-            </StackPanel>
-        </Grid>
 
-        <Grid Grid.Column="3" Grid.Row="13">
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>

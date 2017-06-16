@@ -8,7 +8,8 @@ namespace SCE_ProductionChain.Model
 {
     public class Calendar
     {
-        List<Day> days;
+        public const int DaysCount = 5;
+        private List<Day> days;
 
         public Calendar(List<Day> days)
         {
