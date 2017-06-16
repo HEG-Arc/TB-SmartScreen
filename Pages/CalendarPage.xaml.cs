@@ -169,7 +169,7 @@ namespace SCE_ProductionChain.Pages
                     if (index1 < dayUser1.TimeSlots.Count)
                     {
                         timeSlot1 = dayUser1.TimeSlots[index1];
-                        if(duretion1 <= 0)
+                        if (duretion1 <= 0)
                             duretion1 = timeSlot1.Duration;
                     }
                     if (index2 < dayUser2.TimeSlots.Count)
@@ -177,7 +177,7 @@ namespace SCE_ProductionChain.Pages
                         timeSlot2 = dayUser2.TimeSlots[index2];
                         if (duretion2 <= 0)
                             duretion2 = timeSlot2.Duration;
-                    }                    
+                    }
 
                     int currentDuretion = 0;
                     if (duretion1 <= duretion2)
@@ -202,45 +202,16 @@ namespace SCE_ProductionChain.Pages
                         gdCalendar.Children.Add(rectTimeSlot2);
                     }
                     else if (timeSlot1.IsWorking && !timeSlot2.IsWorking)
-                    {
-                        Rectangle rectTimeSlot1 = new Rectangle() { Stretch = Stretch.Fill, Fill = user1.Color };
-
-                        Grid.SetRow(rectTimeSlot1, row);
-                        Grid.SetColumn(rectTimeSlot1, col);
-                        rectTimeSlot1.SetValue(Grid.RowSpanProperty, rowspan);
-                        rectTimeSlot1.SetValue(Grid.ColumnSpanProperty, COLSPAN);
-                        gdCalendar.Children.Add(rectTimeSlot1);
-                    }
+                        DrawBlock(user1.Color, row, col, rowspan, COLSPAN);
                     else if (!timeSlot1.IsWorking && timeSlot2.IsWorking)
-                    {
-                        Rectangle rectTimeSlot2 = new Rectangle() { Stretch = Stretch.Fill, Fill = user2.Color };
-
-                        Grid.SetRow(rectTimeSlot2, row);
-                        Grid.SetColumn(rectTimeSlot2, col);
-                        rectTimeSlot2.SetValue(Grid.RowSpanProperty, rowspan);
-                        rectTimeSlot2.SetValue(Grid.ColumnSpanProperty, COLSPAN);
-                        gdCalendar.Children.Add(rectTimeSlot2);
-                    }
+                        DrawBlock(user2.Color, row, col, rowspan, COLSPAN);
                     else
-                    {
-                        Rectangle rectTimeSlotNoWork = new Rectangle() { Stretch = Stretch.Fill, Fill = noWorkBrush };
-
-                        Grid.SetRow(rectTimeSlotNoWork, row);
-                        Grid.SetColumn(rectTimeSlotNoWork, col);
-                        rectTimeSlotNoWork.SetValue(Grid.RowSpanProperty, rowspan);
-                        rectTimeSlotNoWork.SetValue(Grid.ColumnSpanProperty, COLSPAN);
-                        gdCalendar.Children.Add(rectTimeSlotNoWork);
-                    }
+                        DrawBlock(noWorkBrush, row, col, rowspan, COLSPAN);
 
                     row += rowspan;
                     if (row < LAST_ROW)
-                    {
-                        Rectangle rectEmptySpace = new Rectangle() { Fill = spaceBrush, Stretch = Stretch.Fill };
-                        Grid.SetRow(rectEmptySpace, row);
-                        Grid.SetColumn(rectEmptySpace, col);
-                        gdCalendar.Children.Add(rectEmptySpace);
-                        row++;
-                    }
+                        DrawBlock(spaceBrush, row, col);
+                    row++;
 
                     duretion1 -= currentDuretion;
                     duretion2 -= currentDuretion;
@@ -260,150 +231,17 @@ namespace SCE_ProductionChain.Pages
             }
         }
 
+        private void DrawBlock(SolidColorBrush color, int row, int col, int rowspan = 0, int colspan = 0)
+        {
+            Rectangle rect = new Rectangle() { Stretch = Stretch.Fill, Fill = color };
 
-
-        //        for (int t = 0; doesContinue; t++)
-        //        {
-        //            TimeSlot timeSlotOne = null;
-        //            TimeSlot timeSlotTwo = null;
-
-        //            doesContinue = false;
-        //            if (t < dayUser1.TimeSlots.Count)
-        //                timeSlotOne = dayUser1.TimeSlots[t]; doesContinue = true;
-        //            if (t < dayTwo.TimeSlots.Count)
-        //                timeSlotTwo = dayTwo.TimeSlots[t]; doesContinue = true;
-        //            if (!doesContinue)
-        //                break;
-
-        //            Rectangle rectTimeSlot = new Rectangle() { Stretch = Stretch.Fill };
-        //            if (timeSlotOne.IsWorking && timeSlotTwo.IsWorking)
-        //            {
-
-        //            }
-        //            else if (timeSlotOne.IsWorking && !timeSlotTwo.IsWorking)
-        //            {
-        //                rectTimeSlot.Fill = userOne.Color;
-        //                rectTimeSlot.SetValue(Grid.ColumnSpanProperty, COLSPAN);
-        //                if (timeSlotOne.Duration.CompareTo(timeSlotTwo) > 0)
-        //                    rectTimeSlot.SetValue(Grid.RowSpanProperty, timeSlotTwo.Duration * 2 - 1);
-        //                else
-        //                    rectTimeSlot.SetValue(Grid.RowSpanProperty, timeSlotOne.Duration * 2 - 1);
-        //            }
-        //            else if (!timeSlotOne.IsWorking && timeSlotTwo.IsWorking)
-        //            {
-
-        //            }
-        //            else
-        //            {
-
-        //            }
-
-        //            if (timeSlot.IsWorking)
-        //                rectTimeSlot.Fill = WorkBrush;
-        //            else
-        //                rectTimeSlot.Fill = noWorkBrush;
-        //            Grid.SetRow(rectTimeSlot, row);
-        //            Grid.SetColumn(rectTimeSlot, col);
-        //            rectTimeSlot.SetValue(Grid.RowSpanProperty, timeSlot.Duration * 2 - 1);
-        //            gdCalendar.Children.Add(rectTimeSlot);
-        //            rectanglesToRemove.Add(rectTimeSlot);
-
-        //            row += timeSlot.Duration * 2 - 1;
-        //            if (row < LAST_ROW)
-        //            {
-        //                Rectangle rectEmptySpace = new Rectangle()
-        //                {
-        //                    Fill = spaceBrush,
-        //                    Stretch = Stretch.Fill
-        //                };
-        //                Grid.SetRow(rectEmptySpace, row);
-        //                Grid.SetColumn(rectEmptySpace, col);
-        //                gdCalendar.Children.Add(rectEmptySpace);
-        //                rectanglesToRemove.Add(rectEmptySpace);
-        //                row++;
-        //            }
-        //        }
-        //        row = INITIAL_ROW;
-        //        col += 2;
-        //    }
-        //}
-
-        //private void drawUsersCalendar(List<User> users)
-        //{
-        //    User userOne = users[0];
-        //    User userTwo = users[1];
-
-        //    int row = INITIAL_ROW;
-        //    int col = INITIAL_COL;
-        //    for (int d = 0; d < Model.Calendar.DaysCount; d++)
-        //    {
-        //        Day dayOne = userOne.Calendar.Days[d];
-        //        Day dayTwo = userTwo.Calendar.Days[d];
-        //        bool doesContinue = true;
-        //        for (int t = 0; doesContinue; t++)
-        //        {
-        //            TimeSlot timeSlotOne = null;
-        //            TimeSlot timeSlotTwo = null;
-
-        //            doesContinue = false;
-        //            if (t < dayOne.TimeSlots.Count)
-        //                timeSlotOne = dayOne.TimeSlots[t]; doesContinue = true;
-        //            if (t < dayTwo.TimeSlots.Count)
-        //                timeSlotTwo = dayTwo.TimeSlots[t]; doesContinue = true;
-        //            if (!doesContinue)
-        //                break;
-
-        //            Rectangle rectTimeSlot = new Rectangle() { Stretch = Stretch.Fill };
-        //            if (timeSlotOne.IsWorking && timeSlotTwo.IsWorking)
-        //            {
-
-        //            }
-        //            else if (timeSlotOne.IsWorking && !timeSlotTwo.IsWorking)
-        //            {
-        //                rectTimeSlot.Fill = userOne.Color;
-        //                rectTimeSlot.SetValue(Grid.ColumnSpanProperty, COLSPAN);
-        //                if (timeSlotOne.Duration.CompareTo(timeSlotTwo) > 0)
-        //                    rectTimeSlot.SetValue(Grid.RowSpanProperty, timeSlotTwo.Duration * 2 - 1);
-        //                else
-        //                    rectTimeSlot.SetValue(Grid.RowSpanProperty, timeSlotOne.Duration * 2 - 1);
-        //            }
-        //            else if (!timeSlotOne.IsWorking && timeSlotTwo.IsWorking)
-        //            {
-
-        //            }
-        //            else
-        //            {
-
-        //            }
-
-        //            if (timeSlot.IsWorking)
-        //                rectTimeSlot.Fill = WorkBrush;
-        //            else
-        //                rectTimeSlot.Fill = noWorkBrush;
-        //            Grid.SetRow(rectTimeSlot, row);
-        //            Grid.SetColumn(rectTimeSlot, col);
-        //            rectTimeSlot.SetValue(Grid.RowSpanProperty, timeSlot.Duration * 2 - 1);
-        //            gdCalendar.Children.Add(rectTimeSlot);
-        //            rectanglesToRemove.Add(rectTimeSlot);
-
-        //            row += timeSlot.Duration * 2 - 1;
-        //            if (row < LAST_ROW)
-        //            {
-        //                Rectangle rectEmptySpace = new Rectangle()
-        //                {
-        //                    Fill = spaceBrush,
-        //                    Stretch = Stretch.Fill
-        //                };
-        //                Grid.SetRow(rectEmptySpace, row);
-        //                Grid.SetColumn(rectEmptySpace, col);
-        //                gdCalendar.Children.Add(rectEmptySpace);
-        //                rectanglesToRemove.Add(rectEmptySpace);
-        //                row++;
-        //            }
-        //        }
-        //        row = INITIAL_ROW;
-        //        col += 2;
-        //    }
-        //}
+            Grid.SetRow(rect, row);
+            Grid.SetColumn(rect, col);
+            if (rowspan > 0)
+                rect.SetValue(Grid.RowSpanProperty, rowspan);
+            if (colspan > 0)
+                rect.SetValue(Grid.ColumnSpanProperty, colspan);
+            gdCalendar.Children.Add(rect);
+        }
     }
 }
