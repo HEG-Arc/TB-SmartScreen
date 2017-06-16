@@ -12,11 +12,11 @@ namespace SCE_ProductionChain.Model
         private ulong bodyId;
         private string username;
         private string code;
-        private bool[,] calendar;
+        private Calendar calendar;
         private Statistics statistics;
         private SolidColorBrush color;
 
-        public User(ulong bodyId, string username, string code, bool[,] calendar, Statistics stats, SolidColorBrush color)
+        public User(ulong bodyId, string username, string code, Calendar calendar, Statistics stats, SolidColorBrush color)
         {
             this.bodyId = bodyId;
             this.Username = username;
@@ -64,7 +64,7 @@ namespace SCE_ProductionChain.Model
             }
         }
 
-        public bool[,] Calendar
+        public Calendar Calendar
         {
             get
             {

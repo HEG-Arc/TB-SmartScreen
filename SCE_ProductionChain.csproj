@@ -64,7 +64,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Calendar.cs" />
+    <Compile Include="Model\Day.cs" />
     <Compile Include="Model\Statistics.cs" />
+    <Compile Include="Model\TimeSlot.cs" />
     <Compile Include="Pages\CalendarPage.xaml.cs">
       <DependentUpon>CalendarPage.xaml</DependentUpon>
     </Compile>

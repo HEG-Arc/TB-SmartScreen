@@ -25,66 +25,67 @@ namespace SCE_ProductionChain.Util
             return users;
         }
 
-        private bool[,] generateJeffsCalendar()
+        private Calendar generateJeffsCalendar()
         {
-            bool[,] calendar = new bool[app.CALENDAR_DAYS, app.CALENDAR_HOURS];
-            initCalendar(calendar);
-
             // Lundi de 7:00 à 12:00 et de 13:00 à 17:00
             // Mardi de 7:00 à 12:00
             // Jeudi de 7:00 à 12:00
             // Vendredi de 13:00 à 17:00
-            for (int h = 7; h < 12; h++)
-            {
-                calendar[0, h - 7] = true;
-                calendar[1, h - 7] = true;
-                calendar[3, h - 7] = true;
-            }
-            for (int h = 13; h < 17; h++)
-            {
-                calendar[0, h - 7] = true;
-                calendar[4, h - 7] = true;
-            }
+            List<TimeSlot> tsMonday = new List<TimeSlot>() { new TimeSlot(true, 5), new TimeSlot(false, 1), new TimeSlot(true, 4) };
+            Day monday = new Day(tsMonday);
 
-            return calendar;
+            List<TimeSlot> tsTuesday = new List<TimeSlot>() { new TimeSlot(true, 5), new TimeSlot(false, 5) };
+            Day tuesday = new Day(tsTuesday);
+
+            List<TimeSlot> tsWednesday = new List<TimeSlot>() { new TimeSlot(false, 10) };
+            Day wednesday = new Day(tsWednesday);
+
+            List<TimeSlot> tsThursday = new List<TimeSlot>() { new TimeSlot(true, 5), new TimeSlot(false, 5) };
+            Day thursday = new Day(tsThursday);
+
+            List<TimeSlot> tsFriday = new List<TimeSlot>() { new TimeSlot(false, 6), new TimeSlot(true, 4) };
+            Day friday = new Day(tsFriday);
+
+            List<Day> days = new List<Day>();
+            days.Add(monday);
+            days.Add(tuesday);
+            days.Add(wednesday);
+            days.Add(thursday);
+            days.Add(friday);
+
+            return new Calendar(days);
         }
 
-        private bool[,] generateMarcsCalendar()
+        private Calendar generateMarcsCalendar()
         {
-            bool[,] calendar = new bool[app.CALENDAR_DAYS, app.CALENDAR_HOURS];
-            initCalendar(calendar);
-
             // Lundi de 7:00 à 12:00 et de 13:00 à 17:00
             // Mardi de 13:00 à 16:00
             // Mercredi de 7:00 à 12:00 et de 13:00 à 17:00
             // Jeudi de 7:00 à 12:00
             // Vendredi de 13:00 à 17:00
-            for (int h = 7; h < 12; h++)
-            {
-                calendar[0, h - 7] = true;                
-                calendar[2, h - 7] = true;
-                calendar[3, h - 7] = true;
-            }
-            for (int h = 13; h < 17; h++)
-            {
-                calendar[0, h - 7] = true;
-                calendar[1, h - 7] = true;
-                calendar[2, h - 7] = true;
-                calendar[4, h - 7] = true;
-            }
+            List<TimeSlot> tsMonday = new List<TimeSlot>() { new TimeSlot(true, 5), new TimeSlot(false, 1), new TimeSlot(true, 4) };
+            Day monday = new Day(tsMonday);
 
-            return calendar;
-        }
+            List<TimeSlot> tsTuesday = new List<TimeSlot>() { new TimeSlot(false, 6), new TimeSlot(true, 4) };
+            Day tuesday = new Day(tsTuesday);
 
-        private void initCalendar(bool[,] calendar)
-        {
-            for (int d = 0; d < app.CALENDAR_DAYS; d++)
-            {
-                for (int h = 0; h < app.CALENDAR_HOURS; h++)
-                {
-                    calendar[d, h] = false;
-                }
-            }
+            List<TimeSlot> tsWednesday = new List<TimeSlot>() { new TimeSlot(true, 5), new TimeSlot(false, 1), new TimeSlot(true, 4) };
+            Day wednesday = new Day(tsWednesday);
+
+            List<TimeSlot> tsThursday = new List<TimeSlot>() { new TimeSlot(true, 5), new TimeSlot(false, 5) };
+            Day thursday = new Day(tsThursday);
+
+            List<TimeSlot> tsFriday = new List<TimeSlot>() { new TimeSlot(false, 10) };
+            Day friday = new Day(tsFriday);
+
+            List<Day> days = new List<Day>();
+            days.Add(monday);
+            days.Add(tuesday);
+            days.Add(wednesday);
+            days.Add(thursday);
+            days.Add(friday);
+
+            return new Calendar(days);
         }
     }
 }

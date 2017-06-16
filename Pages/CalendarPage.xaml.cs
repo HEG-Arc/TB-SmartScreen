@@ -16,11 +16,17 @@ namespace SCE_ProductionChain.Pages
         private const int CALENDAR_DAYS = 5;
         private const int CALENDAR_HOURS = 10;
 
+        private const int INITIAL_ROW = 3;
+        private const int INITIAL_COL = 3;
+        private const int LAST_ROW = 21;
+
         private App app;
 
         private SolidColorBrush noWorkBrush;
         private SolidColorBrush WorkBrush;
         private SolidColorBrush spaceBrush;
+
+        private List<Rectangle> rectanglesToRemove;
 
         public CalendarPage()
         {
@@ -31,6 +37,8 @@ namespace SCE_ProductionChain.Pages
             noWorkBrush = app.secondaryBrush;
             WorkBrush = new SolidColorBrush(Color.FromRgb(184, 0, 0));
             spaceBrush = app.backgroundBrush;
+
+            rectanglesToRemove = new List<Rectangle>();
 
             this.Loaded += CalendarPage_Loaded;
         }
@@ -49,23 +57,8 @@ namespace SCE_ProductionChain.Pages
 
         private void initUI()
         {
-            for (int col = 3; col <= 11; col += 2)
-            {
-                for (int row = 3; row <= 21; row++)
-                {
-                    if (app.calendarPage != null)
-                        gdCalendar.Children.Remove((Rectangle)gdCalendar.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == row && Grid.GetColumn(e) == col));
-
-                    Rectangle rect = new Rectangle()
-                    {
-                        Fill = noWorkBrush,
-                        Stretch = Stretch.Fill
-                    };
-                    Grid.SetRow(rect, row);
-                    Grid.SetColumn(rect, col);
-                    gdCalendar.Children.Add(rect);
-                }
-            }
+            foreach(Rectangle rect in rectanglesToRemove)
+                gdCalendar.Children.Remove(rect);
         }
 
         private void initCalendar()
@@ -98,42 +91,47 @@ namespace SCE_ProductionChain.Pages
         private void drawUserCalendar(User user)
         {
             this.WorkBrush = user.Color;
-            int nbSpace = 0;
-            for (int d = 1; d <= CALENDAR_DAYS; d++)
-            {
-                for (int h = 0; h < CALENDAR_HOURS; h++)
-                {
-                    int col = d * 2 + 1;
-                    int row = h + 3 + nbSpace;
-                    var hourRect = (Rectangle)gdCalendar.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == row && Grid.GetColumn(e) == col);
 
-                    if (user.Calendar[d - 1, h])
+            int row = INITIAL_ROW;
+            int col = INITIAL_COL;
+            for(int d = 0; d < user.Calendar.Days.Count; d++)
+            {
+                Day day = user.Calendar.Days[d];
+                for (int t = 0; t < user.Calendar.Days[d].TimeSlots.Count; t++)
+                {
+                    TimeSlot timeSlot = user.Calendar.Days[d].TimeSlots[t];
+                    Rectangle rectTimeSlot = new Rectangle()
                     {
-                        hourRect.Fill = WorkBrush;
-                        if (row < 21)
-                        {
-                            var spaceRect = (Rectangle)gdCalendar.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == row + 1 && Grid.GetColumn(e) == col);
-                            if (user.Calendar[d - 1, h + 1])
-                                spaceRect.Fill = WorkBrush;
-                            else
-                                spaceRect.Fill = spaceBrush;
-                        }
-                    }
+                        Stretch = Stretch.Fill
+                    };
+
+                    if (timeSlot.IsWorking)
+                        rectTimeSlot.Fill = WorkBrush;
                     else
+                        rectTimeSlot.Fill = noWorkBrush;
+                    Grid.SetRow(rectTimeSlot, row);
+                    Grid.SetColumn(rectTimeSlot, col);
+                    rectTimeSlot.SetValue(Grid.RowSpanProperty, timeSlot.Duration * 2 - 1);
+                    gdCalendar.Children.Add(rectTimeSlot);
+                    rectanglesToRemove.Add(rectTimeSlot);
+
+                    row += timeSlot.Duration * 2 - 1;
+                    if(row < LAST_ROW)
                     {
-                        hourRect.Fill = noWorkBrush;
-                        if (row < 21)
+                        Rectangle rectEmptySpace = new Rectangle()
                         {
-                            var spaceRect = (Rectangle)gdCalendar.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == row + 1 && Grid.GetColumn(e) == col);
-                            if (user.Calendar[d - 1, h + 1])
-                                spaceRect.Fill = spaceBrush;
-                            else
-                                spaceRect.Fill = noWorkBrush;
-                        }
-                    }
-                    nbSpace++;
+                            Fill = spaceBrush,
+                            Stretch = Stretch.Fill
+                        };
+                        Grid.SetRow(rectEmptySpace, row);
+                        Grid.SetColumn(rectEmptySpace, col);
+                        gdCalendar.Children.Add(rectEmptySpace);
+                        rectanglesToRemove.Add(rectEmptySpace);
+                        row++;
+                    }                    
                 }
-                nbSpace = 0;
+                row = INITIAL_ROW;
+                col += 2;
             }
         }
     }
