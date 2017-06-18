@@ -109,7 +109,8 @@ namespace SCE_ProductionChain
                                 //app.UpdateUsers();
                                 app.UpdateUnidentified();
 
-                                if (app.unidentifiedBodies.Count > 0 && !app.onConfirmationPage && !app.onIdentificationPage)
+                                if (app.unidentifiedBodies.Count > 0 && app.unidentifiedBodies.Count <= app.LIMIT_USERS && 
+                                    !app.onConfirmationPage && !app.onIdentificationPage)
                                     enableMultiuserButton();
                                 else
                                     disableMultiuserButton();

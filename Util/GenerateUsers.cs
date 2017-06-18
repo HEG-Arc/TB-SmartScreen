@@ -20,8 +20,8 @@ namespace SCE_ProductionChain.Util
         public List<User> getUsers()
         {
             List<User> users = new List<User>();
-            users.Add(new User(0, "Jeff Sokoli", "USER-JEFF-SOKOLI-732195", generateJeffsCalendar(), new Statistics(64, 1456, 22, 3565), null));
-            users.Add(new User(0, "Marc Abraham", "USER-MARC-ABRAHAM-789554", generateMarcsCalendar(), new Statistics(75, 2078, 22, 3894), null));
+            users.Add(new User(0, "Jeff Sokoli", "USER-JEFF-SOKOLI-732195", generateJeffsCalendar(), new Statistics(64, 1456, 22), null));
+            users.Add(new User(0, "Marc Abraham", "USER-MARC-ABRAHAM-789554", generateMarcsCalendar(), new Statistics(75, 2078, 22), null));
             return users;
         }
 

@@ -25,6 +25,8 @@ namespace SCE_ProductionChain
 
         private const int _CALENDAR_HOURS = 10;
 
+        private const int _LIMIT_USERS = 2;
+
         internal Page identificationPage;
 
         internal Page calendarPage;
@@ -123,6 +125,14 @@ namespace SCE_ProductionChain
             get
             {
                 return _CALENDAR_HOURS;
+            }
+        }
+
+        public int LIMIT_USERS
+        {
+            get
+            {
+                return _LIMIT_USERS;
             }
         }
 

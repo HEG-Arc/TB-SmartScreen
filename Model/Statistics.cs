@@ -13,12 +13,12 @@ namespace SCE_ProductionChain.Model
         private double revenuePerHour;
         private double salaryEstimation;
 
-        public Statistics(int nbHoursWorked, int nbPiecesWorked, double revenuePerHour, double salaryEstimation)
+        public Statistics(int nbHoursWorked, int nbPiecesWorked, double revenuePerHour)
         {
             this.NbHoursWorked = nbHoursWorked;
             this.NbPiecesWorked = nbPiecesWorked;
             this.RevenuePerHour = revenuePerHour;
-            this.SalaryEstimation = salaryEstimation;
+            this.SalaryEstimation = nbHoursWorked * RevenuePerHour;
         }
 
         public int NbHoursWorked
