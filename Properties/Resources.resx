@@ -117,6 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ConfirmHourExchangeQuestion" xml:space="preserve">
+    <value>Voulez-vous accepter ces changements ?</value>
+  </data>
+  <data name="ConfirmHourExchangeText" xml:space="preserve">
+    <value>Voici vos heures de travail assigné après l'échange :</value>
+  </data>
+  <data name="ConfirmHourExchangeTitle" xml:space="preserve">
+    <value>Échange d'heures de travail</value>
+  </data>
+  <data name="ConfirmMultiuserQuestion" xml:space="preserve">
+    <value>Voulez-vous accepter cette nouvelle personne ?</value>
+  </data>
+  <data name="ConfirmMultiuserText" xml:space="preserve">
+    <value>Une seconde personne se trouve à vos cotés, se mode d'utilisation vous permets d'échanger vos heures de travail avec elle et de comparer vos indicateurs de performances.</value>
+  </data>
+  <data name="ConfirmMultiuserTitle" xml:space="preserve">
+    <value>Mode d'utilisation multi-utilisateur</value>
+  </data>
   <data name="IdentificationErrorAccessProhibited" xml:space="preserve">
     <value>Accès non autorisé !</value>
   </data>

@@ -27,7 +27,12 @@
         </Grid>
 
         <Grid Grid.Column="2" Grid.Row="1">
-
+            <StackPanel Style="{StaticResource spConfirmPage}">
+                <Label Name="lblTitle" Style="{StaticResource lblTitleConfirm}" />
+                <TextBlock Name="tbContent"
+                           Style="{StaticResource tbConfirmPageContent}" />
+                <Label Name="lblQuestion" Style="{StaticResource lblContent}" HorizontalAlignment="Left" Margin="0,20,0,0" />
+            </StackPanel>
         </Grid>
 
         <Grid Grid.Column="2" Grid.Row="2">

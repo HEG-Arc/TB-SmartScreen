@@ -32,6 +32,9 @@ namespace SCE_ProductionChain.Pages
         private void ConfirmMultiUserPage_Unloaded(object sender, RoutedEventArgs e)
         {
             app.onConfirmationPage = false;
+            this.lblTitle.Content = Properties.Resources.ConfirmMultiuserTitle;
+            this.tbContent.Text = Properties.Resources.ConfirmMultiuserText;
+            this.lblQuestion.Content = Properties.Resources.ConfirmMultiuserQuestion;
         }
 
         private void ConfirmMultiUserPage_Loaded(object sender, RoutedEventArgs e)

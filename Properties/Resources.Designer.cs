@@ -61,6 +61,60 @@ namespace SCE_ProductionChain.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Voulez-vous accepter ces changements ?.
+        /// </summary>
+        public static string ConfirmHourExchangeQuestion {
+            get {
+                return ResourceManager.GetString("ConfirmHourExchangeQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Voici vos heures de travail assigné après l&apos;échange :.
+        /// </summary>
+        public static string ConfirmHourExchangeText {
+            get {
+                return ResourceManager.GetString("ConfirmHourExchangeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Échange d&apos;heures de travail.
+        /// </summary>
+        public static string ConfirmHourExchangeTitle {
+            get {
+                return ResourceManager.GetString("ConfirmHourExchangeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Voulez-vous accepter cette nouvelle personne ?.
+        /// </summary>
+        public static string ConfirmMultiuserQuestion {
+            get {
+                return ResourceManager.GetString("ConfirmMultiuserQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Une seconde personne se trouve à vos cotés, se mode d&apos;utilisation vous permets d&apos;échanger vos heures de travail avec elle et de comparer vos indicateurs de performances..
+        /// </summary>
+        public static string ConfirmMultiuserText {
+            get {
+                return ResourceManager.GetString("ConfirmMultiuserText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Mode d&apos;utilisation multi-utilisateur.
+        /// </summary>
+        public static string ConfirmMultiuserTitle {
+            get {
+                return ResourceManager.GetString("ConfirmMultiuserTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Accès non autorisé !.
         /// </summary>
         public static string IdentificationErrorAccessProhibited {
