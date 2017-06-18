@@ -41,7 +41,6 @@ namespace SCE_ProductionChain
         internal SolidColorBrush primaryBrush { get; set; }
         internal SolidColorBrush secondaryBrush { get; set; }
         internal SolidColorBrush backgroundBrush { get; set; }
-        internal List<KeyValuePair<Rectangle, TimeSlotInfo>> rectanglesReferencial { get; set; }
 
         /*
         private List<KeyValuePair<string, string>> availableUsers = new Dictionary<String, String>
@@ -60,7 +59,6 @@ namespace SCE_ProductionChain
             this.unidentifiedBodies = new List<ulong>();
             this.onIdentificationPage = false;
             this.availableUsers = new GenerateUsers().getUsers();
-            this.rectanglesReferencial = new List<KeyValuePair<Rectangle, TimeSlotInfo>>();
 
             primaryBrush = new SolidColorBrush(Color.FromRgb(77, 77, 77));
             secondaryBrush = new SolidColorBrush(Color.FromRgb(102, 102, 102));
@@ -160,10 +158,6 @@ namespace SCE_ProductionChain
             return res;
         }
 
-        private void rectExchangeableHours_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-
-        }
         private void rectNotExchangeableHours_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             MessageBox.Show("No Exchange !");

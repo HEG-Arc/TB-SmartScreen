@@ -140,11 +140,5 @@
         <Style TargetType="{x:Type Grid}" x:Key="gdMultiuserMode">
             <Setter Property="Background" Value="#be00a8" />
         </Style>
-        <Style TargetType="{x:Type Rectangle}" x:Key="rectExchangeableHours">
-            <EventSetter Event="MouseDown" Handler="rectExchangeableHours_Click" />
-        </Style>
-        <Style TargetType="{x:Type Rectangle}" x:Key="rectNotExchangeableHours">
-            <EventSetter Event="MouseDown" Handler="rectNotExchangeableHours_Click" />
-        </Style>
     </Application.Resources>
 </Application>

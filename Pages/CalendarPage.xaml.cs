@@ -35,7 +35,7 @@ namespace SCE_ProductionChain.Pages
         {
             InitializeComponent();
 
-            app = (App)Application.Current;            
+            app = (App)Application.Current;
 
             noWorkBrush = app.secondaryBrush;
             WorkBrush = new SolidColorBrush(Color.FromRgb(184, 0, 0));
@@ -54,7 +54,6 @@ namespace SCE_ProductionChain.Pages
 
             if (app.calendarPage == null)
             {
-                //msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
                 app.calendarPage = this;
             }
         }
@@ -198,8 +197,8 @@ namespace SCE_ProductionChain.Pages
                     int rowspan = currentDuretion * 2 - 1;
                     if (timeSlot1.IsWorking && timeSlot2.IsWorking)
                     {
-                        Rectangle rectTimeSlot1 = new Rectangle() { Stretch = Stretch.Fill, Fill = user1.Color, Style = FindResource("rectNotExchangeableHours") as Style };
-                        Rectangle rectTimeSlot2 = new Rectangle() { Stretch = Stretch.Fill, Fill = user2.Color, Style = FindResource("rectNotExchangeableHours") as Style };
+                        Rectangle rectTimeSlot1 = new Rectangle() { Stretch = Stretch.Fill, Fill = user1.Color };
+                        Rectangle rectTimeSlot2 = new Rectangle() { Stretch = Stretch.Fill, Fill = user2.Color };
 
                         Grid.SetRow(rectTimeSlot1, row);
                         Grid.SetColumn(rectTimeSlot1, col);
@@ -252,7 +251,7 @@ namespace SCE_ProductionChain.Pages
             {
                 rect = new Rectangle() { Stretch = Stretch.Fill, Fill = color };
                 rect.MouseDown += rectExchangeableHours;
-            }                
+            }
             else
                 rect = new Rectangle() { Stretch = Stretch.Fill, Fill = color };
 
@@ -338,10 +337,10 @@ namespace SCE_ProductionChain.Pages
                 else
                 {
                     newDay.TimeSlots.Add(ts);
-                }                
+                }
             }
             //app.users[app.users.IndexOf(tsi.Worker)].Calendar.Days[tsi.DayIndex] = newDay;
-            user.Calendar.Days[tsi.DayIndex] = newDay;            
+            user.Calendar.Days[tsi.DayIndex] = newDay;
         }
     }
 }
