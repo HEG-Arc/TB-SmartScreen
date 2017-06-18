@@ -1,10 +1,12 @@
 ﻿using SCE_ProductionChain.Model;
 using SCE_ProductionChain.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace SCE_ProductionChain.Pages
@@ -31,6 +33,8 @@ namespace SCE_ProductionChain.Pages
         private List<Rectangle> rectanglesToRemove;
         private List<KeyValuePair<Rectangle, TimeSlotInfo>> rectanglesReferencial { get; set; }
 
+        private List<TimeSlotInfo> timeSlotsToTransact;
+
         public CalendarPage()
         {
             InitializeComponent();
@@ -43,6 +47,7 @@ namespace SCE_ProductionChain.Pages
 
             rectanglesReferencial = new List<KeyValuePair<Rectangle, TimeSlotInfo>>();
             rectanglesToRemove = new List<Rectangle>();
+            timeSlotsToTransact = new List<TimeSlotInfo>();
 
             this.Loaded += CalendarPage_Loaded;
         }
@@ -68,18 +73,12 @@ namespace SCE_ProductionChain.Pages
         {
             try
             {
-                //ReplaceHours(app.availableUsers[1], 1, 1, 5, true);
-                //ReplaceHours(app.availableUsers[0], 1, 1, 5, false);
-
-                //ReplaceHours(app.availableUsers[0], 2, 8, 9, true);
-                //ReplaceHours(app.availableUsers[1], 2, 8, 9, false);
-
                 app.availableUsers[0].Color = Drawer.BodyColors[2];
                 app.availableUsers[1].Color = Drawer.BodyColors[0];
                 app.users.Add(app.availableUsers[0]);
                 app.users.Add(app.availableUsers[1]);
                 drawUsersCalendar(app.users[0], app.users[1]);
-                //drawUserCalendar(app.users[1]);
+                //drawUserCalendar(app.users[0]);
 
                 /*
                 if (app.users.Count == 1)
@@ -212,10 +211,12 @@ namespace SCE_ProductionChain.Pages
                     }
                     else if (timeSlot1.IsWorking && !timeSlot2.IsWorking)
                         DrawBlock(user1.Color, row, col, rowspan, COLSPAN, true,
-                                  new TimeSlotInfo(user1, user2, d, rowPosition, rowPosition + currentDuretion - 1));
+                                  new TimeSlotInfo(user1, user2, d, rowPosition, rowPosition + currentDuretion - 1,
+                                                   row, col, rowspan, COLSPAN));
                     else if (!timeSlot1.IsWorking && timeSlot2.IsWorking)
                         DrawBlock(user2.Color, row, col, rowspan, COLSPAN, true,
-                                  new TimeSlotInfo(user2, user1, d, rowPosition, rowPosition + currentDuretion - 1));
+                                  new TimeSlotInfo(user2, user1, d, rowPosition, rowPosition + currentDuretion - 1,
+                                                   row, col, rowspan, COLSPAN));
                     else
                         DrawBlock(noWorkBrush, row, col, rowspan, COLSPAN);
 
@@ -267,6 +268,45 @@ namespace SCE_ProductionChain.Pages
                 rectanglesReferencial.Add(new KeyValuePair<Rectangle, TimeSlotInfo>(rect, timeSlotInfo));
         }
 
+        private void RemoveAllExchangeCircles()
+        {
+            List<UIElement> elementToRemove = new List<UIElement>();
+            for (int i = 0; i < gdCalendar.Children.Count; i++)
+            {
+                if (gdCalendar.Children[i] is Image)
+                    elementToRemove.Add(gdCalendar.Children[i]);
+            }
+
+            foreach(UIElement uiElement in elementToRemove)
+                gdCalendar.Children.Remove(uiElement);
+        }
+
+        private void UpdateExchangeCircles(List<TimeSlotInfo> timeSlotsToTransact)
+        {
+            RemoveAllExchangeCircles();
+
+            int exchangeCircleSize = 0;
+            foreach (TimeSlotInfo tsi in timeSlotsToTransact)
+            {
+                exchangeCircleSize = 27 * ((tsi.To - tsi.From > 0) ? tsi.To - tsi.From : 1);
+                Image imgExchangeCircle = new Image()
+                {
+                    Source = new BitmapImage(new System.Uri("../Images/exchange_circle.png", UriKind.Relative)),
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Height = exchangeCircleSize,
+                    Width = exchangeCircleSize
+                };
+                Grid.SetRow(imgExchangeCircle, tsi.GridRow);
+                Grid.SetColumn(imgExchangeCircle, tsi.GridColumn);
+                if (tsi.GridRowspan > 0)
+                    imgExchangeCircle.SetValue(Grid.RowSpanProperty, tsi.GridRowspan);
+                if (tsi.GridColspan > 0)
+                    imgExchangeCircle.SetValue(Grid.ColumnSpanProperty, tsi.GridColspan);
+                gdCalendar.Children.Add(imgExchangeCircle);
+            }            
+        }
+
         private void rectExchangeableHours(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             TimeSlotInfo tsi = new TimeSlotInfo();
@@ -278,7 +318,14 @@ namespace SCE_ProductionChain.Pages
                     tsi = kv.Value;
             }
 
-            TransactHours(tsi);
+            if (timeSlotsToTransact.Contains(tsi))
+                timeSlotsToTransact.Remove(tsi);
+            else
+                timeSlotsToTransact.Add(tsi);
+
+            UpdateExchangeCircles(timeSlotsToTransact);
+
+            //TransactHours(tsi);            
         }
 
         private void TransactHours(TimeSlotInfo tsi)

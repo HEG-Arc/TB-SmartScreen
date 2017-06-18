@@ -9,6 +9,10 @@ namespace SCE_ProductionChain.Model
         private int dayIndex;
         private int from;
         private int to;
+        private int gridRow;
+        private int gridColumn;
+        private int gridRowspan;
+        private int gridColspan;
 
         public TimeSlotInfo()
         {
@@ -17,6 +21,10 @@ namespace SCE_ProductionChain.Model
             this.DayIndex = 0;
             this.From = 0;
             this.To = 0;
+            this.GridRow = 0;
+            this.GridColumn = 0;
+            this.gridRowspan = 0;
+            this.GridColspan = 0;
         }
 
         public TimeSlotInfo(User worker, User exchangeTo, int dayIndex, int from, int to)
@@ -26,6 +34,23 @@ namespace SCE_ProductionChain.Model
             this.DayIndex = dayIndex;
             this.From = from;
             this.To = to;
+            this.GridRow = 0;
+            this.GridColumn = 0;
+            this.gridRowspan = 0;
+            this.GridColspan = 0;
+        }
+
+        public TimeSlotInfo(User worker, User exchangeTo, int dayIndex, int from, int to, int gridRow, int gridColumn, int gridRowspan, int gridColspan)
+        {
+            this.worker = worker;
+            this.exchangeTo = exchangeTo;
+            this.dayIndex = dayIndex;
+            this.from = from;
+            this.to = to;
+            this.GridRow = gridRow;
+            this.GridColumn = gridColumn;
+            this.GridRowspan = gridRowspan;
+            this.GridColspan = gridColspan;
         }
 
         public User Worker
@@ -93,13 +118,67 @@ namespace SCE_ProductionChain.Model
             }
         }
 
+        public int GridRow
+        {
+            get
+            {
+                return gridRow;
+            }
+
+            set
+            {
+                gridRow = value;
+            }
+        }
+
+        public int GridColumn
+        {
+            get
+            {
+                return gridColumn;
+            }
+
+            set
+            {
+                gridColumn = value;
+            }
+        }
+
+        public int GridRowspan
+        {
+            get
+            {
+                return gridRowspan;
+            }
+
+            set
+            {
+                gridRowspan = value;
+            }
+        }
+
+        public int GridColspan
+        {
+            get
+            {
+                return gridColspan;
+            }
+
+            set
+            {
+                gridColspan = value;
+            }
+        }
+
         public override string ToString()
         {
             return "Worker : " + this.worker.Username + "\n" +
                    "ExchangeTo : " + this.exchangeTo.Username + "\n" +
                    "DayIndey : " + this.dayIndex + "\n" +
                    "From : " + this.from + "\n" +
-                   "To : " + this.to;
+                   "To : " + this.to + "\n" +
+                   "GridRow : " + this.gridRow + "\n" +
+                   "GridColumn : " + this.gridColumn;
         }
     }
 }
