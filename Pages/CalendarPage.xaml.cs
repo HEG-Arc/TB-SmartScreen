@@ -29,17 +29,19 @@ namespace SCE_ProductionChain.Pages
         private SolidColorBrush spaceBrush;
 
         private List<Rectangle> rectanglesToRemove;
+        private List<KeyValuePair<Rectangle, TimeSlotInfo>> rectanglesReferencial { get; set; }
 
         public CalendarPage()
         {
             InitializeComponent();
 
-            app = (App)Application.Current;
+            app = (App)Application.Current;            
 
             noWorkBrush = app.secondaryBrush;
             WorkBrush = new SolidColorBrush(Color.FromRgb(184, 0, 0));
             spaceBrush = app.backgroundBrush;
 
+            rectanglesReferencial = new List<KeyValuePair<Rectangle, TimeSlotInfo>>();
             rectanglesToRemove = new List<Rectangle>();
 
             this.Loaded += CalendarPage_Loaded;
@@ -67,11 +69,11 @@ namespace SCE_ProductionChain.Pages
         {
             try
             {
-                ReplaceHours(app.availableUsers[1], 1, 1, 5, true);
-                ReplaceHours(app.availableUsers[0], 1, 1, 5, false);
+                //ReplaceHours(app.availableUsers[1], 1, 1, 5, true);
+                //ReplaceHours(app.availableUsers[0], 1, 1, 5, false);
 
-                ReplaceHours(app.availableUsers[0], 2, 7, 9, true);
-                ReplaceHours(app.availableUsers[1], 2, 7, 9, false);
+                //ReplaceHours(app.availableUsers[0], 2, 8, 9, true);
+                //ReplaceHours(app.availableUsers[1], 2, 8, 9, false);
 
                 app.availableUsers[0].Color = Drawer.BodyColors[2];
                 app.availableUsers[1].Color = Drawer.BodyColors[0];
@@ -165,6 +167,7 @@ namespace SCE_ProductionChain.Pages
             TimeSlot timeSlot2 = null;
             int duretion1 = 0;
             int duretion2 = 0;
+            int rowPosition = 1;
 
             for (int d = 0; d < Model.Calendar.DaysCount; d++)
             {
@@ -195,8 +198,8 @@ namespace SCE_ProductionChain.Pages
                     int rowspan = currentDuretion * 2 - 1;
                     if (timeSlot1.IsWorking && timeSlot2.IsWorking)
                     {
-                        Rectangle rectTimeSlot1 = new Rectangle() { Stretch = Stretch.Fill, Fill = user1.Color };
-                        Rectangle rectTimeSlot2 = new Rectangle() { Stretch = Stretch.Fill, Fill = user2.Color };
+                        Rectangle rectTimeSlot1 = new Rectangle() { Stretch = Stretch.Fill, Fill = user1.Color, Style = FindResource("rectNotExchangeableHours") as Style };
+                        Rectangle rectTimeSlot2 = new Rectangle() { Stretch = Stretch.Fill, Fill = user2.Color, Style = FindResource("rectNotExchangeableHours") as Style };
 
                         Grid.SetRow(rectTimeSlot1, row);
                         Grid.SetColumn(rectTimeSlot1, col);
@@ -209,9 +212,11 @@ namespace SCE_ProductionChain.Pages
                         gdCalendar.Children.Add(rectTimeSlot2);
                     }
                     else if (timeSlot1.IsWorking && !timeSlot2.IsWorking)
-                        DrawBlock(user1.Color, row, col, rowspan, COLSPAN);
+                        DrawBlock(user1.Color, row, col, rowspan, COLSPAN, true,
+                                  new TimeSlotInfo(user1, user2, d, rowPosition, rowPosition + currentDuretion - 1));
                     else if (!timeSlot1.IsWorking && timeSlot2.IsWorking)
-                        DrawBlock(user2.Color, row, col, rowspan, COLSPAN);
+                        DrawBlock(user2.Color, row, col, rowspan, COLSPAN, true,
+                                  new TimeSlotInfo(user2, user1, d, rowPosition, rowPosition + currentDuretion - 1));
                     else
                         DrawBlock(noWorkBrush, row, col, rowspan, COLSPAN);
 
@@ -219,6 +224,7 @@ namespace SCE_ProductionChain.Pages
                     if (row < LAST_ROW)
                         DrawBlock(spaceBrush, row, col);
                     row++;
+                    rowPosition += currentDuretion;
 
                     duretion1 -= currentDuretion;
                     duretion2 -= currentDuretion;
@@ -235,12 +241,20 @@ namespace SCE_ProductionChain.Pages
                 index2 = 0;
                 row = INITIAL_ROW;
                 col += COLSPAN + 1;
+                rowPosition = 1;
             }
         }
 
-        private void DrawBlock(SolidColorBrush color, int row, int col, int rowspan = 0, int colspan = 0)
+        private void DrawBlock(SolidColorBrush color, int row, int col, int rowspan = 0, int colspan = 0, bool exchangable = false, TimeSlotInfo timeSlotInfo = null)
         {
-            Rectangle rect = new Rectangle() { Stretch = Stretch.Fill, Fill = color };
+            Rectangle rect;
+            if (exchangable)
+            {
+                rect = new Rectangle() { Stretch = Stretch.Fill, Fill = color };
+                rect.MouseDown += rectExchangeableHours;
+            }                
+            else
+                rect = new Rectangle() { Stretch = Stretch.Fill, Fill = color };
 
             Grid.SetRow(rect, row);
             Grid.SetColumn(rect, col);
@@ -249,21 +263,53 @@ namespace SCE_ProductionChain.Pages
             if (colspan > 0)
                 rect.SetValue(Grid.ColumnSpanProperty, colspan);
             gdCalendar.Children.Add(rect);
+
+            if (timeSlotInfo != null)
+                rectanglesReferencial.Add(new KeyValuePair<Rectangle, TimeSlotInfo>(rect, timeSlotInfo));
         }
 
-        private void ReplaceHours(User user, int dayIndex, int from, int to, bool isWorking)
+        private void rectExchangeableHours(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            TimeSlotInfo tsi = new TimeSlotInfo();
+
+            // Récupération des informations de la plage horaire
+            foreach (KeyValuePair<Rectangle, TimeSlotInfo> kv in this.rectanglesReferencial)
+            {
+                if (kv.Key.Equals((Rectangle)sender))
+                    tsi = kv.Value;
+            }
+
+            TransactHours(tsi);
+        }
+
+        private void TransactHours(TimeSlotInfo tsi)
+        {
+            ReplaceHours(tsi, true);
+            ReplaceHours(tsi, false);
+            //drawUsersCalendar(app.users[0], app.users[1]);
+            drawUsersCalendar(tsi.Worker, tsi.ExchangeTo);
+        }
+
+        private void ReplaceHours(TimeSlotInfo tsi, bool replaceToWorker)
+        {
+            App app = (App)Application.Current;
             Day newDay = new Day(new List<TimeSlot>());
+            User user = null;
+
+            if (replaceToWorker)
+                user = tsi.Worker;
+            else
+                user = tsi.ExchangeTo;
 
             int duration = 0;
-            foreach (TimeSlot ts in user.Calendar.Days[dayIndex].TimeSlots)
+            foreach (TimeSlot ts in user.Calendar.Days[tsi.DayIndex].TimeSlots)
             {
                 duration += ts.Duration;
                 int newTimeSlotDuration = 0;
-                if (duration >= from)
+                if (duration >= tsi.From)
                 {
                     int currentDuration = duration - ts.Duration + 1;
-                    while (currentDuration < from)
+                    while (currentDuration < tsi.From)
                     {
                         newTimeSlotDuration++;
                         currentDuration++;
@@ -272,16 +318,16 @@ namespace SCE_ProductionChain.Pages
                         newDay.TimeSlots.Add(new TimeSlot(ts.IsWorking, newTimeSlotDuration));
 
                     newTimeSlotDuration = 0;
-                    while (currentDuration >= from && currentDuration <= to)
+                    while (currentDuration >= tsi.From && currentDuration <= tsi.To)
                     {
                         newTimeSlotDuration++;
                         currentDuration++;
                     }
                     if (newTimeSlotDuration > 0)
-                        newDay.TimeSlots.Add(new TimeSlot(isWorking, newTimeSlotDuration));
+                        newDay.TimeSlots.Add(new TimeSlot(!ts.IsWorking, newTimeSlotDuration));
 
                     newTimeSlotDuration = 0;
-                    while (currentDuration > to && currentDuration <= duration)
+                    while (currentDuration > tsi.To && currentDuration <= duration)
                     {
                         newTimeSlotDuration++;
                         currentDuration++;
@@ -292,10 +338,10 @@ namespace SCE_ProductionChain.Pages
                 else
                 {
                     newDay.TimeSlots.Add(ts);
-                }
-
-                user.Calendar.Days[dayIndex] = newDay;
+                }                
             }
+            //app.users[app.users.IndexOf(tsi.Worker)].Calendar.Days[tsi.DayIndex] = newDay;
+            user.Calendar.Days[tsi.DayIndex] = newDay;            
         }
     }
 }

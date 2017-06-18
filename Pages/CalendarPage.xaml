@@ -113,7 +113,7 @@
 
         <Grid Grid.Column="3" Grid.Row="22" Grid.ColumnSpan="9" Margin="0,30,0,0">
             <StackPanel Name="spUsernames" Style="{StaticResource spUsernames}">
-
+                
             </StackPanel>
         </Grid>
     </Grid>
