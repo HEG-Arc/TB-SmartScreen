@@ -140,5 +140,8 @@
         <Style TargetType="{x:Type Grid}" x:Key="gdMultiuserMode">
             <Setter Property="Background" Value="#be00a8" />
         </Style>
+        <Style TargetType="{x:Type Grid}" x:Key="gdExchangeHours">
+            <Setter Property="Background" Value="#25be00" />
+        </Style>
     </Application.Resources>
 </Application>
