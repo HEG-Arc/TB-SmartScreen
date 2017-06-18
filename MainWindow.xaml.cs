@@ -46,8 +46,8 @@ namespace SCE_ProductionChain
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             initKinect();
-            //this.frame.Navigate(new IdentificationPage());
-            this.frame.Navigate(new CalendarPage());
+            this.frame.Navigate(new IdentificationPage());
+            //this.frame.Navigate(new CalendarPage());
         }
 
         private void initKinect()
@@ -106,7 +106,7 @@ namespace SCE_ProductionChain
                                     }
                                 }
 
-                                //app.UpdateUsers();
+                                app.UpdateUsers();
                                 app.UpdateUnidentified();
 
                                 if (app.unidentifiedBodies.Count > 0 && app.unidentifiedBodies.Count <= app.LIMIT_USERS && 

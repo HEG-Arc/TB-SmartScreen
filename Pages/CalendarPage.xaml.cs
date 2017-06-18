@@ -70,19 +70,18 @@ namespace SCE_ProductionChain.Pages
         {
             try
             {
-                app.availableUsers[0].Color = Drawer.BodyColors[2];
-                app.availableUsers[1].Color = Drawer.BodyColors[0];
-                app.users.Add(app.availableUsers[0]);
-                app.users.Add(app.availableUsers[1]);
-                drawUsersCalendar(app.users[0], app.users[1]);
+                //app.availableUsers[0].Color = Drawer.BodyColors[2];
+                //app.availableUsers[1].Color = Drawer.BodyColors[0];
+                //app.users.Add(app.availableUsers[0]);
+                //app.users.Add(app.availableUsers[1]);
+                //drawUsersCalendar(app.users[0], app.users[1]);
                 //drawUserCalendar(app.users[0]);
 
-                /*
                 if (app.users.Count == 1)
                     drawUserCalendar(app.users[0]);
                 else if (app.users.Count > 1)
                     drawUsersCalendar(app.users[0], app.users[1]);
-                    */
+
                 drawUsernames(app.users);
             }
             catch
