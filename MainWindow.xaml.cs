@@ -109,6 +109,11 @@ namespace SCE_ProductionChain
                                 app.UpdateUsers();
                                 app.UpdateUnidentified();
 
+                                if (app.unidentifiedBodies.Count > 0)
+                                    enableMultiuserButton();
+                                else
+                                    disableMultiuserButton();
+
                                 // Affichage des images couleurs à l'écran
                                 colorFrame.CopyConvertedFrameDataToArray(cfDataConverted, ColorImageFormat.Bgra);
                                 Int32Rect rect = new Int32Rect(0, 0, (int)cfBitmap.Width, (int)cfBitmap.Height);
@@ -124,6 +129,16 @@ namespace SCE_ProductionChain
             this.updateUIForIdentificationPage();
         }
 
+        private void enableMultiuserButton()
+        {
+            if (this.btnMultiUser.Visibility != Visibility.Visible)
+                this.btnMultiUser.Visibility = Visibility.Visible;
+        }
+        private void disableMultiuserButton()
+        {
+            if (this.btnMultiUser.Visibility != Visibility.Hidden)
+                this.btnMultiUser.Visibility = Visibility.Hidden;
+        }
         private void updateUIForIdentificationPage()
         {
             if (app.onIdentificationPage)
@@ -167,6 +182,19 @@ namespace SCE_ProductionChain
                 this.frame.Navigate(app.statisticsPage);
             else
                 this.frame.Navigate(new StatisticsPage());
+        }
+
+        private void btnMultiUser_Click(object sender, RoutedEventArgs e)
+        {
+            app.navigateToConfirmMultiuserPage(this.frame);
+        }
+
+        private void navigateToHomePage()
+        {
+            if (app.calendarPage != null)
+                this.frame.Navigate(app.confirmMultiuserPage);
+            else
+                this.frame.Navigate(new ConfirmMultiUserPage());
         }
     }
 }

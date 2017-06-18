@@ -31,7 +31,7 @@ namespace SCE_ProductionChain.Util
             // Mardi de 7:00 à 12:00
             // Jeudi de 7:00 à 12:00
             // Vendredi de 13:00 à 17:00
-            List<TimeSlot> tsMonday = new List<TimeSlot>() { new TimeSlot(true, 5), new TimeSlot(false, 1), new TimeSlot(true, 4) };
+            List<TimeSlot> tsMonday = new List<TimeSlot>() { new TimeSlot(false, 1), new TimeSlot(true, 4), new TimeSlot(false, 1), new TimeSlot(true, 4) };
             Day monday = new Day(tsMonday);
 
             List<TimeSlot> tsTuesday = new List<TimeSlot>() { new TimeSlot(true, 5), new TimeSlot(false, 5) };

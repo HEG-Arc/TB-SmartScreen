@@ -12,7 +12,9 @@
         <Frame Name="frame" NavigationUIVisibility="Hidden"/>
         <Image Name="multiSourceFrameIndicator" Height="240" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
         <Canvas Name="multiSourceFrameIndicatorCanvas" Height="240" Width="427" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
-
+        <Button Name="btnMultiUser" Style="{StaticResource btnMultiuser}" Width="107" Height="107" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,60,75,0" Click="btnMultiUser_Click" Visibility="Hidden" SnapsToDevicePixels="True">
+            <Image Source="Images/button_multiuser.png" Width="47" Height="38" />
+        </Button>
         <Grid Width="510" Height="250" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="Transparent" ShowGridLines="False" SnapsToDevicePixels="True">
             <Button Name="btnCalendar" Style="{StaticResource btnCalendar}" Width="250" Height="250" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="btnCalendar_Click" Visibility="Hidden" SnapsToDevicePixels="True">
                 <Image Source="Images/button_calendar.png" Width="90" />

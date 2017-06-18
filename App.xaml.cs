@@ -1,5 +1,6 @@
 ﻿using Microsoft.Kinect;
 using SCE_ProductionChain.Model;
+using SCE_ProductionChain.Pages;
 using SCE_ProductionChain.Util;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Navigation;
 
 namespace SCE_ProductionChain
 {
@@ -27,6 +29,8 @@ namespace SCE_ProductionChain
         internal Page calendarPage;
 
         internal Page statisticsPage;
+
+        internal Page confirmMultiuserPage;
         internal List<User> users { get; set; }
         internal List<ulong> trackedBodies { get; set; }
         internal List<ulong> unidentifiedBodies { get; set; }
@@ -57,17 +61,31 @@ namespace SCE_ProductionChain
             primaryBrush = new SolidColorBrush(Color.FromRgb(77, 77, 77));
             secondaryBrush = new SolidColorBrush(Color.FromRgb(102, 102, 102));
             backgroundBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-        }      
-
-        /*
-        public List<KeyValuePair<string, string>> AvailableUsers
-        {
-            get
-            { return this.availableUsers; }
-            set
-            { this.availableUsers = value; }
         }
-        */
+
+        public void navigateToCalendarPage(NavigationService ns)
+        {
+            if (calendarPage != null)
+                ns.Navigate(calendarPage);
+            else
+                ns.Navigate(new CalendarPage());
+        }
+
+        public void navigateToConfirmMultiuserPage(Frame frame)
+        {
+            if (confirmMultiuserPage != null)
+                frame.Navigate(confirmMultiuserPage);
+            else
+                frame.Navigate(new ConfirmMultiUserPage());
+        }
+
+        public void navigateToIdentificationPage(NavigationService ns)
+        {
+            if (identificationPage != null)
+                ns.Navigate(identificationPage);
+            else
+                ns.Navigate(new IdentificationPage());
+        }
 
         public int CALENDAR_DAYS
         {

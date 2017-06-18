@@ -65,19 +65,26 @@ namespace SCE_ProductionChain.Pages
 
         private void initCalendar()
         {
-            User user = null;
             try
             {
-                //user = app.users[0];
+                ReplaceHours(app.availableUsers[1], 1, 1, 5, true);
+                ReplaceHours(app.availableUsers[0], 1, 1, 5, false);
+
+                ReplaceHours(app.availableUsers[0], 2, 7, 9, true);
+                ReplaceHours(app.availableUsers[1], 2, 7, 9, false);
+
                 app.availableUsers[0].Color = Drawer.BodyColors[2];
-                app.availableUsers[1].Color = Drawer.BodyColors[3];
+                app.availableUsers[1].Color = Drawer.BodyColors[0];
                 app.users.Add(app.availableUsers[0]);
                 app.users.Add(app.availableUsers[1]);
                 drawUsersCalendar(app.users[0], app.users[1]);
                 //drawUserCalendar(app.users[1]);
+
                 /*
-                if (user != null)
-                    drawUserCalendar(user);
+                if (app.users.Count == 1)
+                    drawUserCalendar(app.users[0]);
+                else if (app.users.Count > 1)
+                    drawUsersCalendar(app.users[0], app.users[1]);
                     */
                 drawUsernames(app.users);
             }
@@ -242,6 +249,53 @@ namespace SCE_ProductionChain.Pages
             if (colspan > 0)
                 rect.SetValue(Grid.ColumnSpanProperty, colspan);
             gdCalendar.Children.Add(rect);
+        }
+
+        private void ReplaceHours(User user, int dayIndex, int from, int to, bool isWorking)
+        {
+            Day newDay = new Day(new List<TimeSlot>());
+
+            int duration = 0;
+            foreach (TimeSlot ts in user.Calendar.Days[dayIndex].TimeSlots)
+            {
+                duration += ts.Duration;
+                int newTimeSlotDuration = 0;
+                if (duration >= from)
+                {
+                    int currentDuration = duration - ts.Duration + 1;
+                    while (currentDuration < from)
+                    {
+                        newTimeSlotDuration++;
+                        currentDuration++;
+                    }
+                    if (newTimeSlotDuration > 0)
+                        newDay.TimeSlots.Add(new TimeSlot(ts.IsWorking, newTimeSlotDuration));
+
+                    newTimeSlotDuration = 0;
+                    while (currentDuration >= from && currentDuration <= to)
+                    {
+                        newTimeSlotDuration++;
+                        currentDuration++;
+                    }
+                    if (newTimeSlotDuration > 0)
+                        newDay.TimeSlots.Add(new TimeSlot(isWorking, newTimeSlotDuration));
+
+                    newTimeSlotDuration = 0;
+                    while (currentDuration > to && currentDuration <= duration)
+                    {
+                        newTimeSlotDuration++;
+                        currentDuration++;
+                    }
+                    if (newTimeSlotDuration > 0)
+                        newDay.TimeSlots.Add(new TimeSlot(ts.IsWorking, newTimeSlotDuration));
+                }
+                else
+                {
+                    newDay.TimeSlots.Add(ts);
+                }
+
+                user.Calendar.Days[dayIndex] = newDay;
+            }
         }
     }
 }
