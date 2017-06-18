@@ -32,11 +32,15 @@ namespace SCE_ProductionChain
         internal Page statisticsPage;
 
         internal Page confirmMultiuserPage;
+
+        internal Page confirmExchangePage;
         internal List<User> users { get; set; }
         internal List<ulong> trackedBodies { get; set; }
         internal List<ulong> unidentifiedBodies { get; set; }
         internal MultiSourceFrameReader msfr { get; set; }
         internal bool onIdentificationPage { get; set; }
+        internal bool onConfirmationPage { get; set; }
+        internal List<TimeSlotInfo> timeSlotsToTransact { get; set; }
 
         internal SolidColorBrush primaryBrush { get; set; }
         internal SolidColorBrush secondaryBrush { get; set; }
@@ -59,6 +63,7 @@ namespace SCE_ProductionChain
             this.unidentifiedBodies = new List<ulong>();
             this.onIdentificationPage = false;
             this.availableUsers = new GenerateUsers().getUsers();
+            this.timeSlotsToTransact = new List<TimeSlotInfo>();
 
             primaryBrush = new SolidColorBrush(Color.FromRgb(77, 77, 77));
             secondaryBrush = new SolidColorBrush(Color.FromRgb(102, 102, 102));
@@ -79,6 +84,14 @@ namespace SCE_ProductionChain
                 frame.Navigate(confirmMultiuserPage);
             else
                 frame.Navigate(new ConfirmMultiUserPage());
+        }
+
+        public void navigateToConfirmExchangePage(Frame frame)
+        {
+            if (confirmExchangePage != null)
+                frame.Navigate(confirmExchangePage);
+            else
+                frame.Navigate(new ConfirmExchangePage());
         }
 
         public void navigateToIdentificationPage(NavigationService ns)

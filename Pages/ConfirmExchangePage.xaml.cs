@@ -20,9 +20,20 @@ namespace SCE_ProductionChain.Pages
     /// </summary>
     public partial class ConfirmExchangePage : Page
     {
+        private App app;
         public ConfirmExchangePage()
         {
             InitializeComponent();
+
+            this.app = (App)Application.Current;
+            this.Loaded += ConfirmExchangePage_Loaded;
+        }
+
+        private void ConfirmExchangePage_Loaded(object sender, RoutedEventArgs e)
+        {
+            app.onConfirmationPage = true;
+            if (app.confirmExchangePage == null)
+                app.confirmExchangePage = this;
         }
 
         private void btnAccept_Click(object sender, RoutedEventArgs e)

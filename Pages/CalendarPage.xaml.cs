@@ -31,9 +31,7 @@ namespace SCE_ProductionChain.Pages
         private SolidColorBrush spaceBrush;
 
         private List<Rectangle> rectanglesToRemove;
-        private List<KeyValuePair<Rectangle, TimeSlotInfo>> rectanglesReferencial { get; set; }
-
-        private List<TimeSlotInfo> timeSlotsToTransact;
+        private List<KeyValuePair<Rectangle, TimeSlotInfo>> rectanglesReferencial { get; set; }        
 
         public CalendarPage()
         {
@@ -47,7 +45,6 @@ namespace SCE_ProductionChain.Pages
 
             rectanglesReferencial = new List<KeyValuePair<Rectangle, TimeSlotInfo>>();
             rectanglesToRemove = new List<Rectangle>();
-            timeSlotsToTransact = new List<TimeSlotInfo>();
 
             this.Loaded += CalendarPage_Loaded;
         }
@@ -318,12 +315,12 @@ namespace SCE_ProductionChain.Pages
                     tsi = kv.Value;
             }
 
-            if (timeSlotsToTransact.Contains(tsi))
-                timeSlotsToTransact.Remove(tsi);
+            if (app.timeSlotsToTransact.Contains(tsi))
+                app.timeSlotsToTransact.Remove(tsi);
             else
-                timeSlotsToTransact.Add(tsi);
+                app.timeSlotsToTransact.Add(tsi);
 
-            UpdateExchangeCircles(timeSlotsToTransact);
+            UpdateExchangeCircles(app.timeSlotsToTransact);
 
             //TransactHours(tsi);            
         }

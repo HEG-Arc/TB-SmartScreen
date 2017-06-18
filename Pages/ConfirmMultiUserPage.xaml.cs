@@ -30,7 +30,8 @@ namespace SCE_ProductionChain.Pages
 
         private void ConfirmMultiUserPage_Loaded(object sender, RoutedEventArgs e)
         {
-            if(app.confirmMultiuserPage == null)
+            app.onConfirmationPage = true;
+            if (app.confirmMultiuserPage == null)
                 app.confirmMultiuserPage = this;
         }
 

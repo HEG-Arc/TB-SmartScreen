@@ -15,6 +15,9 @@
         <Button Name="btnMultiUser" Style="{StaticResource btnMultiuser}" Width="107" Height="107" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,60,75,0" Click="btnMultiUser_Click" Visibility="Hidden" SnapsToDevicePixels="True">
             <Image Source="Images/button_multiuser.png" Width="47" Height="38" />
         </Button>
+        <Button Name="btnExchangeHours" Style="{StaticResource btnExchangeHours}" Width="107" Height="107" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,60,75,0" Click="btnExchangeHours_Click" Visibility="Hidden" SnapsToDevicePixels="True">
+            <Image Source="Images/button_exchange_hours.png" Width="62" Height="62" />
+        </Button>
         <Grid Width="510" Height="250" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="Transparent" ShowGridLines="False" SnapsToDevicePixels="True">
             <Button Name="btnCalendar" Style="{StaticResource btnCalendar}" Width="250" Height="250" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="btnCalendar_Click" Visibility="Hidden" SnapsToDevicePixels="True">
                 <Image Source="Images/button_calendar.png" Width="90" />

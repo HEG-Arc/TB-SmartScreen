@@ -109,10 +109,15 @@ namespace SCE_ProductionChain
                                 app.UpdateUsers();
                                 app.UpdateUnidentified();
 
-                                if (app.unidentifiedBodies.Count > 0)
+                                if (app.unidentifiedBodies.Count > 0 && !app.onConfirmationPage && !app.onIdentificationPage)
                                     enableMultiuserButton();
                                 else
                                     disableMultiuserButton();
+
+                                if (app.timeSlotsToTransact.Count > 0 && !app.onConfirmationPage)
+                                    enableExchangeHoursButton();
+                                else
+                                    disableExchangeHoursButton();
 
                                 // Affichage des images couleurs à l'écran
                                 colorFrame.CopyConvertedFrameDataToArray(cfDataConverted, ColorImageFormat.Bgra);
@@ -126,7 +131,7 @@ namespace SCE_ProductionChain
             }
             catch { }
 
-            this.updateUIForIdentificationPage();
+            this.updateUI();
         }
 
         private void enableMultiuserButton()
@@ -139,10 +144,22 @@ namespace SCE_ProductionChain
             if (this.btnMultiUser.Visibility != Visibility.Hidden)
                 this.btnMultiUser.Visibility = Visibility.Hidden;
         }
-        private void updateUIForIdentificationPage()
+        private void enableExchangeHoursButton()
+        {
+            if (this.btnExchangeHours.Visibility != Visibility.Visible)
+                this.btnExchangeHours.Visibility = Visibility.Visible;
+        }
+        private void disableExchangeHoursButton()
+        {
+            if (this.btnExchangeHours.Visibility != Visibility.Hidden)
+                this.btnExchangeHours.Visibility = Visibility.Hidden;
+        }
+        private void updateUI()
         {
             if (app.onIdentificationPage)
                 initForIdentificationPage();
+            else if (app.onConfirmationPage)
+                initForConfirmationPages();
             else
                 initForOtherPages();
         }
@@ -152,6 +169,16 @@ namespace SCE_ProductionChain
             {
                 this.multiSourceFrameIndicator.Visibility = Visibility.Hidden;
                 this.multiSourceFrameIndicatorCanvas.Visibility = Visibility.Hidden;
+                this.btnCalendar.Visibility = Visibility.Hidden;
+                this.btnStatistics.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void initForConfirmationPages()
+        {
+            if (this.btnCalendar.Visibility != Visibility.Hidden)
+            {
+                this.btnExchangeHours.Visibility = Visibility.Hidden;
                 this.btnCalendar.Visibility = Visibility.Hidden;
                 this.btnStatistics.Visibility = Visibility.Hidden;
             }
@@ -189,12 +216,17 @@ namespace SCE_ProductionChain
             app.navigateToConfirmMultiuserPage(this.frame);
         }
 
+        private void btnExchangeHours_Click(object sender, RoutedEventArgs e)
+        {
+            app.navigateToConfirmExchangePage(this.frame);
+        }
+
         private void navigateToHomePage()
         {
             if (app.calendarPage != null)
                 this.frame.Navigate(app.confirmMultiuserPage);
             else
                 this.frame.Navigate(new ConfirmMultiUserPage());
-        }
+        }        
     }
 }

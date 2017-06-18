@@ -72,6 +72,9 @@
     <Compile Include="Pages\CalendarPage.xaml.cs">
       <DependentUpon>CalendarPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ConfirmExchangePage.xaml.cs">
+      <DependentUpon>ConfirmExchangePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ConfirmMultiUserPage.xaml.cs">
       <DependentUpon>ConfirmMultiUserPage.xaml</DependentUpon>
     </Compile>
@@ -99,6 +102,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\CalendarPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ConfirmExchangePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -149,10 +156,16 @@
     <Resource Include="Images\button_multiuser.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\button_multiuser_large.png" />
+    <Resource Include="Images\panel_multiuser_large.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\exchange_circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\panel_exchange_hours_large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\button_exchange_hours.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
