@@ -26,6 +26,12 @@ namespace SCE_ProductionChain.Pages
             InitializeComponent();
             this.app = (App)Application.Current;
             this.Loaded += ConfirmMultiUserPage_Loaded;
+            this.Unloaded += ConfirmMultiUserPage_Unloaded;
+        }
+
+        private void ConfirmMultiUserPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            app.onConfirmationPage = false;
         }
 
         private void ConfirmMultiUserPage_Loaded(object sender, RoutedEventArgs e)

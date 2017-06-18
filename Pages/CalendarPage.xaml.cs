@@ -325,66 +325,58 @@ namespace SCE_ProductionChain.Pages
             //TransactHours(tsi);            
         }
 
-        private void TransactHours(TimeSlotInfo tsi)
-        {
-            ReplaceHours(tsi, true);
-            ReplaceHours(tsi, false);
-            //drawUsersCalendar(app.users[0], app.users[1]);
-            drawUsersCalendar(tsi.Worker, tsi.ExchangeTo);
-        }
+        //private void ReplaceHours(TimeSlotInfo tsi, bool replaceToWorker)
+        //{
+        //    App app = (App)Application.Current;
+        //    Day newDay = new Day(new List<TimeSlot>());
+        //    User user = null;
 
-        private void ReplaceHours(TimeSlotInfo tsi, bool replaceToWorker)
-        {
-            App app = (App)Application.Current;
-            Day newDay = new Day(new List<TimeSlot>());
-            User user = null;
+        //    if (replaceToWorker)
+        //        user = tsi.Worker;
+        //    else
+        //        user = tsi.ExchangeTo;
 
-            if (replaceToWorker)
-                user = tsi.Worker;
-            else
-                user = tsi.ExchangeTo;
+        //    int duration = 0;
+        //    foreach (TimeSlot ts in user.Calendar.Days[tsi.DayIndex].TimeSlots)
+        //    {
+        //        duration += ts.Duration;
+        //        int newTimeSlotDuration = 0;
+        //        if (duration >= tsi.From)
+        //        {
+        //            int currentDuration = duration - ts.Duration + 1;
+        //            while (currentDuration < tsi.From)
+        //            {
+        //                newTimeSlotDuration++;
+        //                currentDuration++;
+        //            }
+        //            if (newTimeSlotDuration > 0)
+        //                newDay.TimeSlots.Add(new TimeSlot(ts.IsWorking, newTimeSlotDuration));
 
-            int duration = 0;
-            foreach (TimeSlot ts in user.Calendar.Days[tsi.DayIndex].TimeSlots)
-            {
-                duration += ts.Duration;
-                int newTimeSlotDuration = 0;
-                if (duration >= tsi.From)
-                {
-                    int currentDuration = duration - ts.Duration + 1;
-                    while (currentDuration < tsi.From)
-                    {
-                        newTimeSlotDuration++;
-                        currentDuration++;
-                    }
-                    if (newTimeSlotDuration > 0)
-                        newDay.TimeSlots.Add(new TimeSlot(ts.IsWorking, newTimeSlotDuration));
+        //            newTimeSlotDuration = 0;
+        //            while (currentDuration >= tsi.From && currentDuration <= tsi.To)
+        //            {
+        //                newTimeSlotDuration++;
+        //                currentDuration++;
+        //            }
+        //            if (newTimeSlotDuration > 0)
+        //                newDay.TimeSlots.Add(new TimeSlot(!ts.IsWorking, newTimeSlotDuration));
 
-                    newTimeSlotDuration = 0;
-                    while (currentDuration >= tsi.From && currentDuration <= tsi.To)
-                    {
-                        newTimeSlotDuration++;
-                        currentDuration++;
-                    }
-                    if (newTimeSlotDuration > 0)
-                        newDay.TimeSlots.Add(new TimeSlot(!ts.IsWorking, newTimeSlotDuration));
-
-                    newTimeSlotDuration = 0;
-                    while (currentDuration > tsi.To && currentDuration <= duration)
-                    {
-                        newTimeSlotDuration++;
-                        currentDuration++;
-                    }
-                    if (newTimeSlotDuration > 0)
-                        newDay.TimeSlots.Add(new TimeSlot(ts.IsWorking, newTimeSlotDuration));
-                }
-                else
-                {
-                    newDay.TimeSlots.Add(ts);
-                }
-            }
-            //app.users[app.users.IndexOf(tsi.Worker)].Calendar.Days[tsi.DayIndex] = newDay;
-            user.Calendar.Days[tsi.DayIndex] = newDay;
-        }
+        //            newTimeSlotDuration = 0;
+        //            while (currentDuration > tsi.To && currentDuration <= duration)
+        //            {
+        //                newTimeSlotDuration++;
+        //                currentDuration++;
+        //            }
+        //            if (newTimeSlotDuration > 0)
+        //                newDay.TimeSlots.Add(new TimeSlot(ts.IsWorking, newTimeSlotDuration));
+        //        }
+        //        else
+        //        {
+        //            newDay.TimeSlots.Add(ts);
+        //        }
+        //    }
+        //    //app.users[app.users.IndexOf(tsi.Worker)].Calendar.Days[tsi.DayIndex] = newDay;
+        //    user.Calendar.Days[tsi.DayIndex] = newDay;
+        //}
     }
 }

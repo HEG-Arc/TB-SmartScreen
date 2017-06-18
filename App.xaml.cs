@@ -94,6 +94,14 @@ namespace SCE_ProductionChain
                 frame.Navigate(new ConfirmExchangePage());
         }
 
+        public void navigateToIdentificationPage(Frame frame)
+        {
+            if (identificationPage != null)
+                frame.Navigate(identificationPage);
+            else
+                frame.Navigate(new IdentificationPage());
+        }
+
         public void navigateToIdentificationPage(NavigationService ns)
         {
             if (identificationPage != null)

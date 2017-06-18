@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SCE_ProductionChain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,12 @@ namespace SCE_ProductionChain.Pages
 
             this.app = (App)Application.Current;
             this.Loaded += ConfirmExchangePage_Loaded;
+            this.Unloaded += ConfirmExchangePage_Unloaded;
+        }
+
+        private void ConfirmExchangePage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            app.onConfirmationPage = false;
         }
 
         private void ConfirmExchangePage_Loaded(object sender, RoutedEventArgs e)
@@ -38,7 +45,14 @@ namespace SCE_ProductionChain.Pages
 
         private void btnAccept_Click(object sender, RoutedEventArgs e)
         {
-
+            foreach (TimeSlotInfo tsi in app.timeSlotsToTransact)
+            {
+                //if(app.users[0].Equals(tsi.Worker))
+                app.users[0].ReplaceHours(tsi);
+                app.users[1].ReplaceHours(tsi);
+            }
+            app.timeSlotsToTransact.Clear();
+            app.navigateToCalendarPage(this.NavigationService);
         }
 
         private void btnRefuse_Click(object sender, RoutedEventArgs e)

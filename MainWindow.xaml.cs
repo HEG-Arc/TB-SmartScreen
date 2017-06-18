@@ -106,7 +106,7 @@ namespace SCE_ProductionChain
                                     }
                                 }
 
-                                app.UpdateUsers();
+                                //app.UpdateUsers();
                                 app.UpdateUnidentified();
 
                                 if (app.unidentifiedBodies.Count > 0 && !app.onConfirmationPage && !app.onIdentificationPage)
@@ -118,6 +118,9 @@ namespace SCE_ProductionChain
                                     enableExchangeHoursButton();
                                 else
                                     disableExchangeHoursButton();
+
+                                if (app.users.Count <= 0)
+                                    app.navigateToIdentificationPage(this.frame);
 
                                 // Affichage des images couleurs à l'écran
                                 colorFrame.CopyConvertedFrameDataToArray(cfDataConverted, ColorImageFormat.Bgra);
