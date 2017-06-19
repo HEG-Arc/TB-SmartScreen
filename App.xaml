@@ -133,6 +133,8 @@
             <Setter Property="FontSize" Value="28" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Light" />
         </Style>
         <Style TargetType="{x:Type TextBlock}" x:Key="tbStatisticsTitle">
             <Setter Property="Width" Value="315" />
@@ -142,6 +144,8 @@
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="TextWrapping" Value="Wrap" />
             <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Light" />
         </Style>
         <Style TargetType="{x:Type TextBlock}" x:Key="tbStatisticsTitleLarge">
             <Setter Property="Width" Value="550" />
@@ -151,6 +155,8 @@
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="TextWrapping" Value="Wrap" />
             <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Light" />
         </Style>
         <Style TargetType="{x:Type Label}" x:Key="lblStatisticsContent">
             <Setter Property="FontSize" Value="124" />
