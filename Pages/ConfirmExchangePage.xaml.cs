@@ -33,7 +33,7 @@ namespace SCE_ProductionChain.Pages
 
         private void ConfirmExchangePage_Loaded(object sender, RoutedEventArgs e)
         {
-            app.onConfirmationPage = true;
+            app.onConfirmExchangePage = true;
 
             lblTitle.Content = Properties.Resources.ConfirmHourExchangeTitle;
             tbContent.Text = Properties.Resources.ConfirmHourExchangeText;
@@ -92,7 +92,7 @@ namespace SCE_ProductionChain.Pages
 
         private void ConfirmExchangePage_Unloaded(object sender, RoutedEventArgs e)
         {
-            app.onConfirmationPage = false;
+            app.onConfirmExchangePage = false;
         }
     }
 }

@@ -46,6 +46,9 @@ namespace SCE_ProductionChain
         internal MultiSourceFrameReader msfr { get; set; }
         internal bool onIdentificationPage { get; set; }
         internal bool onConfirmationPage { get; set; }
+        internal bool onConfirUserExitPage { get; set; }
+        internal bool onConfirmMultiuserPage { get; set; }
+        internal bool onConfirmExchangePage { get; set; }
         internal bool onCalendarPage { get; set; }
         internal bool onStatisticsPage { get; set; }
         internal bool userTwoLoggedOut { get; set; }
@@ -96,39 +99,30 @@ namespace SCE_ProductionChain
                 ns.Navigate(pageBeforeMultiUserExit);
             else
                 ns.Navigate(new CalendarPage());
-        }
+        }   
 
-
-        public void navigateToConfirmMultiuserPage(Frame frame)
+        public void navigateToConfirmMultiuserPage(NavigationService ns)
         {
             if (confirmMultiuserPage != null)
-                frame.Navigate(confirmMultiuserPage);
+                ns.Navigate(confirmMultiuserPage);
             else
-                frame.Navigate(new ConfirmMultiUserPage());
+                ns.Navigate(new ConfirmMultiUserPage());
         }
 
-        public void navigateToConfirmExchangePage(Frame frame)
+        public void navigateToConfirmExchangePage(NavigationService ns)
         {
             if (confirmExchangePage != null)
-                frame.Navigate(confirmExchangePage);
+                ns.Navigate(confirmExchangePage);
             else
-                frame.Navigate(new ConfirmExchangePage());
+                ns.Navigate(new ConfirmExchangePage());
         }
 
-        public void navigateToConfirmUserExitPage(Frame frame)
+        public void navigateToConfirmUserExitPage(NavigationService ns)
         {
             if (confirmUserExitPage != null)
-                frame.Navigate(confirmUserExitPage);
+                ns.Navigate(confirmUserExitPage);
             else
-                frame.Navigate(new ConfirmUserExitPage());
-        }
-
-        public void navigateToIdentificationPage(Frame frame)
-        {
-            if (identificationPage != null)
-                frame.Navigate(identificationPage);
-            else
-                frame.Navigate(new IdentificationPage());
+                ns.Navigate(new ConfirmUserExitPage());
         }
 
         public void navigateToIdentificationPage(NavigationService ns)

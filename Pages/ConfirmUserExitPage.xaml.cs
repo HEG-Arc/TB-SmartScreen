@@ -26,10 +26,12 @@ namespace SCE_ProductionChain.Pages
             InitializeComponent();
             app = (App)Application.Current;
             this.Loaded += ConfirmUserExitPage_Loaded;
-        }
+            this.Unloaded += ConfirmUserExitPage_Unloaded;
+        }        
 
         private void ConfirmUserExitPage_Loaded(object sender, RoutedEventArgs e)
         {
+            app.onConfirUserExitPage = true;
             this.lblTitle.Content = Properties.Resources.ConfirmUserExitTitle;
             this.tbQuestion.Text = Properties.Resources.ConfirmUserExitQuestion;
 
@@ -46,6 +48,11 @@ namespace SCE_ProductionChain.Pages
         {
             app.timeSlotsToTransact.Clear();
             app.navigateToPageBeforeExit(this.NavigationService);
+        }
+
+        private void ConfirmUserExitPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            app.onConfirUserExitPage = false;
         }
     }
 }

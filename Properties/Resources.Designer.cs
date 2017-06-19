@@ -178,6 +178,33 @@ namespace SCE_ProductionChain.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à &lt;grammar version=&quot;1.0&quot; xml:lang=&quot;fr-FR&quot; root=&quot;rootRule&quot; tag-format=&quot;semantics/1.0-literals&quot; xmlns=&quot;http://www.w3.org/2001/06/grammar&quot;&gt;
+        ///  &lt;rule id=&quot;rootRule&quot;&gt;
+        ///    &lt;one-of&gt;
+        ///      &lt;item&gt;
+        ///        &lt;tag&gt;MONDAY&lt;/tag&gt;
+        ///        &lt;one-of&gt;
+        ///          &lt;item&gt; lundi &lt;/item&gt;
+        ///        &lt;/one-of&gt;
+        ///      &lt;/item&gt;
+        ///      &lt;item&gt;
+        ///        &lt;tag&gt;WEDNESDAY&lt;/tag&gt;
+        ///        &lt;one-of&gt;
+        ///          &lt;item&gt; mercredi &lt;/item&gt;
+        ///        &lt;/one-of&gt;
+        ///      &lt;/item&gt;
+        ///      &lt;item&gt;
+        ///        &lt;tag&gt;SUNDAY&lt;/tag&gt;
+        ///        &lt;one-of&gt;
+        ///          &lt;item&gt; dimanc [le reste de la chaîne a été tronqué]&quot;;.
+        /// </summary>
+        public static string SpeechGrammar {
+            get {
+                return ResourceManager.GetString("SpeechGrammar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Estimation salarial mensuel.
         /// </summary>
         public static string StatisticsEstimationSalaryTitle {

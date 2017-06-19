@@ -1,0 +1,36 @@
+<grammar version="1.0" xml:lang="fr-FR" root="rootRule" tag-format="semantics/1.0-literals" xmlns="http://www.w3.org/2001/06/grammar">
+  <rule id="rootRule">
+    <one-of>
+      <item>
+        <tag>EXCHANGE</tag>
+        <one-of>
+          <item> échanger </item>
+        </one-of>
+      </item>
+	  <item>
+        <tag>ACCEPT</tag>
+        <one-of>
+          <item> accepter </item>
+        </one-of>
+      </item>
+	  <item>
+        <tag>REFUSE</tag>
+        <one-of>
+          <item> refuser </item>
+        </one-of>
+      </item>
+	  <item>
+        <tag>RECONNECT</tag>
+        <one-of>
+          <item> reconnecter </item>
+        </one-of>
+      </item>
+	  <item>
+        <tag>EXIT</tag>
+        <one-of>
+          <item> quitter </item>
+        </one-of>
+      </item>
+    </one-of>
+  </rule>
+</grammar>
