@@ -38,6 +38,8 @@ namespace SCE_ProductionChain
         private CoordinateMapper coordinateMapper;
         private Body[] bodies;
 
+        private bool debug = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -48,8 +50,16 @@ namespace SCE_ProductionChain
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             initKinect();
-            this.frame.Navigate(new IdentificationPage());
-            //this.frame.Navigate(new CalendarPage());
+            //this.frame.Navigate(new IdentificationPage());
+
+            /* Simule deux utilisateurs connectés */
+            debug = true;
+            app.availableUsers[0].Color = Drawer.BodyColors[2];
+            app.availableUsers[1].Color = Drawer.BodyColors[0];
+            app.users.Add(app.availableUsers[0]);
+            app.users.Add(app.availableUsers[1]);
+            this.frame.Navigate(new StatisticsPage());
+            /* */
         }
 
         private void initKinect()
@@ -79,7 +89,7 @@ namespace SCE_ProductionChain
         private void KinectCoreWindow_PointerMoved(object sender, KinectPointerEventArgs e)
         {
             KinectPointerPoint kinectPointerPoint = e.CurrentPoint;
-            Point kinectPointerPosition = new Point();            
+            Point kinectPointerPosition = new Point();
             Ellipse handPointer = new Ellipse() { Height = 20, Width = 20, Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0)) };
 
             this.handGestureCanvas.Children.Clear();
@@ -128,11 +138,12 @@ namespace SCE_ProductionChain
                                     }
                                 }
 
-                                app.UpdateUsers();
+                                if (!debug)
+                                    app.UpdateUsers();
                                 app.UpdateUnidentified();
 
                                 // Lorqu'une personne non identifiée est présente devant l'écran
-                                if (app.unidentifiedBodies.Count > 0 && app.unidentifiedBodies.Count <= app.LIMIT_USERS && 
+                                if (app.unidentifiedBodies.Count > 0 && app.unidentifiedBodies.Count <= app.LIMIT_USERS &&
                                     (app.onCalendarPage || app.onStatisticsPage))
                                     enableMultiuserButton();
                                 else
@@ -146,7 +157,7 @@ namespace SCE_ProductionChain
                                     disableExchangeHoursButton();
 
                                 // Si un des deux utilisateurs se délogue
-                                if(app.userTwoLoggedOut)
+                                if (app.userTwoLoggedOut)
                                 {
                                     app.navigateToConfirmUserExitPage(this.frame);
                                     app.userTwoLoggedOut = false;
@@ -256,6 +267,6 @@ namespace SCE_ProductionChain
         private void btnExchangeHours_Click(object sender, RoutedEventArgs e)
         {
             app.navigateToConfirmExchangePage(this.frame);
-        }    
+        }
     }
 }

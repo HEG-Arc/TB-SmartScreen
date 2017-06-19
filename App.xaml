@@ -9,9 +9,13 @@
         </Style>
         <Style TargetType="{x:Type Label}">
             <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Light" />
         </Style>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Light" />
         </Style>
         <Style TargetType="{x:Type Button}" x:Key="btnCalendar">
             <Setter Property="Background" Value="#00bebe" />
@@ -186,6 +190,20 @@
             <Setter Property="Stroke" Value="White" />
             <Setter Property="Fill" Value="Transparent" />
             <Setter Property="StrokeThickness" Value="3" />
+        </Style>
+        <Style TargetType="{x:Type Image}" x:Key="imgNbPieces">
+            <Setter Property="Source" Value="../Images/chart_nbPieces.png" />
+            <Setter Property="Width" Value="508" />
+            <Setter Property="Height" Value="287" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="{x:Type Image}" x:Key="imgEstimatedSalary">
+            <Setter Property="Source" Value="../Images/chart_estimated_salary.png" />
+            <Setter Property="Width" Value="515" />
+            <Setter Property="Height" Value="287" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
         </Style>
     </Application.Resources>
 </Application>

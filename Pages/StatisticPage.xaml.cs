@@ -1,6 +1,7 @@
 ﻿using SCE_ProductionChain.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,7 +36,7 @@ namespace SCE_ProductionChain.Pages
         }        
 
         private void StatisticsPage_Loaded(object sender, RoutedEventArgs e)
-        {
+        {            
             resetUI();
             if (app.users.Count > 1)
                 initMultiUserUI();
@@ -147,9 +148,12 @@ namespace SCE_ProductionChain.Pages
             this.multiUserTitleEstimatedSalary.Children.Add(new TextBlock() { Text = Properties.Resources.StatisticsEstimationSalaryTitle, Style = FindResource("tbStatisticsTitleLarge") as Style });
 
             this.multiUserContentNbPiecesHours.Children.Add(rectContents[0]);
-            //this.multiUserContentNbPiecesHours.Children.Add(new Label() { Content = "64", Style = FindResource("lblStatisticsContent") as Style });
+            Image imgNbPieces = new Image() { Style = FindResource("imgNbPieces") as Style };
+            this.multiUserContentNbPiecesHours.Children.Add(imgNbPieces);
+
             this.multiUserContentEstimatedSalary.Children.Add(rectContents[1]);
-            //this.multiUserContentEstimatedSalary.Children.Add(new Label() { Content = "~ 3'565.-", Style = FindResource("lblStatisticsContentLarge") as Style });
+            Image imgEstimatedSalary = new Image() { Style = FindResource("imgEstimatedSalary") as Style };
+            this.multiUserContentEstimatedSalary.Children.Add(imgEstimatedSalary);
         }
 
         private void StatisticsPage_Unloaded(object sender, RoutedEventArgs e)

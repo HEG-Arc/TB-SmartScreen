@@ -72,6 +72,7 @@ namespace SCE_ProductionChain
             this.unidentifiedBodies = new List<ulong>();
             this.onIdentificationPage = false;
             this.onCalendarPage = false;
+            this.onStatisticsPage = false;
             this.userTwoLoggedOut = false;
             this.availableUsers = new GenerateUsers().getUsers();
             this.timeSlotsToTransact = new List<TimeSlotInfo>();
