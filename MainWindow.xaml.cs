@@ -223,14 +223,6 @@ namespace SCE_ProductionChain
         private void btnExchangeHours_Click(object sender, RoutedEventArgs e)
         {
             app.navigateToConfirmExchangePage(this.frame);
-        }
-
-        private void navigateToHomePage()
-        {
-            if (app.calendarPage != null)
-                this.frame.Navigate(app.confirmMultiuserPage);
-            else
-                this.frame.Navigate(new ConfirmMultiUserPage());
-        }        
+        }    
     }
 }

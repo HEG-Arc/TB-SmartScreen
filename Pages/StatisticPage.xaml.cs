@@ -43,7 +43,7 @@ namespace SCE_ProductionChain.Pages
 
             if (app.statisticsPage == null)
             {
-                app.identificationPage = this;
+                app.statisticsPage = this;
             }
         }
 
@@ -69,6 +69,9 @@ namespace SCE_ProductionChain.Pages
 
         private void initSingleUserUI()
         {
+            if (app.users.Count <= 0)
+                return;
+
             User currentUser = app.users[0];
             gdSingleUser.Visibility = Visibility.Visible;
             
