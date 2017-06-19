@@ -36,12 +36,19 @@ namespace SCE_ProductionChain
         internal Page confirmMultiuserPage;
 
         internal Page confirmExchangePage;
+
+        internal Page confirmUserExitPage;
+
+        internal Page pageBeforeMultiUserExit;
         internal List<User> users { get; set; }
         internal List<ulong> trackedBodies { get; set; }
         internal List<ulong> unidentifiedBodies { get; set; }
         internal MultiSourceFrameReader msfr { get; set; }
         internal bool onIdentificationPage { get; set; }
         internal bool onConfirmationPage { get; set; }
+        internal bool onCalendarPage { get; set; }
+        internal bool onStatisticsPage { get; set; }
+        internal bool userTwoLoggedOut { get; set; }
         internal List<TimeSlotInfo> timeSlotsToTransact { get; set; }
 
         internal SolidColorBrush primaryBrush { get; set; }
@@ -64,6 +71,8 @@ namespace SCE_ProductionChain
             this.trackedBodies = new List<ulong>();
             this.unidentifiedBodies = new List<ulong>();
             this.onIdentificationPage = false;
+            this.onCalendarPage = false;
+            this.userTwoLoggedOut = false;
             this.availableUsers = new GenerateUsers().getUsers();
             this.timeSlotsToTransact = new List<TimeSlotInfo>();
 
@@ -80,6 +89,15 @@ namespace SCE_ProductionChain
                 ns.Navigate(new CalendarPage());
         }
 
+        public void navigateToPageBeforeExit(NavigationService ns)
+        {
+            if (pageBeforeMultiUserExit != null)
+                ns.Navigate(pageBeforeMultiUserExit);
+            else
+                ns.Navigate(new CalendarPage());
+        }
+
+
         public void navigateToConfirmMultiuserPage(Frame frame)
         {
             if (confirmMultiuserPage != null)
@@ -94,6 +112,14 @@ namespace SCE_ProductionChain
                 frame.Navigate(confirmExchangePage);
             else
                 frame.Navigate(new ConfirmExchangePage());
+        }
+
+        public void navigateToConfirmUserExitPage(Frame frame)
+        {
+            if (confirmUserExitPage != null)
+                frame.Navigate(confirmUserExitPage);
+            else
+                frame.Navigate(new ConfirmUserExitPage());
         }
 
         public void navigateToIdentificationPage(Frame frame)
@@ -148,7 +174,11 @@ namespace SCE_ProductionChain
                 }
 
                 if (remove)
+                {
+                    if (users.Count > 1)
+                        userTwoLoggedOut = true;
                     users.Remove(users[i]);
+                }                    
                 remove = true;
             }
         }

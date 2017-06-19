@@ -131,17 +131,28 @@ namespace SCE_ProductionChain
                                 app.UpdateUsers();
                                 app.UpdateUnidentified();
 
+                                // Lorqu'une personne non identifiée est présente devant l'écran
                                 if (app.unidentifiedBodies.Count > 0 && app.unidentifiedBodies.Count <= app.LIMIT_USERS && 
-                                    !app.onConfirmationPage && !app.onIdentificationPage)
+                                    (app.onCalendarPage || app.onStatisticsPage))
                                     enableMultiuserButton();
                                 else
                                     disableMultiuserButton();
 
-                                if (app.timeSlotsToTransact.Count > 0 && !app.onConfirmationPage)
+                                // Lorsqu'une ou plusieurs plage horaires sont sélectionnées ET qu'on se 
+                                // trouve sur la page du calendrier
+                                if (app.timeSlotsToTransact.Count > 0 && app.onCalendarPage)
                                     enableExchangeHoursButton();
                                 else
                                     disableExchangeHoursButton();
 
+                                // Si un des deux utilisateurs se délogue
+                                if(app.userTwoLoggedOut)
+                                {
+                                    app.navigateToConfirmUserExitPage(this.frame);
+                                    app.userTwoLoggedOut = false;
+                                }
+
+                                // Lorsqu'il n'y a plus personne devant l'écran
                                 if (app.users.Count <= 0)
                                     app.navigateToIdentificationPage(this.frame);
 

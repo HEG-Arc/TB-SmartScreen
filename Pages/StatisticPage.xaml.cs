@@ -31,7 +31,8 @@ namespace SCE_ProductionChain.Pages
             InitializeComponent();
             app = (App)Application.Current;
             this.Loaded += StatisticsPage_Loaded;
-        }
+            this.Unloaded += StatisticsPage_Unloaded;
+        }        
 
         private void StatisticsPage_Loaded(object sender, RoutedEventArgs e)
         {
@@ -42,9 +43,9 @@ namespace SCE_ProductionChain.Pages
                 initSingleUserUI();
 
             if (app.statisticsPage == null)
-            {
                 app.statisticsPage = this;
-            }
+            app.onStatisticsPage = true;
+            app.pageBeforeMultiUserExit = app.statisticsPage;
         }
 
         private void resetUI()
@@ -149,6 +150,11 @@ namespace SCE_ProductionChain.Pages
             //this.multiUserContentNbPiecesHours.Children.Add(new Label() { Content = "64", Style = FindResource("lblStatisticsContent") as Style });
             this.multiUserContentEstimatedSalary.Children.Add(rectContents[1]);
             //this.multiUserContentEstimatedSalary.Children.Add(new Label() { Content = "~ 3'565.-", Style = FindResource("lblStatisticsContentLarge") as Style });
+        }
+
+        private void StatisticsPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            app.onStatisticsPage = false;
         }
     }
 }

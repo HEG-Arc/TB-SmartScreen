@@ -47,7 +47,8 @@ namespace SCE_ProductionChain.Pages
             rectanglesToRemove = new List<Rectangle>();
 
             this.Loaded += CalendarPage_Loaded;
-        }
+            this.Unloaded += CalendarPage_Unloaded;
+        }        
 
         private void CalendarPage_Loaded(object sender, RoutedEventArgs e)
         {
@@ -55,9 +56,9 @@ namespace SCE_ProductionChain.Pages
             initCalendar();
 
             if (app.calendarPage == null)
-            {
                 app.calendarPage = this;
-            }
+            app.onCalendarPage = true;
+            app.pageBeforeMultiUserExit = app.calendarPage;
         }
 
         private void initUI()
@@ -78,17 +79,19 @@ namespace SCE_ProductionChain.Pages
                 //drawUserCalendar(app.users[0]);
 
                 if (app.users.Count == 1)
-                    drawUserCalendar(app.users[0]);
+                    DrawUserCalendar(app.users[0]);
                 else if (app.users.Count > 1)
-                    drawUsersCalendar(app.users[0], app.users[1]);
-
-                drawUsernames(app.users);
+                {
+                    DrawUsersCalendar(app.users[0], app.users[1]);
+                    UpdateExchangeCircles(app.timeSlotsToTransact);
+                }                
+                DrawUsernames(app.users);
             }
             catch
             { }
         }
 
-        private void drawUsernames(List<User> users)
+        private void DrawUsernames(List<User> users)
         {
             this.spUsernames.Children.Clear();
             foreach (User user in users)
@@ -101,7 +104,7 @@ namespace SCE_ProductionChain.Pages
             }
         }
 
-        private void drawUserCalendar(User user)
+        private void DrawUserCalendar(User user)
         {
             this.WorkBrush = user.Color;
 
@@ -150,7 +153,7 @@ namespace SCE_ProductionChain.Pages
             }
         }
 
-        private void drawUsersCalendar(User user1, User user2)
+        private void DrawUsersCalendar(User user1, User user2)
         {
             int row = INITIAL_ROW;
             int col = INITIAL_COL;
@@ -320,62 +323,11 @@ namespace SCE_ProductionChain.Pages
                 app.timeSlotsToTransact.Add(tsi);
 
             UpdateExchangeCircles(app.timeSlotsToTransact);
-
-            //TransactHours(tsi);            
         }
 
-        //private void ReplaceHours(TimeSlotInfo tsi, bool replaceToWorker)
-        //{
-        //    App app = (App)Application.Current;
-        //    Day newDay = new Day(new List<TimeSlot>());
-        //    User user = null;
-
-        //    if (replaceToWorker)
-        //        user = tsi.Worker;
-        //    else
-        //        user = tsi.ExchangeTo;
-
-        //    int duration = 0;
-        //    foreach (TimeSlot ts in user.Calendar.Days[tsi.DayIndex].TimeSlots)
-        //    {
-        //        duration += ts.Duration;
-        //        int newTimeSlotDuration = 0;
-        //        if (duration >= tsi.From)
-        //        {
-        //            int currentDuration = duration - ts.Duration + 1;
-        //            while (currentDuration < tsi.From)
-        //            {
-        //                newTimeSlotDuration++;
-        //                currentDuration++;
-        //            }
-        //            if (newTimeSlotDuration > 0)
-        //                newDay.TimeSlots.Add(new TimeSlot(ts.IsWorking, newTimeSlotDuration));
-
-        //            newTimeSlotDuration = 0;
-        //            while (currentDuration >= tsi.From && currentDuration <= tsi.To)
-        //            {
-        //                newTimeSlotDuration++;
-        //                currentDuration++;
-        //            }
-        //            if (newTimeSlotDuration > 0)
-        //                newDay.TimeSlots.Add(new TimeSlot(!ts.IsWorking, newTimeSlotDuration));
-
-        //            newTimeSlotDuration = 0;
-        //            while (currentDuration > tsi.To && currentDuration <= duration)
-        //            {
-        //                newTimeSlotDuration++;
-        //                currentDuration++;
-        //            }
-        //            if (newTimeSlotDuration > 0)
-        //                newDay.TimeSlots.Add(new TimeSlot(ts.IsWorking, newTimeSlotDuration));
-        //        }
-        //        else
-        //        {
-        //            newDay.TimeSlots.Add(ts);
-        //        }
-        //    }
-        //    //app.users[app.users.IndexOf(tsi.Worker)].Calendar.Days[tsi.DayIndex] = newDay;
-        //    user.Calendar.Days[tsi.DayIndex] = newDay;
-        //}
+        private void CalendarPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            app.onCalendarPage = false;
+        }        
     }
 }

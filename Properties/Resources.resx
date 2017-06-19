@@ -135,6 +135,12 @@
   <data name="ConfirmMultiuserTitle" xml:space="preserve">
     <value>Mode d'utilisation multi-utilisateur</value>
   </data>
+  <data name="ConfirmUserExitQuestion" xml:space="preserve">
+    <value>Voulez-vous le reconnecter ou quitter le mode multi-utilisateur ?</value>
+  </data>
+  <data name="ConfirmUserExitTitle" xml:space="preserve">
+    <value>Un utilisateur a quitté l'affichage</value>
+  </data>
   <data name="IdentificationErrorAccessProhibited" xml:space="preserve">
     <value>Accès non autorisé !</value>
   </data>

@@ -27,19 +27,15 @@ namespace SCE_ProductionChain.Pages
             this.app = (App)Application.Current;
             this.Loaded += ConfirmMultiUserPage_Loaded;
             this.Unloaded += ConfirmMultiUserPage_Unloaded;
-        }
-
-        private void ConfirmMultiUserPage_Unloaded(object sender, RoutedEventArgs e)
-        {
-            app.onConfirmationPage = false;
-            this.lblTitle.Content = Properties.Resources.ConfirmMultiuserTitle;
-            this.tbContent.Text = Properties.Resources.ConfirmMultiuserText;
-            this.lblQuestion.Content = Properties.Resources.ConfirmMultiuserQuestion;
-        }
+        }        
 
         private void ConfirmMultiUserPage_Loaded(object sender, RoutedEventArgs e)
         {
             app.onConfirmationPage = true;
+            this.lblTitle.Content = Properties.Resources.ConfirmMultiuserTitle;
+            this.tbContent.Text = Properties.Resources.ConfirmMultiuserText;
+            this.lblQuestion.Content = Properties.Resources.ConfirmMultiuserQuestion;
+
             if (app.confirmMultiuserPage == null)
                 app.confirmMultiuserPage = this;
         }
@@ -52,6 +48,11 @@ namespace SCE_ProductionChain.Pages
         private void btnAccept_Click(object sender, RoutedEventArgs e)
         {
             app.navigateToIdentificationPage(this.NavigationService);
+        }
+
+        private void ConfirmMultiUserPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            app.onConfirmationPage = false;
         }
     }
 }

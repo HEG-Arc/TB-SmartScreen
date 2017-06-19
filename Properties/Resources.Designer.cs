@@ -115,6 +115,24 @@ namespace SCE_ProductionChain.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Voulez-vous le reconnecter ou quitter le mode multi-utilisateur ?.
+        /// </summary>
+        public static string ConfirmUserExitQuestion {
+            get {
+                return ResourceManager.GetString("ConfirmUserExitQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Un utilisateur a quitté l&apos;affichage.
+        /// </summary>
+        public static string ConfirmUserExitTitle {
+            get {
+                return ResourceManager.GetString("ConfirmUserExitTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Accès non autorisé !.
         /// </summary>
         public static string IdentificationErrorAccessProhibited {

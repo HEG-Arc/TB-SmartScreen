@@ -71,6 +71,7 @@ namespace SCE_ProductionChain.Pages
         private void initUI()
         {
             this.tbMessage.Text = Properties.Resources.IdentificationShowCard;
+            this.lblError.Content = "";
         }
         private void initKinect()
         {
@@ -88,14 +89,6 @@ namespace SCE_ProductionChain.Pages
                 msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
                 app.identificationPage = this;
             }
-        }
-
-        private void navigateToHomePage()
-        {
-            if (app.calendarPage != null)
-                this.NavigationService.Navigate(app.calendarPage);
-            else
-                this.NavigationService.Navigate(new CalendarPage());
         }
 
         private void Msfr_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
@@ -253,7 +246,7 @@ namespace SCE_ProductionChain.Pages
             if (currentUser != null)
             {
                 app.users.Add(currentUser);
-                navigateToHomePage();
+                app.navigateToPageBeforeExit(this.NavigationService);
             }
             else
             {
