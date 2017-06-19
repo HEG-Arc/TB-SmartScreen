@@ -36,10 +36,10 @@
         <Grid Grid.Column="2" Grid.Row="2">
             <StackPanel Orientation="Horizontal">
                 <Button Name="btnAccept" Style="{StaticResource btnAcceptAndRefuse}" Margin="60,0,0,0" Width="300" Height="150" VerticalAlignment="Top" HorizontalAlignment="Left" SnapsToDevicePixels="True" Click="btnAccept_Click">
-                    <Label Content="Accepter" Style="{StaticResource lblAcceptAndRefuse}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <Label Content="Reconnecter" Style="{StaticResource lblAcceptAndRefuse}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </Button>
                 <Button Name="btnRefuse" Style="{StaticResource btnAcceptAndRefuse}" Margin="20,0,0,0" Width="300" Height="150" VerticalAlignment="Top" HorizontalAlignment="Left" SnapsToDevicePixels="True" Click="btnRefuse_Click">
-                    <Label Content="Refuser" Style="{StaticResource lblAcceptAndRefuse}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <Label Content="Quitter" Style="{StaticResource lblAcceptAndRefuse}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </Button>
             </StackPanel>
         </Grid>

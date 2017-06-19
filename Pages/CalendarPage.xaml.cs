@@ -132,6 +132,7 @@ namespace SCE_ProductionChain.Pages
                     {
                         Button rectEmptySpace = new Button()
                         {
+                            Style = FindResource("btnTimeSlot") as Style,
                             Background = spaceBrush,
                             HorizontalAlignment = HorizontalAlignment.Stretch,
                             VerticalAlignment = VerticalAlignment.Stretch
