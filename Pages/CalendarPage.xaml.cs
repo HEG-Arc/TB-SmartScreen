@@ -30,8 +30,8 @@ namespace SCE_ProductionChain.Pages
         private SolidColorBrush WorkBrush;
         private SolidColorBrush spaceBrush;
 
-        private List<Rectangle> rectanglesToRemove;
-        private List<KeyValuePair<Rectangle, TimeSlotInfo>> rectanglesReferencial { get; set; }        
+        private List<Button> ButtonsToRemove;
+        private List<KeyValuePair<Button, TimeSlotInfo>> ButtonsReferencial { get; set; }
 
         public CalendarPage()
         {
@@ -43,12 +43,12 @@ namespace SCE_ProductionChain.Pages
             WorkBrush = new SolidColorBrush(Color.FromRgb(184, 0, 0));
             spaceBrush = app.backgroundBrush;
 
-            rectanglesReferencial = new List<KeyValuePair<Rectangle, TimeSlotInfo>>();
-            rectanglesToRemove = new List<Rectangle>();
+            ButtonsReferencial = new List<KeyValuePair<Button, TimeSlotInfo>>();
+            ButtonsToRemove = new List<Button>();
 
             this.Loaded += CalendarPage_Loaded;
             this.Unloaded += CalendarPage_Unloaded;
-        }        
+        }
 
         private void CalendarPage_Loaded(object sender, RoutedEventArgs e)
         {
@@ -63,21 +63,21 @@ namespace SCE_ProductionChain.Pages
 
         private void initUI()
         {
-            foreach (Rectangle rect in rectanglesToRemove)
+            foreach (Button rect in ButtonsToRemove)
                 gdCalendar.Children.Remove(rect);
         }
 
         private void initCalendar()
         {
             try
-            {                
+            {
                 if (app.users.Count == 1)
                     DrawUserCalendar(app.users[0]);
                 else if (app.users.Count > 1)
                 {
                     DrawUsersCalendar(app.users[0], app.users[1]);
                     UpdateExchangeCircles(app.timeSlotsToTransact);
-                }                
+                }
                 DrawUsernames(app.users);
             }
             catch
@@ -109,35 +109,38 @@ namespace SCE_ProductionChain.Pages
                 for (int t = 0; t < user.Calendar.Days[d].TimeSlots.Count; t++)
                 {
                     TimeSlot timeSlot = user.Calendar.Days[d].TimeSlots[t];
-                    Rectangle rectTimeSlot = new Rectangle()
+                    Button rectTimeSlot = new Button()
                     {
-                        Stretch = Stretch.Fill
+                        Style = FindResource("btnTimeSlot") as Style,
+                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                        VerticalAlignment = VerticalAlignment.Stretch
                     };
 
                     if (timeSlot.IsWorking)
-                        rectTimeSlot.Fill = WorkBrush;
+                        rectTimeSlot.Background = WorkBrush;
                     else
-                        rectTimeSlot.Fill = noWorkBrush;
+                        rectTimeSlot.Background = noWorkBrush;
                     Grid.SetRow(rectTimeSlot, row);
                     Grid.SetColumn(rectTimeSlot, col);
                     rectTimeSlot.SetValue(Grid.RowSpanProperty, timeSlot.Duration * 2 - 1);
                     rectTimeSlot.SetValue(Grid.ColumnSpanProperty, COLSPAN);
                     gdCalendar.Children.Add(rectTimeSlot);
-                    rectanglesToRemove.Add(rectTimeSlot);
+                    ButtonsToRemove.Add(rectTimeSlot);
 
                     row += timeSlot.Duration * 2 - 1;
                     if (row < LAST_ROW)
                     {
-                        Rectangle rectEmptySpace = new Rectangle()
+                        Button rectEmptySpace = new Button()
                         {
-                            Fill = spaceBrush,
-                            Stretch = Stretch.Fill
+                            Background = spaceBrush,
+                            HorizontalAlignment = HorizontalAlignment.Stretch,
+                            VerticalAlignment = VerticalAlignment.Stretch
                         };
                         Grid.SetRow(rectEmptySpace, row);
                         Grid.SetColumn(rectEmptySpace, col);
                         rectEmptySpace.SetValue(Grid.ColumnSpanProperty, 3);
                         gdCalendar.Children.Add(rectEmptySpace);
-                        rectanglesToRemove.Add(rectEmptySpace);
+                        ButtonsToRemove.Add(rectEmptySpace);
                         row++;
                     }
                 }
@@ -188,8 +191,20 @@ namespace SCE_ProductionChain.Pages
                     int rowspan = currentDuretion * 2 - 1;
                     if (timeSlot1.IsWorking && timeSlot2.IsWorking)
                     {
-                        Rectangle rectTimeSlot1 = new Rectangle() { Stretch = Stretch.Fill, Fill = user1.Color };
-                        Rectangle rectTimeSlot2 = new Rectangle() { Stretch = Stretch.Fill, Fill = user2.Color };
+                        Button rectTimeSlot1 = new Button()
+                        {
+                            Style = FindResource("btnTimeSlot") as Style,
+                            HorizontalAlignment = HorizontalAlignment.Stretch,
+                            VerticalAlignment = VerticalAlignment.Stretch,
+                            Background = user1.Color
+                        };
+                        Button rectTimeSlot2 = new Button()
+                        {
+                            Style = FindResource("btnTimeSlot") as Style,
+                            HorizontalAlignment = HorizontalAlignment.Stretch,
+                            VerticalAlignment = VerticalAlignment.Stretch,
+                            Background = user2.Color
+                        };
 
                         Grid.SetRow(rectTimeSlot1, row);
                         Grid.SetColumn(rectTimeSlot1, col);
@@ -239,14 +254,26 @@ namespace SCE_ProductionChain.Pages
 
         private void DrawBlock(SolidColorBrush color, int row, int col, int rowspan = 0, int colspan = 0, bool exchangable = false, TimeSlotInfo timeSlotInfo = null)
         {
-            Rectangle rect;
+            Button rect;
             if (exchangable)
             {
-                rect = new Rectangle() { Stretch = Stretch.Fill, Fill = color };
-                rect.MouseDown += rectExchangeableHours;
+                rect = new Button()
+                {
+                    Style = FindResource("btnTimeSlot") as Style,
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    Background = color
+                };
+                rect.Click += Rect_Click;
             }
             else
-                rect = new Rectangle() { Stretch = Stretch.Fill, Fill = color };
+                rect = new Button()
+                {
+                    Style = FindResource("btnTimeSlot") as Style,
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    Background = color
+                };
 
             Grid.SetRow(rect, row);
             Grid.SetColumn(rect, col);
@@ -257,7 +284,26 @@ namespace SCE_ProductionChain.Pages
             gdCalendar.Children.Add(rect);
 
             if (timeSlotInfo != null)
-                rectanglesReferencial.Add(new KeyValuePair<Rectangle, TimeSlotInfo>(rect, timeSlotInfo));
+                ButtonsReferencial.Add(new KeyValuePair<Button, TimeSlotInfo>(rect, timeSlotInfo));
+        }
+
+        private void Rect_Click(object sender, RoutedEventArgs e)
+        {
+            TimeSlotInfo tsi = new TimeSlotInfo();
+
+            // Récupération des informations de la plage horaire
+            foreach (KeyValuePair<Button, TimeSlotInfo> kv in this.ButtonsReferencial)
+            {
+                if (kv.Key.Equals((Button)sender))
+                    tsi = kv.Value;
+            }
+
+            if (app.timeSlotsToTransact.Contains(tsi))
+                app.timeSlotsToTransact.Remove(tsi);
+            else
+                app.timeSlotsToTransact.Add(tsi);
+
+            UpdateExchangeCircles(app.timeSlotsToTransact);
         }
 
         private void RemoveAllExchangeCircles()
@@ -269,7 +315,7 @@ namespace SCE_ProductionChain.Pages
                     elementToRemove.Add(gdCalendar.Children[i]);
             }
 
-            foreach(UIElement uiElement in elementToRemove)
+            foreach (UIElement uiElement in elementToRemove)
                 gdCalendar.Children.Remove(uiElement);
         }
 
@@ -296,31 +342,12 @@ namespace SCE_ProductionChain.Pages
                 if (tsi.GridColspan > 0)
                     imgExchangeCircle.SetValue(Grid.ColumnSpanProperty, tsi.GridColspan);
                 gdCalendar.Children.Add(imgExchangeCircle);
-            }            
-        }
-
-        private void rectExchangeableHours(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            TimeSlotInfo tsi = new TimeSlotInfo();
-
-            // Récupération des informations de la plage horaire
-            foreach (KeyValuePair<Rectangle, TimeSlotInfo> kv in this.rectanglesReferencial)
-            {
-                if (kv.Key.Equals((Rectangle)sender))
-                    tsi = kv.Value;
             }
-
-            if (app.timeSlotsToTransact.Contains(tsi))
-                app.timeSlotsToTransact.Remove(tsi);
-            else
-                app.timeSlotsToTransact.Add(tsi);
-
-            UpdateExchangeCircles(app.timeSlotsToTransact);
         }
 
         private void CalendarPage_Unloaded(object sender, RoutedEventArgs e)
         {
             app.onCalendarPage = false;
-        }        
+        }
     }
 }

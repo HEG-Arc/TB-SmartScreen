@@ -58,7 +58,7 @@ namespace SCE_ProductionChain
             app.availableUsers[1].Color = Drawer.BodyColors[0];
             app.users.Add(app.availableUsers[0]);
             app.users.Add(app.availableUsers[1]);
-            this.frame.Navigate(new StatisticsPage());
+            this.frame.Navigate(new CalendarPage());
             /* */
         }
 
@@ -78,27 +78,27 @@ namespace SCE_ProductionChain
             multiSourceFrameIndicator.Source = cfBitmap;
             sensor.Open();
 
-            KinectCoreWindow kinectCoreWindow = KinectCoreWindow.GetForCurrentThread();
-            kinectCoreWindow.PointerMoved += KinectCoreWindow_PointerMoved; ;
+            //KinectCoreWindow kinectCoreWindow = KinectCoreWindow.GetForCurrentThread();
+            //kinectCoreWindow.PointerMoved += KinectCoreWindow_PointerMoved; ;
 
             msfr = sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Body);
             app.msfr = msfr;
             msfr.MultiSourceFrameArrived += Msfr_MultiSourceFrameArrived;
         }
 
-        private void KinectCoreWindow_PointerMoved(object sender, KinectPointerEventArgs e)
-        {
-            KinectPointerPoint kinectPointerPoint = e.CurrentPoint;
-            Point kinectPointerPosition = new Point();
-            Ellipse handPointer = new Ellipse() { Height = 20, Width = 20, Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0)) };
+        //private void KinectCoreWindow_PointerMoved(object sender, KinectPointerEventArgs e)
+        //{
+        //    KinectPointerPoint kinectPointerPoint = e.CurrentPoint;
+        //    Point kinectPointerPosition = new Point();
+        //    Ellipse handPointer = new Ellipse() { Height = 20, Width = 20, Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0)) };
 
-            this.handGestureCanvas.Children.Clear();
-            kinectPointerPosition.X = kinectPointerPoint.Position.X * handGestureCanvas.ActualWidth;
-            kinectPointerPosition.Y = kinectPointerPoint.Position.Y * handGestureCanvas.ActualHeight;
-            Canvas.SetLeft(handPointer, kinectPointerPosition.X);
-            Canvas.SetTop(handPointer, kinectPointerPosition.Y);
-            this.handGestureCanvas.Children.Add(handPointer);
-        }
+        //    this.handGestureCanvas.Children.Clear();
+        //    kinectPointerPosition.X = kinectPointerPoint.Position.X * handGestureCanvas.ActualWidth;
+        //    kinectPointerPosition.Y = kinectPointerPoint.Position.Y * handGestureCanvas.ActualHeight;
+        //    Canvas.SetLeft(handPointer, kinectPointerPosition.X);
+        //    Canvas.SetTop(handPointer, kinectPointerPosition.Y);
+        //    this.handGestureCanvas.Children.Add(handPointer);
+        //}
 
         private void Msfr_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
         {
