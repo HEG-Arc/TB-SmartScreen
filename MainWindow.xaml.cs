@@ -35,7 +35,7 @@ namespace SCE_ProductionChain
         private CoordinateMapper coordinateMapper;
         private Body[] bodies;
 
-        // Speech
+        // Speech recognition
         private KinectAudioStream convertStream = null;
         private SpeechRecognitionEngine speechEngine = null;
 
@@ -55,9 +55,9 @@ namespace SCE_ProductionChain
         {
             initKinect();
             initVoiceRecognizer();
-            //this.frame.Navigate(new IdentificationPage());
+            this.frame.Navigate(new SplashSreen());
 
-            /* Simule deux utilisateurs connectés */
+            /* Simule deux utilisateurs connectés /
             debug = true;
             app.availableUsers[0].Color = Drawer.BodyColors[2];
             app.availableUsers[1].Color = Drawer.BodyColors[0];
@@ -163,7 +163,7 @@ namespace SCE_ProductionChain
                 {
                     case "EXCHANGE":
                         if (this.acceptSpeechForExchangeHours)
-                            app.navigateToConfirmExchangePage(this.frame.NavigationService);                            
+                            app.navigateToConfirmExchangePage(this.frame);                            
                         break;
 
                     case "ACCEPT":
@@ -172,30 +172,30 @@ namespace SCE_ProductionChain
 
                         }
                         else if (this.acceptSpeechForMultiuser)
-                            app.navigateToIdentificationPage(this.frame.NavigationService);
+                            app.navigateToIdentificationPage(this.frame);
                         break;
 
                     case "REFUSE":
                         if (app.onConfirmExchangePage)
                         {
                             app.timeSlotsToTransact.Clear();
-                            app.navigateToCalendarPage(this.frame.NavigationService);
+                            app.navigateToCalendarPage(this.frame);
                         }
                         else if (this.acceptSpeechForMultiuser)
                         {
                             if (app.onConfirmMultiuserPage)
-                                app.navigateToPageBeforeExit(this.frame.NavigationService);                                
+                                app.navigateToPageBeforeExit(this.frame);                                
                         }
                         break;
 
                     case "RECONNECT":
                         if (app.onConfirUserExitPage)
-                            app.navigateToIdentificationPage(this.frame.NavigationService);
+                            app.navigateToIdentificationPage(this.frame);
                         break;
 
                     case "EXIT":
                         if (app.onConfirUserExitPage)
-                            app.navigateToPageBeforeExit(this.frame.NavigationService);
+                            app.navigateToPageBeforeExit(this.frame);
                         break;
                 }
             }
@@ -236,6 +236,7 @@ namespace SCE_ProductionChain
                                 bodyFrame.GetAndRefreshBodyData(bodies);
                                 app.trackedBodies.Clear();
                                 multiSourceFrameIndicatorCanvas.Children.Clear();
+                                bool userInImplicitZone = false;
                                 foreach (Body body in bodies)
                                 {
                                     if (body.IsTracked)
@@ -247,11 +248,15 @@ namespace SCE_ProductionChain
                                         Point headPosition = new Point() { X = csp.X / COLOR_SCALE_RATIO, Y = csp.Y / COLOR_SCALE_RATIO };
 
                                         currentUser = app.getUser(body.TrackingId);
-                                        //DrawHeadRectangle(headJoint, headPosition, currentUser, userIndex);
+
+                                        if(headJoint.Position.Z <= app.IMPLICIT_ZONE)
+                                            userInImplicitZone = true;
+
                                         Drawer.DrawHeadRectangle(headJoint, headPosition, currentUser, app.users.IndexOf(currentUser), null,
                                                                  multiSourceFrameIndicatorCanvas, COLOR_SCALE_RATIO);
                                     }
                                 }
+                                app.userInImplicitZone = userInImplicitZone;
 
                                 if (!debug)
                                     app.UpdateUsers();
@@ -274,13 +279,13 @@ namespace SCE_ProductionChain
                                 // Si un des deux utilisateurs se délogue
                                 if (app.userTwoLoggedOut)
                                 {
-                                    app.navigateToConfirmUserExitPage(this.frame.NavigationService);
+                                    app.navigateToConfirmUserExitPage(this.frame);
                                     app.userTwoLoggedOut = false;
                                 }
 
                                 // Lorsqu'il n'y a plus personne devant l'écran
-                                if (app.users.Count <= 0)
-                                    app.navigateToIdentificationPage(this.frame.NavigationService);
+                                if (app.users.Count <= 0 && !app.onSplashScreen)
+                                    app.navigateToIdentificationPage(this.frame);
 
                                 // Affichage des images couleurs à l'écran
                                 colorFrame.CopyConvertedFrameDataToArray(cfDataConverted, ColorImageFormat.Bgra);
@@ -331,9 +336,9 @@ namespace SCE_ProductionChain
         }
         private void updateUI()
         {
-            if (app.onIdentificationPage)
+            if (app.onIdentificationPage || app.onSplashScreen)
                 initForIdentificationPage();
-            else if (app.onConfirmationPage)
+            else if (app.onConfirmExchangePage || app.onConfirmMultiuserPage || app.onConfirUserExitPage)
                 initForConfirmationPages();
             else
                 initForOtherPages();
@@ -388,12 +393,12 @@ namespace SCE_ProductionChain
 
         private void btnMultiUser_Click(object sender, RoutedEventArgs e)
         {
-            app.navigateToConfirmMultiuserPage(this.frame.NavigationService);
+            app.navigateToConfirmMultiuserPage(this.frame);
         }
 
         private void btnExchangeHours_Click(object sender, RoutedEventArgs e)
         {
-            app.navigateToConfirmExchangePage(this.frame.NavigationService);
+            app.navigateToConfirmExchangePage(this.frame);
         }
 
         private void MainWindow_Closed(object sender, EventArgs e)

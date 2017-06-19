@@ -27,6 +27,10 @@ namespace SCE_ProductionChain
 
         private const int _LIMIT_USERS = 2;
 
+        private const double _IMPLICIT_ZONE = 1.75;
+
+        internal Page splashScreen;
+
         internal Page identificationPage;
 
         internal Page calendarPage;
@@ -45,26 +49,19 @@ namespace SCE_ProductionChain
         internal List<ulong> unidentifiedBodies { get; set; }
         internal MultiSourceFrameReader msfr { get; set; }
         internal bool onIdentificationPage { get; set; }
-        internal bool onConfirmationPage { get; set; }
         internal bool onConfirUserExitPage { get; set; }
         internal bool onConfirmMultiuserPage { get; set; }
         internal bool onConfirmExchangePage { get; set; }
         internal bool onCalendarPage { get; set; }
         internal bool onStatisticsPage { get; set; }
+        internal bool onSplashScreen { get; set; }
         internal bool userTwoLoggedOut { get; set; }
+        internal bool userInImplicitZone { get; set; }
         internal List<TimeSlotInfo> timeSlotsToTransact { get; set; }
 
         internal SolidColorBrush primaryBrush { get; set; }
         internal SolidColorBrush secondaryBrush { get; set; }
         internal SolidColorBrush backgroundBrush { get; set; }
-
-        /*
-        private List<KeyValuePair<string, string>> availableUsers = new Dictionary<String, String>
-        {
-            {"USER-JEFF-SOKOLI-732195", "Jeff Sokoli"},
-            {"USER-MARC-ABRAHAM-789554", "Marc Abraham"},
-        }.ToList();
-        */
 
         internal List<User> availableUsers { get; set; }
 
@@ -77,6 +74,7 @@ namespace SCE_ProductionChain
             this.onCalendarPage = false;
             this.onStatisticsPage = false;
             this.userTwoLoggedOut = false;
+            this.onSplashScreen = false;
             this.availableUsers = new GenerateUsers().getUsers();
             this.timeSlotsToTransact = new List<TimeSlotInfo>();
 
@@ -93,13 +91,29 @@ namespace SCE_ProductionChain
                 ns.Navigate(new CalendarPage());
         }
 
+        public void navigateToCalendarPage(Frame frame)
+        {
+            if (calendarPage != null)
+                frame.Navigate(calendarPage);
+            else
+                frame.Navigate(new CalendarPage());
+        }
+
         public void navigateToPageBeforeExit(NavigationService ns)
         {
             if (pageBeforeMultiUserExit != null)
                 ns.Navigate(pageBeforeMultiUserExit);
             else
                 ns.Navigate(new CalendarPage());
-        }   
+        }
+
+        public void navigateToPageBeforeExit(Frame frame)
+        {
+            if (pageBeforeMultiUserExit != null)
+                frame.Navigate(pageBeforeMultiUserExit);
+            else
+                frame.Navigate(new CalendarPage());
+        }
 
         public void navigateToConfirmMultiuserPage(NavigationService ns)
         {
@@ -107,6 +121,14 @@ namespace SCE_ProductionChain
                 ns.Navigate(confirmMultiuserPage);
             else
                 ns.Navigate(new ConfirmMultiUserPage());
+        }
+
+        public void navigateToConfirmMultiuserPage(Frame frame)
+        {
+            if (confirmMultiuserPage != null)
+                frame.Navigate(confirmMultiuserPage);
+            else
+                frame.Navigate(new ConfirmMultiUserPage());
         }
 
         public void navigateToConfirmExchangePage(NavigationService ns)
@@ -117,6 +139,14 @@ namespace SCE_ProductionChain
                 ns.Navigate(new ConfirmExchangePage());
         }
 
+        public void navigateToConfirmExchangePage(Frame frame)
+        {
+            if (confirmExchangePage != null)
+                frame.Navigate(confirmExchangePage);
+            else
+                frame.Navigate(new ConfirmExchangePage());
+        }
+
         public void navigateToConfirmUserExitPage(NavigationService ns)
         {
             if (confirmUserExitPage != null)
@@ -125,12 +155,36 @@ namespace SCE_ProductionChain
                 ns.Navigate(new ConfirmUserExitPage());
         }
 
+        public void navigateToConfirmUserExitPage(Frame frame)
+        {
+            if (confirmUserExitPage != null)
+                frame.Navigate(confirmUserExitPage);
+            else
+                frame.Navigate(new ConfirmUserExitPage());
+        }
+
         public void navigateToIdentificationPage(NavigationService ns)
         {
             if (identificationPage != null)
                 ns.Navigate(identificationPage);
             else
                 ns.Navigate(new IdentificationPage());
+        }
+
+        public void navigateToIdentificationPage(Frame ns)
+        {
+            if (identificationPage != null)
+                ns.Navigate(identificationPage);
+            else
+                ns.Navigate(new IdentificationPage());
+        }
+
+        public void navigateToSplashScreen(NavigationService ns)
+        {
+            if (splashScreen != null)
+                ns.Navigate(splashScreen);
+            else
+                ns.Navigate(new SplashSreen());
         }
 
         public int CALENDAR_DAYS
@@ -154,6 +208,14 @@ namespace SCE_ProductionChain
             get
             {
                 return _LIMIT_USERS;
+            }
+        }
+
+        public double IMPLICIT_ZONE
+        {
+            get
+            {
+                return _IMPLICIT_ZONE;
             }
         }
 

@@ -70,9 +70,10 @@ namespace SCE_ProductionChain.Pages
 
         private void initUI()
         {
-            this.tbMessage.Text = Properties.Resources.IdentificationShowCard;
+            //this.tbMessage.Text = Properties.Resources.IdentificationGetCloser;
             this.lblError.Content = "";
         }
+
         private void initKinect()
         {
             FrameDescription fd = sensor.ColorFrameSource.FrameDescription;

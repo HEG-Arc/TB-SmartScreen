@@ -86,6 +86,9 @@
     <Compile Include="Pages\ConfirmUserExitPage.xaml.cs">
       <DependentUpon>ConfirmUserExitPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SplashSreen.xaml.cs">
+      <DependentUpon>SplashSreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\StatisticPage.xaml.cs">
       <DependentUpon>StatisticPage.xaml</DependentUpon>
     </Compile>
@@ -126,6 +129,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\IdentificationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SplashSreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -188,6 +195,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SpeechGrammar.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\logo_losvaxis.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\logo_losvaxis_.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
