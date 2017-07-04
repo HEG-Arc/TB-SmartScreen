@@ -126,8 +126,16 @@
         <Style TargetType="{x:Type Grid}" x:Key="gdPrimaryColorCell">
             <Setter Property="Background" Value="#4d4d4d" />
         </Style>
+        <Style TargetType="{x:Type Grid}" x:Key="gdPrimarySelectedColorCell">
+            <Setter Property="Background" Value="#666666" />
+        </Style>
         <Style TargetType="{x:Type Label}" x:Key="lblTitle">
             <Setter Property="FontSize" Value="40" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="{x:Type Label}" x:Key="lblSubTitle">
+            <Setter Property="FontSize" Value="32" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>

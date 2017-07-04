@@ -39,7 +39,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
             <RowDefinition Height="150"/>
-            <RowDefinition Height="10" />
+            <RowDefinition Height="30" />
             <RowDefinition Height="50" />
             <RowDefinition Height="10" />
             <RowDefinition Height="50" />
@@ -64,19 +64,34 @@
 
         <!-- Définition des jours de la semaine -->
         <Grid Grid.Column="3" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}" Grid.ColumnSpan="3">
-            <Label Content="Lundi" Style="{StaticResource lblTitle}"/>
+            <StackPanel VerticalAlignment="Center">
+                <Label Content="Lundi" Style="{StaticResource lblTitle}"/>
+                <Label Content="10/07" Style="{StaticResource lblSubTitle}"/>
+            </StackPanel>
         </Grid>
         <Grid Grid.Column="7" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}" Grid.ColumnSpan="3">
-            <Label Content="Mardi" Style="{StaticResource lblTitle}"/>
+            <StackPanel VerticalAlignment="Center">
+                <Label Content="Mardi" Style="{StaticResource lblTitle}"/>
+                <Label Content="11/07" Style="{StaticResource lblSubTitle}"/>
+            </StackPanel>
         </Grid>
         <Grid Grid.Column="11" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}" Grid.ColumnSpan="3">
-            <Label Content="Mercredi" Style="{StaticResource lblTitle}"/>
+            <StackPanel VerticalAlignment="Center">
+                <Label Content="Mercredi" Style="{StaticResource lblTitle}"/>
+                <Label Content="12/07" Style="{StaticResource lblSubTitle}"/>
+            </StackPanel>
         </Grid>
-        <Grid Grid.Column="15" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}" Grid.ColumnSpan="3">
-            <Label Content="Jeudi" Style="{StaticResource lblTitle}"/>
+        <Grid Grid.Column="15" Grid.Row="1" Style="{StaticResource gdPrimarySelectedColorCell}" Grid.ColumnSpan="3">
+            <StackPanel VerticalAlignment="Center">
+                <Label Content="Jeudi" Style="{StaticResource lblTitle}"/>
+                <Label Content="13/07" Style="{StaticResource lblSubTitle}"/>
+            </StackPanel>
         </Grid>
         <Grid Grid.Column="19" Grid.Row="1" Style="{StaticResource gdPrimaryColorCell}" Grid.ColumnSpan="3">
-            <Label Content="Vendredi" Style="{StaticResource lblTitle}"/>
+            <StackPanel VerticalAlignment="Center">
+                <Label Content="Vendredi" Style="{StaticResource lblTitle}"/>
+                <Label Content="14/07" Style="{StaticResource lblSubTitle}"/>
+            </StackPanel>
         </Grid>
 
         <!-- Définition des heures de la semaine -->

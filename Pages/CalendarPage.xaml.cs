@@ -26,6 +26,7 @@ namespace SCE_ProductionChain.Pages
 
         private App app;
 
+        private SolidColorBrush dateOfDayNoWorkBrush;
         private SolidColorBrush noWorkBrush;
         private SolidColorBrush WorkBrush;
         private SolidColorBrush spaceBrush;
@@ -39,7 +40,8 @@ namespace SCE_ProductionChain.Pages
 
             app = (App)Application.Current;
 
-            noWorkBrush = app.secondaryBrush;
+            dateOfDayNoWorkBrush = new SolidColorBrush(Color.FromRgb(102,102,102));
+            noWorkBrush = app.primaryBrush;
             WorkBrush = new SolidColorBrush(Color.FromRgb(184, 0, 0));
             spaceBrush = app.backgroundBrush;
 
@@ -119,7 +121,13 @@ namespace SCE_ProductionChain.Pages
                     if (timeSlot.IsWorking)
                         rectTimeSlot.Background = WorkBrush;
                     else
-                        rectTimeSlot.Background = noWorkBrush;
+                    {
+                        if(d == 3)
+                            rectTimeSlot.Background = dateOfDayNoWorkBrush;
+                        else
+                            rectTimeSlot.Background = noWorkBrush;
+                    }                        
+
                     Grid.SetRow(rectTimeSlot, row);
                     Grid.SetColumn(rectTimeSlot, col);
                     rectTimeSlot.SetValue(Grid.RowSpanProperty, timeSlot.Duration * 2 - 1);
@@ -226,7 +234,12 @@ namespace SCE_ProductionChain.Pages
                                   new TimeSlotInfo(user2, user1, d, rowPosition, rowPosition + currentDuretion - 1,
                                                    row, col, rowspan, COLSPAN));
                     else
-                        DrawBlock(noWorkBrush, row, col, rowspan, COLSPAN);
+                    {
+                        if(d == 3)
+                            DrawBlock(dateOfDayNoWorkBrush, row, col, rowspan, COLSPAN);
+                        else
+                            DrawBlock(noWorkBrush, row, col, rowspan, COLSPAN);
+                    }                        
 
                     row += rowspan;
                     if (row < LAST_ROW)
