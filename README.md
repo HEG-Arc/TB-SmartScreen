@@ -38,3 +38,6 @@ Dans l'état actuel, le prototype fonctionnel implémenter dans le cadre de cett
     * Consultation des statistiques (à temps partiel) ;
   * Multiutilisateur
     * Comparatif des statistiques respectif ;
+
+Cliquez [ici](https://raw.githubusercontent.com/HEG-Arc/TB-SmartScreen/master/videos/prototype_fontionnel.mp4) pour voir une courte vidéo de son utilisation.
+
