@@ -1,1 +1,3 @@
-# TB-SmartScreen - Proof of Concept (POC)
+# TB-SmartScreen - Proof of Concept (POC) - Détection de proximité et d'attention
+## Description
+La détection de proximité et d’attention ayant des propriétés communes en termes de représentation à l’écran, il faisait sens de réaliser ces deux tests au sein d’une même application. Le principe de cette application est simple : présenter à l’utilisateur le retour d’images de la caméra avec sa tête encadrée en vert s’il regarde dans la direction de l’affichage et en rouge dans le cas contraire. Dans le cadre de la détection de proximité et du modèle de phases d’interaction, les informations relatives à sa distance par rapport au capteur ainsi que la phase d’interaction dans laquelle il se trouve sont également indiquées. 
