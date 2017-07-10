@@ -1,5 +1,4 @@
 # TB-SmartScreen - SCE - Scénario
-# TB-SmartScreen - SCE - Scénario
 ## Système de gestion auto-organisé des employés d'une chaîne de production
 ### Problématique
 Il n’est pas rare dans le domaine du travail à la chaîne que les employés aie la responsabilité de s’auto-organiser au niveau des éventuels remplacements dont ils devraient nécessité en cas d’absence. Ayant moi-même occupé un poste de ce type, j’ai été témoin de cette problématique organisationnelle. En effet, j’ai travaillé pendant plus d’une année en tant qu’opérateur horloger temporaire. J’étais payé à l’heure et mes périodes de travail occupaient généralement un ou deux jours par semaines ainsi que certains jours fériés et une partie de mes vacances.
